@@ -27,7 +27,7 @@ async function main() {
    
    
    
-    // Не трогаем
+    /* Не трогаем */
     app.all('*', (req, res) => {
         res.status(404).json({ message: 'Not Found' });
     });
@@ -40,6 +40,7 @@ async function main() {
     app.listen(process.env.PORT || 4200, () => {
         console.log(`Server is running on port ${process.env.PORT || 4200}`);
     });
+    /* Не трогаем */
 }
 
 main();
