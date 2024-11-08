@@ -1,8 +1,19 @@
 export class ChangeDataService {
    
+    //Перевірка паролю
+    #passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[._-])[A-Za-z\d._-]{8,128}$/;
+
     //Зміна паролю замовника 
-    async updateUserPassword(db, userId, oldPassword, newPassword) {
+    async updateUserPassword(db, userId, oldPassword, newPassword, confirmPassword) {
         try {
+            if (newPassword !== confirmPassword) {
+                throw new Error('New password and confirmed password do not match');
+            }
+
+            if (!this.#passwordRegex.test(newPassword)) {
+                throw new Error('Password does not meet complexity requirements');
+            }
+
             // Перевірка на введння старого паролю
             const user = await db.get('SELECT password FROM User WHERE user_id = ?', [userId]);
             if (!user || user.password !== oldPassword) {
@@ -18,8 +29,16 @@ export class ChangeDataService {
     }
 
     //Зміна паролю постачальника 
-    async updateProviderPassword(db, providerId, oldPassword, newPassword) {
+    async updateProviderPassword(db, providerId, oldPassword, newPassword, confirmPassword) {
         try {
+            if (newPassword !== confirmPassword) {
+                throw new Error('New password and confirmed password do not match');
+            }
+
+            if (!this.#passwordRegex.test(newPassword)) {
+                throw new Error('Password does not meet complexity requirements');
+            }
+
             // Проверка старого пароля поставщика
             const provider = await db.get('SELECT password FROM Provider WHERE provider_id = ?', [providerId]);
             if (!provider || provider.password !== oldPassword) {

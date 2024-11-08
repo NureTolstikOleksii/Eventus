@@ -8,7 +8,7 @@ const changeDataService = new ChangeDataService();
 router.put('/update_user_password', async (req, res) => {
     const { userId, oldPassword, newPassword } = req.body;
     try {
-        const result = await changeDataService.updateUserPassword(req.db, userId, oldPassword, newPassword);
+        const result = await changeDataService.updateUserPassword(req.db, userId, oldPassword, newPassword, confirmPassword);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ message: 'Failed to update password', error: error.message });
@@ -19,7 +19,7 @@ router.put('/update_user_password', async (req, res) => {
 router.put('/update_provider_password', async (req, res) => {
     const { providerId, oldPassword, newPassword } = req.body;
     try {
-        const result = await changeDataService.updateProviderPassword(req.db, providerId, oldPassword, newPassword);
+        const result = await changeDataService.updateProviderPassword(req.db, providerId, oldPassword, newPassword, confirmPassword);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ message: 'Failed to update provider password', error: error.message });
