@@ -2,8 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { connectToDatabase } from './database/database.js';
 import { regRouter } from './src/registration/registration.controller.js';
-import { providerRouter } from './src/registration/providerRegistration.controller.js';
 import { changeDataRouter } from './src/change_data/change_data.controller.js';
+import { loginRouter } from './src/login/login.controller.js';
 
 
 dotenv.config();
@@ -13,21 +13,23 @@ const app = express();
 async function main() {
     app.use(express.json());
 
-    // Подключаемся к базе данных
     const db = await connectToDatabase();
 
-    // Регистрация 
-    app.use('/register', (req, res, next) => {
+    app.use((req, res, next) => {
         req.db = db;
         next();
-    }, regRouter, providerRouter);
+    });
+
+    // Регистрация 
+    app.use('/register', regRouter);
       
+    // Вход 
+    app.use('/login', loginRouter);   
 
     //Зміна даних профілю
-    app.use('/api/change_data', (req, res, next) => {
-        req.db = db;
-        next();
-    }, changeDataRouter);
+    app.use('/api/change_data', changeDataRouter);
+
+    
 
    
     /* Не трогаем */
