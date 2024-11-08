@@ -67,4 +67,40 @@ export class ChangeDataService {
             throw new Error('Error updating user name: ' + error.message);
         }
     }
+
+    //Зміна імені постачальника
+    async updateUserName(db, providerId, newName) {
+        try {
+            if (!this.#nameRegex.test(newName)) {
+                throw new Error('Name must contain only Latin letters, without spaces or special characters');
+            }
+
+            await db.run('UPDATE User SET name = ? WHERE user_id = ?', [newName, providerId]);
+            return { message: 'User name updated successfully' };
+        } catch (error) {
+            throw new Error('Error updating user name: ' + error.message);
+        }
+    }
+
+    //Зміна типу послуг постачальника
+    async updateServiceCategory(db, providerId, newCategory) {
+        try {
+            if (!this.validateServiceCategory(newCategory)) {
+                throw new Error('Invalid service category');
+            }
+
+            await db.run('UPDATE Provider SET service_category = ? WHERE provider_id = ?', [newCategory, providerId]);
+            return { message: 'Service category updated successfully' };
+        } catch (error) {
+            throw new Error('Error updating service category: ' + error.message);
+        }
+    }
+
+    // Перевірка типу послуг
+    validateServiceCategory(category) {
+        // Здесь можно указать допустимые категории
+        const allowedCategories = ['Photography', 'Catering', 'Entertainment', 'Floral Design']; // Дописать остальные
+        return allowedCategories.includes(category);
+    }
+        
 }

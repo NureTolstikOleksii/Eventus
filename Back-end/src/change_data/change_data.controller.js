@@ -36,4 +36,16 @@ router.put('/update_user_name', async (req, res) => {
         res.status(500).json({ message: 'Failed to update user name', error: error.message });
     }
 });
+
+    //Зміна типу послуг постачальника
+    router.put('/update_service_category', async (req, res) => {
+        const { providerId, newCategory } = req.body;
+        try {
+            const result = await changeDataService.updateServiceCategory(req.db, providerId, newCategory);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500).json({ message: 'Failed to update service category', error: error.message });
+        }
+    });
+
 export const changeDataRouter = router;
