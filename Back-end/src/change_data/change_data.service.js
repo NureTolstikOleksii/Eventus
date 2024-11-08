@@ -1,7 +1,8 @@
 export class ChangeDataService {
    
-    //Перевірка паролю
+    //Перевірки
     #passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[._-])[A-Za-z\d._-]{8,128}$/;
+    #nameRegex = /^[A-Za-z]+$/;
 
     //Зміна паролю замовника 
     async updateUserPassword(db, userId, oldPassword, newPassword, confirmPassword) {
@@ -50,6 +51,20 @@ export class ChangeDataService {
             return { message: 'Provider password updated successfully' };
         } catch (error) {
             throw new Error('Error updating provider password: ' + error.message);
+        }
+    }
+
+    //Зміна імені замовника
+    async updateUserName(db, userId, newName) {
+        try {
+            if (!this.#nameRegex.test(newName)) {
+                throw new Error('Name must contain only Latin letters, without spaces or special characters');
+            }
+
+            await db.run('UPDATE User SET name = ? WHERE user_id = ?', [newName, userId]);
+            return { message: 'User name updated successfully' };
+        } catch (error) {
+            throw new Error('Error updating user name: ' + error.message);
         }
     }
 }
