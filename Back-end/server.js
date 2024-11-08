@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { connectToDatabase } from './database/database.js';
 import { regRouter } from './src/registration/registration.controller.js';
+import { changeDataRouter } from './src/change_data/change_data.controller.js';
+
 
 dotenv.config();
 
@@ -18,14 +20,14 @@ async function main() {
         req.db = db;
         next();
     }, regRouter);
-
-    // сюда добавляем функционал
+    
+    //Зміна даних профілю
+    app.use('/api/change_data', (req, res, next) => {
+        req.db = db;
+        next();
+    }, changeDataRouter);
 
   
-    
-    
-   
-   
    
     /* Не трогаем */
     app.all('*', (req, res) => {
