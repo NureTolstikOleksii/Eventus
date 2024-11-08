@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { connectToDatabase } from './database/database.js';
 import { regRouter } from './src/registration/registration.controller.js';
+import { providerRouter } from './src/registration/providerRegistration.controller.js';
 
 dotenv.config();
 
@@ -13,19 +14,13 @@ async function main() {
     // Подключаемся к базе данных
     const db = await connectToDatabase();
 
-    // Регистрация замовника
-    app.use('/api', (req, res, next) => {
+    // Регистрация 
+    app.use('/register', (req, res, next) => {
         req.db = db;
         next();
-    }, regRouter);
+    }, regRouter, providerRouter);
+      
 
-    // сюда добавляем функционал
-
-  
-    
-    
-   
-   
    
     /* Не трогаем */
     app.all('*', (req, res) => {
