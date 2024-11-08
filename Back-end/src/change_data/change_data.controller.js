@@ -48,4 +48,15 @@ router.put('/update_user_name', async (req, res) => {
         }
     });
 
+    //Зміна назви організації постачальника
+    router.put('/update_organization_name', async (req, res) => {
+        const { providerId, newOrganizationName } = req.body;
+        try {
+            const result = await changeDataService.updateOrganizationName(req.db, providerId, newOrganizationName);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500).json({ message: 'Failed to update organization name', error: error.message });
+        }
+    });
+
 export const changeDataRouter = router;

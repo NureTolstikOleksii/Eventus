@@ -3,6 +3,7 @@ export class ChangeDataService {
     //Перевірки
     #passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[._-])[A-Za-z\d._-]{8,128}$/;
     #nameRegex = /^[A-Za-z]+$/;
+    #organizationNameRegex = /^[A-Za-z]+$/;
 
     //Зміна паролю замовника 
     async updateUserPassword(db, userId, oldPassword, newPassword, confirmPassword) {
@@ -81,14 +82,15 @@ export class ChangeDataService {
             throw new Error('Error updating user name: ' + error.message);
         }
     }
-
-    //Зміна типу послуг постачальника
     async updateServiceCategory(db, providerId, newCategory) {
         try {
-            if (!this.validateServiceCategory(newCategory)) {
+            // Проверка существования категории в таблице Service_Category
+            const category = await db.get('SELECT * FROM Service_Category WHERE name = ?', [newCategory]);
+            if (!category) {
                 throw new Error('Invalid service category');
             }
 
+            // Обновление категории услуг у поставщика
             await db.run('UPDATE Provider SET service_category = ? WHERE provider_id = ?', [newCategory, providerId]);
             return { message: 'Service category updated successfully' };
         } catch (error) {
@@ -96,11 +98,23 @@ export class ChangeDataService {
         }
     }
 
-    // Перевірка типу послуг
-    validateServiceCategory(category) {
-        // Здесь можно указать допустимые категории
-        const allowedCategories = ['Photography', 'Catering', 'Entertainment', 'Floral Design']; // Дописать остальные
-        return allowedCategories.includes(category);
+    //Зміна назви організації постачальника
+    async updateOrganizationName(db, providerId, newOrganizationName) {
+        try {
+            if (!this.#organizationNameRegex.test(newOrganizationName)) {
+                throw new Error('Organization name must contain only allowed characters');
+            }
+
+            const existingOrganization = await db.get('SELECT * FROM Provider WHERE company_name = ?', [newOrganizationName]);
+            if (existingOrganization) {
+                throw new Error('Organization name already registered');
+            }
+
+            await db.run('UPDATE Provider SET company_name = ? WHERE provider_id = ?', [newOrganizationName, providerId]);
+            return { message: 'Organization name updated successfully' };
+        } catch (error) {
+            throw new Error('Error updating organization name: ' + error.message);
+        }
     }
         
 }
