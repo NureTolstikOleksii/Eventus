@@ -62,7 +62,7 @@ router.post('/customer', async (req, res) => {
         const result = await regService.createAccount(req.db, name, email, hashedPassword, phone_number);
 
         // Отправка подтверждающего email
-        //await emailService.sendConfirmationEmail(email, name);
+        await emailService.sendConfirmationEmail(email, name);
 
         res.status(201).json(result);
     } catch (error) {
@@ -121,7 +121,7 @@ router.post('/provider', async (req, res) => {
         const result = await regService.registerProvider(req.db, name, null, email, hashedPassword, company_name, service_category, 1);
 
         // Отправка подтверждающего email
-        // await emailService.sendConfirmationEmail(email, name);
+        await emailService.sendConfirmationEmail(email, name);
 
         res.status(201).json(result);
     } catch (error) {

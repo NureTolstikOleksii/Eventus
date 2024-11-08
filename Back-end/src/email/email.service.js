@@ -19,7 +19,7 @@ export class EmailService {
             from: process.env.EMAIL_USER,
             to,
             subject: 'Registration Confirmation',
-            text: `Hello dear, ${name},\n\nThank you for registering! Your account has been successfully created.\n\nBest regards,\nEventus Team`
+            text: `Hello dear, ${name}!\n\nThank you for registering! Your account has been successfully created.\n\nBest regards,\nEventus Team`
         };
 
         try {
