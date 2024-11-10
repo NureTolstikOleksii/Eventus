@@ -7,9 +7,6 @@ import { loginRouter } from './src/login/login.controller.js';
 import cors from 'cors';
 import { logoutRouter } from './src/logout/logout.controller.js';
 
-
-
-
 dotenv.config();
 
 const app = express();
