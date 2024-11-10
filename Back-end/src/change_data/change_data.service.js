@@ -4,6 +4,23 @@ export class ChangeDataService {
     #passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[._-])[A-Za-z\d._-]{8,128}$/;
     #nameRegex = /^[A-Za-z]+$/;
     #organizationNameRegex = /^[A-Za-z]+$/;
+    #emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Зміна електронної пошти замовника
+    async updateUserEmail(db, userId, newEmail) {
+        try {
+            // Проверка формата нового адреса электронной почты
+            if (!this.#emailRegex.test(newEmail)) {
+                throw new Error('Please enter a valid email address');
+            }
+
+            // Обновление электронной почты клиента
+            await db.run('UPDATE User SET email = ? WHERE user_id = ?', [newEmail, userId]);
+            return { message: 'Email updated successfully' };
+        } catch (error) {
+            throw new Error('Error updating email: ' + error.message);
+        }
+    }
 
     //Зміна паролю замовника 
     async updateUserPassword(db, userId, oldPassword, newPassword, confirmPassword) {
