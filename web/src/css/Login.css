@@ -32,8 +32,12 @@ form input {
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 15px;
+ background-color:#FFFFFF;
+}
+form input:focus{
   background-color:#F0FFD2;
 }
+
 
 .save-button {
   padding: 5px;
