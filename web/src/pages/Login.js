@@ -1,34 +1,38 @@
 import React from "react";
 import "../css/Login.css";
+import google from "../assets/google.png";
+import { Link } from "react-router-dom";
 
 function Login() {
   return (
     <div className="login">
-      <div className="main-text"></div>
-
       <form action="#">
         <h2 className="main-text">УВІЙТИ</h2>
         <label htmlFor="email">
-          <b>Email</b>
+          <b>Email:</b>
         </label>
-        <input type="text" placeholder="Enter Email" name="email" required />
+        <input type="text" name="email" required />
 
         <label htmlFor="psw">
-          <b>Password</b>
+          <b>Пароль:</b>
         </label>
-        <input
-          type="password"
-          placeholder="Enter Password"
-          name="psw"
-          required
-        />
+        <input type="password" name="psw" required />
 
         <button type="submit" className="save-button">
           Увійти
         </button>
+        <div className="google-login">
+          <a href="#" rel="noopener noreferrer">
+            <img src={google} alt="Google Logo" className="google-logo" />
+          </a>
+        </div>
+        <div className="add-text">
+          <p>
+            Досі не маєте аккаунта?{" "}
+            <Link to="/registration">Скоріше реєструйтеся!</Link>
+          </p>
+        </div>
       </form>
-
-      <div className="login-google"></div>
     </div>
   );
 }
