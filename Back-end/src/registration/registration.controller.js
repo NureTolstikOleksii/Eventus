@@ -77,7 +77,7 @@ router.post('/provider', async (req, res) => {
     // Проверка на заполненность обязательных полей
     if (!name || !email || !password || !company_name || service_category === undefined) {
         return res.status(400).json({
-            message: 'Please enter all required fields: name, email, password, company_name, and service_category.',
+            message: 'Please enter all data.',
             missingFields: {
                 name: !name ? 'Name is required' : undefined,
                 email: !email ? 'Email is required' : undefined,
