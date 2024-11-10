@@ -59,4 +59,15 @@ router.put('/update_user_name', async (req, res) => {
         }
     });
 
+    // Зміна електронної пошти замовника
+    router.put('/update_user_email', async (req, res) => {
+    const { userId, newEmail } = req.body;
+    try {
+        const result = await changeDataService.updateUserEmail(req.db, userId, newEmail);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update email', error: error.message });
+    }
+    });
+
 export const changeDataRouter = router;

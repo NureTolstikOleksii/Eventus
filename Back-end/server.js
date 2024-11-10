@@ -5,6 +5,9 @@ import { regRouter } from './src/registration/registration.controller.js';
 import { changeDataRouter } from './src/change_data/change_data.controller.js';
 import { loginRouter } from './src/login/login.controller.js';
 import cors from 'cors';
+import { logoutRouter } from './src/logout/logout.controller.js';
+
+
 
 
 dotenv.config();
@@ -32,7 +35,7 @@ async function main() {
     //Зміна даних профілю
     app.use('/api/change_data', changeDataRouter);
 
-    
+    app.use('/logout', logoutRouter);
 
    
     /* Не трогаем */
