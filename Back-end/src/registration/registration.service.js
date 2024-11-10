@@ -35,4 +35,14 @@ export class RegisterService {
         const result = await db.get(`SELECT * FROM Provider WHERE email = ?`, [email]);
         return result;
     }
+
+     // Получение всех категорий услуг
+     async getAllCategories(db) {
+        try {
+            const categories = await db.all(`SELECT category_id AS id, name FROM Service_Category`);
+            return categories;
+        } catch (error) {
+            throw new Error('Error fetching categories from database: ' + error.message);
+        }
+    }
 }

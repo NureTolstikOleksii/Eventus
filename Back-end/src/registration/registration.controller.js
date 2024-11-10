@@ -30,9 +30,9 @@ router.post('/customer', async (req, res) => {
     }
 
     // Проверка имени
-    if (!isValidName(name)) {
+    /*if (!isValidName(name)) {
         return res.status(400).json({ message: 'Name can only contain Latin letters.' });
-    }
+    }*/
 
     // Проверка email
     if (!isValidEmail(email)) {
@@ -89,9 +89,9 @@ router.post('/provider', async (req, res) => {
     }
 
     // Проверка имени
-    if (!isValidName(name)) {
+   /* if (!isValidName(name)) {
         return res.status(400).json({ message: 'Name can only contain Latin letters.' });
-    }
+    }*/
 
     // Проверка email
     if (!isValidEmail(email)) {
@@ -126,6 +126,18 @@ router.post('/provider', async (req, res) => {
         res.status(201).json(result);
     } catch (error) {
         res.status(500).json({ message: 'Failed to register provider', error: error.message });
+    }
+});
+
+// Маршрут для получения всех категорий
+router.get('/categories', async (req, res) => {
+    try {
+        const db = req.db; // Предполагаем, что объект базы данных передается через `req`
+        const categories = await regService.getAllCategories(db); // Используем объект regService для вызова метода
+        res.json(categories);
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        res.status(500).json({ message: 'Failed to fetch categories' });
     }
 });
 

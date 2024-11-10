@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Добавлен импорт useEffect
 import "../css/Registration.css";
 import google from "../assets/google.png";
 import { Link } from "react-router-dom";
@@ -10,14 +10,33 @@ function Registration() {
     phone_number: '',
     email: '',
     password: '',
-    organizationName: '',
-    category: ''
+    company_name: '', // Переименовано, чтобы соответствовать ключу в бэкенде
+    service_category: '' // Переименовано для соответствия выпадающему списку
   });
   const [errors, setErrors] = useState({});
+  const [categories, setCategories] = useState([]);
 
   const checkboxChange = () => {
     setIsSupplier(!isSupplier);
   };
+
+  useEffect(() => {
+    // Получаем категории с бэкенда при загрузке компонента
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('http://localhost:4200/register/categories'); 
+        if (response.ok) {
+          const data = await response.json();
+          setCategories(data); // Сохраняем категории в состоянии
+        } else {
+          console.error('Failed to fetch categories');
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -115,20 +134,22 @@ function Registration() {
 
         {isSupplier && (
           <>
-            <label htmlFor="organizationName">
+            <label htmlFor="company_name">
               <b>Назва організації:</b>
             </label>
             <input type="text" name="company_name" onChange={handleChange} />
             {errors.company_name && <p className="error-text">{errors.company_name}</p>}
 
-            <label htmlFor="category">
+            <label htmlFor="service_category">
               <b>Оберіть категорію:</b>
             </label>
-            <select name="service_category" onChange={handleChange}>
+            <select name="service_category" onChange={handleChange} value={formData.service_category}>
               <option value="">Оберіть категорію</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
             {errors.service_category && <p className="error-text">{errors.service_category}</p>}
           </>
