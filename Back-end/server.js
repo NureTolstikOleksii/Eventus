@@ -4,11 +4,14 @@ import { connectToDatabase } from './database/database.js';
 import { regRouter } from './src/registration/registration.controller.js';
 import { changeDataRouter } from './src/change_data/change_data.controller.js';
 import { loginRouter } from './src/login/login.controller.js';
+import cors from 'cors';
 
 
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 
 async function main() {
     app.use(express.json());
