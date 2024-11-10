@@ -1,14 +1,17 @@
 import React from 'react';
 import '../css/HomePage.css';
+import Header from '../components/header/header';
 
-function HomePage() {
+const HomePage = () => {
   return (
-    <div className="home-page">
-      <h1>Добро пожаловать на Eventus!</h1>
-      <p>Это ваш помощник в организации незабываемых событий.</p>
-      <button className="get-started-button">Начать</button>
+    <div>
+      <Header />
+      <main>
+        <h2>Home Page Content</h2>
+        {/* Остальной контент домашней страницы */}
+      </main>
     </div>
   );
-}
+};
 
 export default HomePage;
