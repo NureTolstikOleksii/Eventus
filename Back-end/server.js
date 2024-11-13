@@ -6,7 +6,7 @@ import { changeDataRouter } from './src/change_data/change_data.controller.js';
 import { loginRouter } from './src/login/login.controller.js';
 import cors from 'cors';
 import { logoutRouter } from './src/logout/logout.controller.js';
-import { searchRouter } from './src/logout/search.controller.js';
+import { searchRouter } from './src/search.controller.js';
 
 
 dotenv.config();
