@@ -1,4 +1,8 @@
-import searchService from './search.service';
+import { Router } from 'express';
+import {SearchService} from './search.service.js';
+
+const router = Router();
+const searchService = new SearchService();
 
 export async function searchServicesController(req, res) {
   try {
@@ -12,3 +16,5 @@ export async function searchServicesController(req, res) {
     res.status(500).json({ message: 'Error searching services' });
   }
 }
+
+export const searchRouter = router;
