@@ -6,6 +6,8 @@ import { changeDataRouter } from './src/change_data/change_data.controller.js';
 import { loginRouter } from './src/login/login.controller.js';
 import cors from 'cors';
 import { logoutRouter } from './src/logout/logout.controller.js';
+import { searchRouter } from './src/logout/search.controller.js';
+
 
 dotenv.config();
 
@@ -32,6 +34,10 @@ async function main() {
     //Зміна даних профілю
     app.use('/api/change_data', changeDataRouter);
 
+    //Пошук
+    app.use('/api/search', searchRouter);
+
+    
     app.use('/logout', logoutRouter);
 
    
