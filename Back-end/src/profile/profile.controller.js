@@ -53,7 +53,7 @@ router.get('/customer', async (req, res) => {
 });
 
 // Профіль постачалника для замовника
-router.get('/providerForCustomer', async (req, res) => {
+router.get('/providerForCustomer/:providerId', async (req, res) => {
     const { providerId } = req.query; 
 
     if (!providerId) {

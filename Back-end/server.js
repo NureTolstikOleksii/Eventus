@@ -8,6 +8,8 @@ import { changeDataRouter } from './src/change_data/change_data.controller.js';
 import { loginRouter } from './src/login/login.controller.js';
 import { searchRouter } from './src/search/search.controller.js';
 import { profileRouter } from './src/profile/profile.controller.js';
+import { servicesRouter } from './src/services/services.controller.js';
+import { mainScreenRouter } from './src/main_screen/main_screen.controller.js';
 
 
 dotenv.config();
@@ -40,6 +42,8 @@ async function main() {
     app.use('/register', regRouter);
     app.use('/login', loginRouter);   
     app.use('/profile', profileRouter);   
+    app.use('/services', servicesRouter);
+    app.use('/main_screen', mainScreenRouter);
 
     //Зміна даних профілю
     app.use('/change_data', changeDataRouter);
