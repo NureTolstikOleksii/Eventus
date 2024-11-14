@@ -4,70 +4,100 @@ import { ChangeDataService } from './change_data.service.js';
 const router = Router();
 const changeDataService = new ChangeDataService();
 
-//Зміна паролю замовника 
+// Зміна паролю замовника
 router.put('/update_user_password', async (req, res) => {
-    const { userId, oldPassword, newPassword } = req.body;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    if (!req.session.userId || req.session.userRole !== 'customer') {
+        return res.status(403).json({ message: 'Access denied' });
+    }
+
     try {
-        const result = await changeDataService.updateUserPassword(req.db, userId, oldPassword, newPassword, confirmPassword);
+        const result = await changeDataService.updateUserPassword(req.db, req.session.userId, oldPassword, newPassword, confirmPassword);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ message: 'Failed to update password', error: error.message });
     }
 });
 
-//Зміна паролю постачальника 
+// Зміна паролю постачальника
 router.put('/update_provider_password', async (req, res) => {
-    const { providerId, oldPassword, newPassword } = req.body;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    if (!req.session.userId || req.session.userRole !== 'provider') {
+        return res.status(403).json({ message: 'Access denied' });
+    }
+
     try {
-        const result = await changeDataService.updateProviderPassword(req.db, providerId, oldPassword, newPassword, confirmPassword);
+        const result = await changeDataService.updateProviderPassword(req.db, req.session.userId, oldPassword, newPassword, confirmPassword);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ message: 'Failed to update provider password', error: error.message });
     }
 });
 
-    //Зміна імені замовника
+// Зміна імені замовника
 router.put('/update_user_name', async (req, res) => {
-    const { userId, newName } = req.body;
+    const { newName } = req.body;
+
+    if (!req.session.userId || req.session.userRole !== 'customer') {
+        return res.status(403).json({ message: 'Access denied' });
+    }
+
     try {
-        const result = await changeDataService.updateUserName(req.db, userId, newName);
+        const result = await changeDataService.updateUserName(req.db, req.session.userId, newName);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ message: 'Failed to update user name', error: error.message });
     }
 });
 
-    //Зміна типу послуг постачальника
-    router.put('/update_service_category', async (req, res) => {
-        const { providerId, newCategory } = req.body;
-        try {
-            const result = await changeDataService.updateServiceCategory(req.db, providerId, newCategory);
-            res.status(200).json(result);
-        } catch (error) {
-            res.status(500).json({ message: 'Failed to update service category', error: error.message });
-        }
-    });
+// Зміна типу послуг постачальника
+router.put('/update_service_category', async (req, res) => {
+    const { newCategory } = req.body;
 
-    //Зміна назви організації постачальника
-    router.put('/update_organization_name', async (req, res) => {
-        const { providerId, newOrganizationName } = req.body;
-        try {
-            const result = await changeDataService.updateOrganizationName(req.db, providerId, newOrganizationName);
-            res.status(200).json(result);
-        } catch (error) {
-            res.status(500).json({ message: 'Failed to update organization name', error: error.message });
-        }
-    });
+    if (!req.session.userId || req.session.userRole !== 'provider') {
+        return res.status(403).json({ message: 'Access denied' });
+    }
 
-    // Зміна електронної пошти замовника
-    router.put('/update_user_email', async (req, res) => {
-    const { userId, newEmail } = req.body;
     try {
-        const result = await changeDataService.updateUserEmail(req.db, userId, newEmail);
+        const result = await changeDataService.updateServiceCategory(req.db, req.session.userId, newCategory);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update service category', error: error.message });
+    }
+});
+
+// Зміна назви організації постачальника
+router.put('/update_organization_name', async (req, res) => {
+    const { newOrganizationName } = req.body;
+
+    if (!req.session.userId || req.session.userRole !== 'provider') {
+        return res.status(403).json({ message: 'Access denied' });
+    }
+
+    try {
+        const result = await changeDataService.updateOrganizationName(req.db, req.session.userId, newOrganizationName);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update organization name', error: error.message });
+    }
+});
+
+// Зміна електронної пошти замовника
+router.put('/update_user_email', async (req, res) => {
+    const { newEmail } = req.body;
+
+    if (!req.session.userId || req.session.userRole !== 'customer') {
+        return res.status(403).json({ message: 'Access denied' });
+    }
+
+    try {
+        const result = await changeDataService.updateUserEmail(req.db, req.session.userId, newEmail);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ message: 'Failed to update email', error: error.message });
     }
-    });
+});
 
 export const changeDataRouter = router;

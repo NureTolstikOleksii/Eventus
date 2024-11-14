@@ -1,12 +1,13 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
+import session from 'express-session';
 import { connectToDatabase } from './database/database.js';
 import { regRouter } from './src/registration/registration.controller.js';
 import { changeDataRouter } from './src/change_data/change_data.controller.js';
 import { loginRouter } from './src/login/login.controller.js';
-import cors from 'cors';
-import { logoutRouter } from './src/logout/logout.controller.js';
 import { searchRouter } from './src/search/search.controller.js';
+import { profileRouter } from './src/profile/profile.controller.js';
 
 
 dotenv.config();
@@ -14,6 +15,17 @@ dotenv.config();
 const app = express();
 
 app.use(cors());
+
+// Конфигурация сессии
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'default_secret',
+    resave: false,
+    saveUninitialized: false, 
+    cookie: { 
+        maxAge: 24 * 60 * 60 * 1000, // Время жизни сессии в миллисекундах (24 часа)
+        secure: false // Установите true, если используется HTTPS
+    }
+}));
 
 async function main() {
     app.use(express.json());
@@ -25,22 +37,28 @@ async function main() {
         next();
     });
 
-    // Регистрация 
     app.use('/register', regRouter);
-      
-    // Вход 
     app.use('/login', loginRouter);   
+    app.use('/profile', profileRouter);   
 
     //Зміна даних профілю
-    app.use('/api/change_data', changeDataRouter);
-
+    app.use('/change_data', changeDataRouter);
     //Пошук
-    app.use('/api/search', searchRouter);
-
-    
-    app.use('/logout', logoutRouter);
-
-   
+    app.use('/search', searchRouter);
+  
+    //Для перевірки існування сесії
+    app.get('/session', (req, res) => {
+        if (req.session.userId) {
+            res.status(200).json({
+                message: 'Session exists',
+                userId: req.session.userId,
+                userRole: req.session.userRole
+            });
+        } else {
+            res.status(404).json({ message: 'No active session' });
+        }
+    });
+      
     /* Не трогаем */
     app.all('*', (req, res) => {
         res.status(404).json({ message: 'Not Found' });
