@@ -73,7 +73,7 @@ const HomeScreen: React.FC = () => {
                     </View>
                 </ScrollView>
 
-                <Text style={styles.sectionTitle}>Топ послуг:</Text>
+                <Text style={styles.topServicesTitle}>Топ послуг:</Text>
                 <View style={styles.servicesContainer}>
                     <View style={styles.serviceItem}>
                         <Text style={styles.serviceTitle}>Флористика</Text>
@@ -141,7 +141,10 @@ const HomeScreen: React.FC = () => {
 
 
                         <TouchableOpacity style={styles.applyButton} onPress={() => setFilterVisible(false)}>
-                            <LinearGradient colors={['#FFA726', '#FB8C00']} style={styles.applyGradientButton}>
+                            <LinearGradient
+                                colors={['#FFAE55', '#FF7E3E']}
+                                style={styles.applyGradientButton}
+                            >
                                 <Text style={styles.applyButtonText}>Застосувати</Text>
                             </LinearGradient>
                         </TouchableOpacity>
@@ -192,6 +195,12 @@ const styles = StyleSheet.create({
     filterButton: { marginLeft: 10, justifyContent: 'center', alignItems: 'center' },
     filterIcon: { width: 24, height: 24 },
     sectionTitle: { fontSize: 18, fontWeight: 'bold', color: '#fff', marginVertical: 10, paddingHorizontal: 20 },
+    topServicesTitle: {
+        fontSize: 18,
+        color: '#335237',
+        marginVertical: 10,
+        paddingHorizontal: 20,
+    },
     categoryContainer: { paddingHorizontal: 20, marginBottom: 10 },
     categoryItem: { alignItems: 'center', marginHorizontal: 10 },
     icon: { width: 40, height: 40 },
@@ -260,6 +269,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#6fa32b',
         marginBottom: 10,
+        textAlign: 'center',
+        alignSelf: 'center',
+        width: '100%'
     },
     filterSectionTitle: {
         fontSize: 16,
@@ -278,18 +290,18 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     ratingContainer: {
-        flexDirection: 'column', // Устанавливаем элементы в колонку
+        flexDirection: 'column',
         alignItems: 'flex-start',
         marginVertical: 10,
     },
     ratingItem: {
-        flexDirection: 'row', // Для расположения чекбокса и звезд в строку
+        flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 5,
     },
     ratingStars: {
-        flexDirection: 'row', // Для расположения звезд в строку
-        marginLeft: 8, // Отступ между чекбоксом и звездами
+        flexDirection: 'row',
+        marginLeft: 8,
     },
     applyButton: {
         marginTop: 20,
@@ -299,11 +311,11 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 25,
         alignItems: 'center',
-        backgroundColor: '#FFA726',
+        width: '100%',
     },
     applyButtonText: {
         color: '#fff',
-        fontWeight: 'bold',
+        fontSize: 20,
     },
 
 });
