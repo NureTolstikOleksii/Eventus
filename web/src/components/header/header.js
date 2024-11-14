@@ -18,6 +18,9 @@ const Header = () => {
           <li><Link to="/providers">Постачальники</Link></li>
           <li><Link to="/login">Вхід</Link></li> {/* Ссылка на страницу входа */}
           <li><Link to="/registration">Реєстрація</Link></li>
+
+          <li><Link to="/profile">ПРОФІЛЬ</Link></li> 
+
         </ul>
       </nav>
     </header>
