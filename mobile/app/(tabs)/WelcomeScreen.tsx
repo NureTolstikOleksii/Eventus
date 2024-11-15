@@ -13,7 +13,7 @@ export default function WelcomeScreen() {
 
     const handleCloseModal = () => {
         setIsModalVisible(false);
-        setIsProvider(false); // Сброс состояния при закрытии модального окна
+        setIsProvider(false); 
     };
 
     const toggleProvider = () => {
