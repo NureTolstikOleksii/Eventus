@@ -1,0 +1,144 @@
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { FontAwesome } from '@expo/vector-icons';
+
+const PacketiScreen: React.FC = () => {
+    return (
+        <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <View style={styles.header}>
+                    <TouchableOpacity style={styles.backButton}>
+                        <Image source={{ uri: '../../assets/images/backarrow.png' }} style={styles.icon} />
+                    </TouchableOpacity>
+                    <Text style={styles.headerText}>Пакети послуг</Text>
+                </View>
+
+                <View style={styles.cardContainer}>
+                    <Image source={{ uri: '../../assets/images/flowerspackages.png' }} style={styles.cardImage} resizeMode="cover" />
+                    <View style={styles.textContainer}>
+                        <Text style={styles.cardTitle}>Пакет “Ніжність”</Text>
+                        <Text style={styles.cardPrice}>10 000 грн</Text>
+                        <View style={styles.ratingContainer}>
+                            <FontAwesome name="star" size={18} color="#FFD700" style={styles.star} />
+                            <FontAwesome name="star" size={18} color="#FFD700" style={styles.star} />
+                            <FontAwesome name="star" size={18} color="#FFD700" style={styles.star} />
+                            <FontAwesome name="star" size={18} color="#BDBDBD" style={styles.star} />
+                            <FontAwesome name="star" size={18} color="#BDBDBD" style={styles.star} />
+                        </View>
+                    </View>
+                    <Image source={{ uri: '../../assets/images/rightarrow.png' }} style={styles.arrowIcon} />
+                </View>
+            </ScrollView>
+
+            <View style={styles.bottomMenu}>
+                <TouchableOpacity style={styles.bottomMenuItem}>
+                    <Image source={{ uri: '../../assets/images/home.png' }} style={styles.menuIcon} />
+                    <Text style={styles.bottomMenuText}>Головна</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomMenuItem}>
+                    <Image source={{ uri: '../../assets/images/book.png' }} style={styles.menuIcon} />
+                    <Text style={styles.bottomMenuText}>Чек-лист</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomMenuItem}>
+                    <Image source={{ uri: '../../assets/images/chat.png' }} style={styles.menuIcon} />
+                    <Text style={styles.bottomMenuText}>Чат</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomMenuItem}>
+                    <Image source={{ uri: '../../assets/images/user.png' }} style={styles.menuIcon} />
+                    <Text style={styles.bottomMenuText}>Профіль</Text>
+                </TouchableOpacity>
+            </View>
+        </LinearGradient>
+    );
+};
+
+export default PacketiScreen;
+
+const styles = StyleSheet.create({
+    container: { flex: 1 },
+    scrollContainer: { paddingBottom: 80, alignItems: 'center' },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: 20,
+        paddingTop: 20,
+    },
+    backButton: { padding: 5 },
+    icon: { width: 24, height: 24 },
+    headerText: {
+        fontSize: 26,
+        fontFamily: 'Kurale',
+        color: '#fff',
+        textAlign: 'center',
+        flex: 1,
+    },
+    cardContainer: {
+        width: 340,
+        backgroundColor: '#A4C644',
+        borderRadius: 15,
+        alignItems: 'center',
+        padding: 0,
+        marginVertical: 35,
+        borderColor: '#78A519',
+        borderWidth: 1,
+    },
+    cardImage: {
+        width: '100%',
+        height: 100,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+    },
+    textContainer: {
+        width: '100%',
+        padding: 10,
+    },
+    cardTitle: {
+        fontSize: 22,
+        fontFamily: 'Kurale',
+        color: '#fff',
+    },
+    cardPrice: {
+        fontSize: 18,
+        color: '#fff',
+        marginVertical: 5,
+    },
+    ratingContainer: {
+        flexDirection: 'row',
+        marginTop: 5,
+    },
+    star: {
+        marginRight: 4,  // Увеличен интервал между звездами
+    },
+    arrowIcon: {
+        width: 36,
+        height: 26,
+        position: 'absolute',
+        right: 40,
+        top: 150,
+    },
+    bottomMenu: {
+        position: 'absolute',
+        bottom: 0,
+        flexDirection: 'row',
+        width: '100%',
+        backgroundColor: '#ffffff',
+        paddingVertical: 10,
+        justifyContent: 'space-around',
+        borderTopWidth: 1,
+        borderTopColor: '#e0e0e0',
+    },
+    bottomMenuItem: {
+        alignItems: 'center',
+    },
+    menuIcon: {
+        width: 28,
+        height: 28,
+    },
+    bottomMenuText: {
+        fontFamily: 'Kurale',
+        fontSize: 12,
+        color: '#6fa32b',
+    },
+});
