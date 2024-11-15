@@ -23,7 +23,7 @@ const HomeScreen: React.FC = () => {
 
 
     return (
-        <LinearGradient colors={['#b3e04e', '#ffffff']} style={styles.container}>
+        <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             <ScrollView style={styles.scrollContainer}>
                 <View style={styles.topBar}>
                     <Text style={styles.cityText}>Харків</Text>
