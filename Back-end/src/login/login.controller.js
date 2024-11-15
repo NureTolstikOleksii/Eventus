@@ -19,7 +19,9 @@ router.post('/customer', async (req, res) => {
         
         // Сохранение данных сессии
         req.session.userId = customer.user_id;
+        req.session.name  = customer.name;
         req.session.userRole = 'customer';
+        console.log('Session data:', req.session);
 
         res.status(200).json({ message: 'Customer logged in successfully', customer });
     } catch (error) {
@@ -41,7 +43,9 @@ router.post('/provider', async (req, res) => {
         }
         
         req.session.userId = provider.provider_id;
+        req.session.name  = provider.name;
         req.session.userRole = 'provider';
+        console.log('Session data:', req.session);
 
         res.status(200).json({ message: 'Provider logged in successfully', provider });
     } catch (error) {

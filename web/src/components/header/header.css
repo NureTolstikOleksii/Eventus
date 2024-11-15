@@ -52,3 +52,17 @@ nav ul li a:hover {
 main {
   padding-top: 60px; /* Отступ на случай фиксированной высоты хедера */
 }
+
+
+.logout-button {
+  border: none;
+  background-color: #354d33;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1em;
+  text-decoration: underline;
+}
+
+.logout-button:hover {
+  color: #0056b3;
+}

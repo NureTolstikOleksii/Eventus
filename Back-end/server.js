@@ -16,16 +16,21 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // URL вашего фронтенда
+    credentials: true // Включить отправку cookie
+}));
 
 // Конфигурация сессии
 app.use(session({
     secret: process.env.SESSION_SECRET || 'default_secret',
     resave: false,
-    saveUninitialized: false, 
-    cookie: { 
-        maxAge: 24 * 60 * 60 * 1000, // Время жизни сессии в миллисекундах (24 часа)
-        secure: false // Установите true, если используется HTTPS
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // 24 часа
+        secure: process.env.NODE_ENV === 'production', // true для HTTPS в продакшене
+        httpOnly: true, // Защита от XSS
+        sameSite: 'lax' // Защита от CSRF
     }
 }));
 
@@ -52,16 +57,12 @@ async function main() {
   
     //Для перевірки існування сесії
     app.get('/session', (req, res) => {
-        if (req.session.userId) {
-            res.status(200).json({
-                message: 'Session exists',
-                userId: req.session.userId,
-                userRole: req.session.userRole
-            });
+        if (req.session && req.session.userId) {
+          res.status(200).json({ name: req.session.name });
         } else {
-            res.status(404).json({ message: 'No active session' });
+          res.status(401).json({ message: 'User not logged in' });
         }
-    });
+      });
       
     /* Не трогаем */
     app.all('*', (req, res) => {
