@@ -1,6 +1,6 @@
 import React from 'react';
 import './footer.css';
-import racoonImage from './racoon.gif'; // Импортируем локальное изображение
+import raccoonImage from './raccoon.gif'; // Импортируем локальное изображение
 
 const Footer = () => {
   return (
@@ -28,7 +28,7 @@ const Footer = () => {
       {/* Картинка справа */}
       <div className="footer-profile">
         <img
-          src={racoonImage} // Используем импортированное изображение
+          src={raccoonImage} // Используем импортированное изображение
           alt="Profile"
           className="footer-profile-image"
         />
