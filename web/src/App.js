@@ -6,6 +6,7 @@ import Registration from './pages/Registration';
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
 import Profile from './pages/Profile';
+import ViewProfileProvider from './pages/ViewProfileProvider';
 import ProfileProvider from './pages/ProfileProvider';
 import { UserProvider } from './context/UserContext'; // Импортируем UserProvider
 
@@ -17,6 +18,7 @@ function App() {
           <Header /> {/* Отображаем Header на всех страницах */}
           <Routes>
           <Route path="/profile-provider" element={<ProfileProvider />} />
+          <Route path="/view-profile-provider" element={<ViewProfileProvider />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
