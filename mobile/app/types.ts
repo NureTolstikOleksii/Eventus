@@ -3,4 +3,6 @@ export type RootStackParamList = {
     RegistrationScreen: { userId: string };
     RegistrationProviderScreen: undefined;
     LoginScreen: undefined;
+    UserProfile: undefined;
+    OrdersScreen: undefined;
 };

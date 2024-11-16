@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, Modal, ScrollView } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, Modal, ScrollView, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function WelcomeScreen() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
     const [isProvider, setIsProvider] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [isCategoryModalVisible, setIsCategoryModalVisible] = useState(false);
+
+    const categories = ['Флористика', 'Їжа', 'Локації', 'Зйомка', 'Декор', 'Розваги', 'Організація', 'Одяг та краса', 'Транспорт', 'Оренда'];
 
     const handleOpenModal = () => {
         setIsModalVisible(true);
@@ -13,7 +17,7 @@ export default function WelcomeScreen() {
 
     const handleCloseModal = () => {
         setIsModalVisible(false);
-        setIsProvider(false); 
+        setIsProvider(false);
     };
 
     const toggleProvider = () => {
@@ -22,26 +26,32 @@ export default function WelcomeScreen() {
 
     const openLoginModal = () => {
         setIsLoginModalVisible(true);
-        setIsModalVisible(false); // Закрываем форму регистрации
+        setIsModalVisible(false);
     };
 
     const closeLoginModal = () => {
         setIsLoginModalVisible(false);
     };
 
+    const openCategoryModal = () => {
+        setIsCategoryModalVisible(true);
+    };
+
+    const closeCategoryModal = () => {
+        setIsCategoryModalVisible(false);
+    };
+
+    const selectCategory = (category: string) => {
+        setSelectedCategory(category);
+        closeCategoryModal();
+    };
+
     return (
-        <LinearGradient
-            colors={['#b3e04e', '#ffffff']}
-            style={styles.container}
-        >
-            {/* Welcome Screen Content */}
+        <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             <Image source={require('../../assets/images/capibara.png')} style={styles.image} />
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
-                    <LinearGradient
-                        colors={['#8BC34A', '#AED581']}
-                        style={styles.gradientButton}
-                    >
+                    <LinearGradient colors={['#8BC34A', '#AED581']} style={styles.gradientButton}>
                         <Text style={styles.buttonText}>Зареєструватися</Text>
                     </LinearGradient>
                 </TouchableOpacity>
@@ -50,13 +60,7 @@ export default function WelcomeScreen() {
                 </Text>
             </View>
 
-            {/* Registration Form as Modal */}
-            <Modal
-                visible={isModalVisible}
-                transparent
-                animationType="slide"
-                onRequestClose={handleCloseModal}
-            >
+            <Modal visible={isModalVisible} transparent animationType="slide" onRequestClose={handleCloseModal}>
                 <View style={styles.modalContainer}>
                     <View style={[styles.modalContent, { maxHeight: '70%' }]}>
                         <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -78,16 +82,18 @@ export default function WelcomeScreen() {
                                 <>
                                     <Text style={styles.label}>Назва підприємства</Text>
                                     <TextInput style={styles.input} placeholder="" />
+
                                     <Text style={styles.label}>Категорія послуг</Text>
-                                    <TextInput style={styles.input} placeholder="" />
+                                    <TouchableOpacity style={styles.input} onPress={openCategoryModal}>
+                                        <Text style={styles.selectedCategoryText}>
+                                            {selectedCategory || ''}
+                                        </Text>
+                                    </TouchableOpacity>
                                 </>
                             )}
 
                             <TouchableOpacity style={styles.formButton} onPress={handleCloseModal}>
-                                <LinearGradient
-                                    colors={['#83B620', '#97D125', '#83B620']}
-                                    style={styles.formGradientButton}
-                                >
+                                <LinearGradient colors={['#83B620', '#97D125', '#83B620']} style={styles.formGradientButton}>
                                     <Text style={styles.buttonText}>Зареєструватися</Text>
                                 </LinearGradient>
                             </TouchableOpacity>
@@ -98,7 +104,6 @@ export default function WelcomeScreen() {
                                 <Image source={require('../../assets/images/Facebook.png')} style={styles.socialIcon} />
                             </View>
 
-                            {/* Условное отображение текста внизу формы */}
                             {isProvider ? (
                                 <Text style={styles.linkText}>
                                     Не маєте акаунту? <Text style={styles.registerText} onPress={handleOpenModal}>Зареєструйтесь</Text>
@@ -113,13 +118,23 @@ export default function WelcomeScreen() {
                 </View>
             </Modal>
 
-            {/* Login Form as Modal */}
-            <Modal
-                visible={isLoginModalVisible}
-                transparent
-                animationType="slide"
-                onRequestClose={closeLoginModal}
-            >
+            <Modal visible={isCategoryModalVisible} transparent animationType="slide" onRequestClose={closeCategoryModal}>
+                <View style={styles.categoryModalContainer}>
+                    <View style={styles.categoryModalContent}>
+                        <FlatList
+                            data={categories}
+                            keyExtractor={(item) => item}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity style={styles.categoryItem} onPress={() => selectCategory(item)}>
+                                    <Text style={styles.categoryText}>{item}</Text>
+                                </TouchableOpacity>
+                            )}
+                        />
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal visible={isLoginModalVisible} transparent animationType="slide" onRequestClose={closeLoginModal}>
                 <View style={styles.modalContainer}>
                     <View style={[styles.modalContent, { maxHeight: '70%' }]}>
                         <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -128,10 +143,7 @@ export default function WelcomeScreen() {
                             <Text style={styles.label}>Пароль</Text>
                             <TextInput style={styles.input} placeholder="" secureTextEntry />
                             <TouchableOpacity style={styles.loginFormButton} onPress={closeLoginModal}>
-                                <LinearGradient
-                                    colors={['#83B620', '#97D125', '#83B620']}
-                                    style={styles.loginFormGradientButton}
-                                >
+                                <LinearGradient colors={['#83B620', '#97D125', '#83B620']} style={styles.loginFormGradientButton}>
                                     <Text style={styles.buttonText}>Увійти</Text>
                                 </LinearGradient>
                             </TouchableOpacity>
@@ -299,5 +311,30 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         alignItems: 'center',
         width: '100%',
+    },
+    selectedCategoryText: {
+        color: '#333',
+    },
+    categoryModalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    categoryModalContent: {
+        width: '80%',
+        maxHeight: '50%',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+    },
+    categoryItem: {
+        paddingVertical: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+    },
+    categoryText: {
+        fontSize: 18,
+        color: '#333',
     },
 });

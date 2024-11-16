@@ -56,6 +56,7 @@ const Header = () => {
       </h1>
       <nav>
         <ul>
+        <li><Link to="/profile-provider">Профіль постачальника</Link></li>
           <li><Link to="/">Головна</Link></li>
           <li><Link to="/services">Послуги</Link></li>
           <li><Link to="/providers">Постачальники</Link></li>
