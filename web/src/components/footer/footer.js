@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import './footer.css';
 import raccoonImage from './raccoon.gif'; // Импортируем локальное изображение
+import soundFile from './raccoon.mp3';
 
 const Footer = () => {
+  const audioRef = useRef(null); 
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const toggleSound = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+    } else {
+      if (!audioRef.current) {
+        audioRef.current = new Audio(soundFile);
+      }
+      audioRef.current.play();
+      setIsPlaying(true);
+      audioRef.current.onended = () => {
+        setIsPlaying(false);
+      };
+    }
+  };
+
   return (
     <footer className="footer">
       {/* Заголовок EVENTUS */}
@@ -31,6 +52,7 @@ const Footer = () => {
           src={raccoonImage} // Используем импортированное изображение
           alt="Profile"
           className="footer-profile-image"
+          onClick={toggleSound}
         />
       </div>
     </footer>
