@@ -1,80 +1,263 @@
-.profile-provider {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 100px;
-    width: 100%;
-    height: 80vh;
-    background-color: #000000;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 20px;
-    box-sizing: border-box;
+.profile-provider-main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 100px;
+  width: 100%;
+  height: 60vh;
+  background-color: #000000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .block:first-child {
-    width: 300px;
+  width: 300px;
 }
 
 .block:nth-child(2),
 .block:nth-child(3) {
-    width: 400px;
+  width: 400px;
 }
 
 .block {
-    background-color: rgba(0, 0, 0, 0.67); 
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    text-align: center;
-    position: relative; 
-    padding-top: 30px; 
+  background-color: rgba(0, 0, 0, 0.67);
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  text-align: center;
+  position: relative;
+  padding-top: 30px;
+  max-height: 400px;
 }
 
 .icon-pencil {
-    position: absolute; 
-    top: 10px; 
-    right: 20px; 
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 
 .user-icon {
-    width: 150px;
+  width: 150px;
 }
 
 .user-info {
-    color: #ffffff;
+  color: #ffffff;
 }
 
 .user-info h3 {
-    margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 .user-info p {
-    margin-top: 0;
-    font-size:12px;
+  margin-top: 0;
+  font-size: 12px;
 }
 
 .links {
-    text-align: center; 
+  text-align: center;
 }
 
 .reviews,
 .logout {
-    text-decoration: none;
-    color: #ffffff;
-    display: block; 
+  text-decoration: none;
+  color: #ffffff;
+  display: block;
 }
 
 .logout {
-    margin: 30px 0 40px 20px; 
-    text-align: left;
+  margin: 30px 0 40px 20px;
+  text-align: left;
 }
-.profile-provider-rating{
-    width: 100px;
+.profile-provider-rating {
+  width: 100px;
 }
-.second-block-header p{
-color:#ffffff;
+.second-block-header p {
+  color: #ffffff;
+}
+.third-block-header p {
+  color: #ffffff;
+}
+.my-services {
+  max-height: 270px;
+  overflow-y: auto;
+}
+.my-services-package {
+  max-height: 270px;
+  overflow-y: auto;
+}
+.my-service-item {
+  padding: 10px;
+  margin: 10px auto;
+  width: 250px;
+  background-color: rgba(74, 74, 74, 0.6);
+  border-radius: 10px;
+  text-align: left;
+  font-weight: 600;
+  color: #ffffff;
+}
+.my-services-package-item {
+  padding: 10px;
+  margin: 10px auto;
+  width: 250px;
+  background-color: rgba(74, 74, 74, 0.6);
+  border-radius: 10px;
+  text-align: left;
+  font-weight: 600;
+  color: #ffffff;
+}
+.plus-my-services {
+  margin: 20px 0 15px 0;
+  width: 20px;
+  cursor: pointer;
+}
+.plus-my-services-package {
+  margin: 20px 0 15px 0;
+  width: 20px;
+}
+.reviews-section {
+  padding: 20px;
+  text-align: center;
+  background-color: #000000;
+  background-image: url("../assets/profile-fon.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.reviews-section h3 {
+  color: #ffffff;
+}
+.reviews-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.review-item {
+  width: calc(25% - 20px);
+  padding: 15px;
+  border-radius: 10px;
+  color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  flex-shrink: 0;
+  background-color: rgba(0, 0, 0, 0.67);
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+.review-item-main {
+  display: flex;
+  justify-content: space-between;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.review-user-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 20px 0 15px;
+}
+
+.review-info {
+  flex-grow: 1;
+  margin: 15px 0 0 0;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #bbb;
+}
+
+.review-rating-photo {
+  width: 80px;
+  margin: 20px 10px 0 0;
+}
+
+.review-text {
+  text-align: left;
+  margin: 15px;
+}
+
+@media (max-width: 1024px) {
+  .review-item {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 600px) {
+  .review-item {
+    width: 100%;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.modal-content form input {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #444;
+  color: #fff;
+  box-sizing: border-box;
+}
+.modal-content form textarea {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #444;
+  box-sizing: border-box;
+}
+
+.modal-content form button {
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content form button[type="button"] {
+  background-color: #f44336;
+}
+
+.modal-content form button:hover {
+  background-color: #0056b3;
+}
+
+.modal-content form button[type="button"]:hover {
+  background-color: #d32f2f;
 }
