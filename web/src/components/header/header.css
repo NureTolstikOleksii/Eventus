@@ -1,33 +1,45 @@
-/* header.css */
-
+/* Основной стиль для хедера */
 header {
   background-color: #000; /* Темный фон */
   color: #fff; /* Белый текст */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 20px; /* Уменьшенные вертикальные отступы для уменьшения высоты */
+  padding: 10px 20px; /* Увеличенные вертикальные отступы */
   font-weight: 400;
   font-size: 0.9rem;
-  height: 50px; /* Фиксированная высота для хедера */
+  height: 75px; /* Увеличенная высота хедера */
   box-sizing: border-box; /* Учитывает отступы в высоте */
 }
+
 
 header h1 {
   display: flex;
   align-items: center;
   font-weight: bold;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.7rem;
   margin: 0;
 }
 
 header h1 img {
-  width: 25px; /* Уменьшенный логотип */
+  width: 50px; /* Уменьшенный логотип */
   height: auto;
   margin-right: 8px;
 }
 
+/* Убираем подчеркивание для ссылки вокруг логотипа */
+.logo-link {
+  text-decoration: none; /* Убирает подчеркивание */
+  color: inherit; /* Наследует цвет текста */
+}
+
+.logo-link:hover {
+  text-decoration: none; /* Убирает подчеркивание при наведении */
+  color: inherit; /* Сохраняет цвет текста */
+}
+
+/* Стили навигации */
 nav ul {
   list-style: none;
   display: flex;
@@ -47,12 +59,6 @@ nav ul li a {
 nav ul li a:hover {
   color: #41a53a;
 }
-
-/* Отступ для основного контента */
-main {
-  padding-top: 60px; /* Отступ на случай фиксированной высоты хедера */
-}
-
 
 .logout-button {
   border: none;

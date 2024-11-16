@@ -50,17 +50,17 @@ const Header = () => {
 
   return (
     <header>
-      <h1>
-        <img src={logo} alt="Eventus Logo" />
-        Eventus
-      </h1>
+      <Link to="/" className="logo-link">
+        <h1>
+          <img src={logo} alt="Eventus Logo" />
+          Eventus
+        </h1>
+      </Link>
       <nav>
         <ul>
-        <li><Link to="/profile-provider">Профіль постачальника</Link></li>
-        <li><Link to="/view-profile-provider">Вид постачальника</Link></li>
-          <li><Link to="/">Головна</Link></li>
+          <li><Link to="/profile-provider">Профіль постачальника</Link></li>
+          <li><Link to="/view-profile-provider">Вид постачальника</Link></li>
           <li><Link to="/services">Послуги</Link></li>
-          <li><Link to="/providers">Постачальники</Link></li>
           {userName ? (
             <>
               <li><Link to="/profile">Привіт, {userName}</Link></li>

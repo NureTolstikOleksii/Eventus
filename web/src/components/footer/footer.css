@@ -1,39 +1,59 @@
-/* src/components/footer/footer.css */
+/* Основной стиль подвала */
+.footer {
+  background-color: #000; /* Черный фон */
+  color: #e6e6e6; /* Светлый текст */
+  padding: 30px 10px; /* Увеличенные отступы сверху и снизу */
+  font-family: 'Arial', sans-serif;
+  font-size: 0.9rem;
+  position: relative;
+}
 
-footer {
-    background-color: #000000;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-    font-size: 0.9rem;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  footer p {
-    margin: 0;
-    padding-bottom: 10px;
-  }
-  
-  footer nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-  }
-  
-  footer nav ul li {
-    margin: 0;
-  }
-  
-  footer nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  
-  footer nav ul li a:hover {
-    color: #41a53a;
-  }
-  
+/* Заголовок EVENTUS */
+.footer-header {
+  text-align: left; /* Выравнивание по левому краю */
+  margin-bottom: 10px; /* Увеличенный отступ между заголовком и колонками */
+  padding-left: 30px; /* Отступ от края */
+}
+
+.footer-header h2 {
+  font-size: 1.5rem; /* Увеличенный размер заголовка */
+  font-weight: bold;
+  color: #ffffff; /* Белый цвет текста */
+  margin: 0;
+}
+
+/* Контейнер для колонок */
+.footer-container {
+  display: flex;
+  justify-content: flex-start; /* Колонки выровнены влево */
+  align-items: flex-start;
+  gap: 1px; /* Расстояние между колонками */
+  padding-left: 30px; /* Отступ текста слева */
+
+}
+
+/* Колонки */
+.footer-column {
+  flex: 1;
+  text-align: left;
+}
+
+.footer-column p {
+  margin: 3px 0;
+  line-height: 1.4; /* Оптимальная читаемость текста */
+}
+
+/* Картинка профиля */
+.footer-profile {
+  position: absolute;
+  top: 15px; /* Увеличенное расстояние от верха */
+  right: 30px; /* Отступ от правого края */
+}
+
+.footer-profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; /* Круглая форма */
+  object-fit: cover;
+
+}
