@@ -79,4 +79,76 @@ export class ServicesService {
             throw new Error('Failed to retrieve service calendar: ' + error.message);
         }
     }
+
+    // Метод для получения отзывов о поставщике
+    async getProviderReviews(db, providerId) {
+    try {
+        const query = `
+            SELECT 
+                r.review_id, 
+                r.rating, 
+                r.comment, 
+                r.review_date, 
+                c.name AS customer_name
+            FROM Review r
+            JOIN Customer c ON r.customer_id = c.customer_id
+            WHERE r.provider_id = ?
+        `;
+        const reviews = await db.all(query, [providerId]);
+
+        return reviews || [];
+    } catch (error) {
+        throw new Error('Ошибка при получении отзывов о поставщике: ' + error.message);
+    }
+
+    
+    }
+
+    // Метод для получения полного текста отзыва
+    async getFullReview(db, reviewId) {
+        try {
+            const query = `
+            SELECT 
+                r.review_id, 
+                r.rating, 
+                r.comment, 
+                r.review_date, 
+                c.name AS customer_name
+            FROM Review r
+            JOIN Customer c ON r.customer_id = c.customer_id
+            WHERE r.review_id = ?
+        `;
+        const review = await db.get(query, [reviewId]);
+
+        return review || null;
+        } catch (error) {
+        throw new Error('Ошибка при получении полного текста отзыва: ' + error.message);
+     }
+    }
+
+
+    // Метод для получения пакетов услуг поставщика
+    async getProviderPackages(db, providerId) {
+    try {
+        const query = `
+            SELECT 
+                pp.package_id, 
+                pp.name AS package_name, 
+                pp.description, 
+                pp.price, 
+                GROUP_CONCAT(s.name) AS included_services
+            FROM Package pp
+            JOIN Service_Package sp ON pp.package_id = sp.package_id
+            JOIN Service s ON sp.service_id = s.service_id
+            WHERE pp.provider_id = ?
+            GROUP BY pp.package_id
+        `;
+        const packages = await db.all(query, [providerId]);
+
+        return packages || [];
+    } catch (error) {
+        throw new Error('Ошибка при получении пакетов услуг: ' + error.message);
+    }
+    }
+
 }

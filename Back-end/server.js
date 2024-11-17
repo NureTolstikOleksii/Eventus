@@ -12,6 +12,7 @@ import { servicesRouter } from './src/services/services.controller.js';
 import { mainScreenRouter } from './src/main_screen/main_screen.controller.js';
 
 
+
 dotenv.config();
 
 const app = express();
@@ -49,7 +50,7 @@ async function main() {
     app.use('/profile', profileRouter);   
     app.use('/services', servicesRouter);
     app.use('/main_screen', mainScreenRouter);
-
+   
     //Зміна даних профілю
     app.use('/change_data', changeDataRouter);
     //Пошук
