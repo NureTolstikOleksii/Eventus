@@ -225,7 +225,9 @@
   text-align: center;
   box-sizing: border-box;
 }
-
+.modal-content form{
+  background-color: #444;
+}
 .modal-content form input {
   width: 100%;
   border-radius: 5px;
@@ -242,22 +244,3 @@
   box-sizing: border-box;
 }
 
-.modal-content form button {
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.modal-content form button[type="button"] {
-  background-color: #f44336;
-}
-
-.modal-content form button:hover {
-  background-color: #0056b3;
-}
-
-.modal-content form button[type="button"]:hover {
-  background-color: #d32f2f;
-}
