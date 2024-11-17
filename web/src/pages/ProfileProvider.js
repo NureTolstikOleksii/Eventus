@@ -5,10 +5,14 @@ import pencil from "../assets/pencil.png";
 import star from "../assets/star.png";
 import user from "../assets/user.png";
 import plus from "../assets/plus.png";
+import checkMark from "../assets/checkMark.png";
+import arrow from "../assets/arrow.png";
 import { Link } from "react-router-dom";
 
 function ProfileProvider() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
+  const [isAddServiceModalOpen, setIsAddServiceModalOpen] = useState(false);
 
   const services = [
     "Букет",
@@ -41,6 +45,10 @@ function ProfileProvider() {
 
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
+  const handlePackageModalOpen = () => setIsPackageModalOpen(true);
+  const handlePackageModalClose = () => setIsPackageModalOpen(false);
+  const handleAddServiceModalOpen = () => setIsAddServiceModalOpen(true);
+  const handleAddServiceModalClose = () => setIsAddServiceModalOpen(false);
 
   return (
     <div className="profile-provider">
@@ -107,9 +115,12 @@ function ProfileProvider() {
             ))}
           </div>
           <div className="add-service-package">
-            <Link to="/add-service-package">
-              <img src={plus} alt="Plus" className="plus-my-services-package" />
-            </Link>
+            <img
+              src={plus}
+              alt="Plus"
+              className="plus-my-services-package"
+              onClick={handlePackageModalOpen}
+            />
           </div>
         </div>
       </div>
@@ -142,33 +153,133 @@ function ProfileProvider() {
           ))}
         </div>
       </div>
+
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
+            <div className="form-buttons">
+              <img
+                src={arrow}
+                alt="arrow"
+                className="arrow-my-services-package"
+                onClick={handleModalClose}
+              />
+              <img
+                src={checkMark}
+                alt="checkMark"
+                className="check-mark-my-services-package"
+              />
+            </div>
             <h2>Додавання</h2>
             <form>
               <div className="form-group">
-                <input type="file" accept="image/*" />
+                <label htmlFor="input-image">Фото</label>
+                <input type="file" id="input-image" accept="image/*" />
               </div>
+
               <div className="form-group">
-                <input type="text" placeholder="Назва" required />
+                <label htmlFor="input-title">Назва</label>
+                <input type="text" id="input-title" required />
               </div>
+
               <div className="form-group">
-                <textarea placeholder="Опис" required></textarea>
+                <label htmlFor="input-description">Опис</label>
+                <textarea id="input-description" required></textarea>
               </div>
+
               <div className="form-group">
-                <input type="number" placeholder="Ціна" required />
+                <label htmlFor="input-price">Ціна</label>
+                <input type="number" id="input-price" required />
               </div>
+
               <div className="form-group">
-                <input type="text" placeholder="Час роботи" required />
-              </div>
-              <div className="form-buttons">
-                <button type="submit">Додати</button>
-                <button type="button" onClick={handleModalClose}>
-                  Закрити
-                </button>
+                <label htmlFor="input-hours">Час роботи</label>
+                <input type="text" id="input-hours" required />
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {isPackageModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <div className="form-buttons">
+              <img
+                src={arrow}
+                alt="arrow"
+                className="arrow-my-services-package"
+                onClick={handlePackageModalClose}
+              />
+              <img
+                src={checkMark}
+                alt="checkMark"
+                className="check-mark-my-services-package"
+              />
+            </div>
+            <h2>Пакет послуг</h2>
+            <form>
+              <div className="form-group">
+                <label htmlFor="input-package-image">Фото</label>
+                <input type="file" id="input-package-image" accept="image/*" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="input-package-title">Назва</label>
+                <input type="text" id="input-package-title" required />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="input-package-description">Опис</label>
+                <textarea id="input-package-description" required></textarea>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="input-package-price">Ціна</label>
+                <input type="number" id="input-package-price" required />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="input-package-duration">Тривалість</label>
+                <input type="number" id="input-package-duration" required />
+              </div>
+
+              <div className="form-group add-service-to-package">
+                <label>Додати послугу</label>
+                <img
+                  src={plus}
+                  alt="Plus"
+                  className="plus-my-services-package"
+                  onClick={handleAddServiceModalOpen}
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {isAddServiceModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <div className="form-buttons">
+              <img
+                src={arrow}
+                alt="arrow"
+                className="arrow-my-services-package"
+                onClick={handleAddServiceModalClose}
+              />
+            </div>
+            <h3>Додати послугу</h3>
+            <div className="form-group">
+              <label>Послуги:</label>
+              <select>
+                {services.map((service, index) => (
+                  <option key={index} value={service}>
+                    {service}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button className="add-service-button">Додати до пакету</button>
           </div>
         </div>
       )}
