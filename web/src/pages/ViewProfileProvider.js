@@ -4,7 +4,8 @@ import profileFon from '../assets/profile-fon.png';
 import user from '../assets/user.png';
 import reviewUser from '../assets/dimon.jpg';
 import star from "../assets/star.png";
-
+import serviceImage1 from "../assets/red-roses.jpg";
+import serviceImage2 from "../assets/flowers-image.jpg";
 
 function ViewProfileProvider() {
     const [expandedBlock, setExpandedBlock] = useState(null);
@@ -25,7 +26,7 @@ function ViewProfileProvider() {
             author: "Дмитро",
             date: "14.11.2024",
             content: "Отримав букет для особливого свята. Загальний вигляд був симпатичним, але квіти не простояли навіть декілька днів. Здається, що використовувались вже не найсвіжіші квіти. Сервіс непоганий, але є простір для покращення саме у якості квітів.",
-            rating: 3,
+            rating: 2,
         },
         {
             author: "димончик лимончик",
@@ -34,6 +35,25 @@ function ViewProfileProvider() {
             rating: 5,
         }
     ];
+
+    // Пример данных для услуг
+    const services = [
+        {
+            title: "Букет з червоних роз",
+            price: "20 000",
+            description: "Розкішний букет із червоних троянд – це втілення пристрасті, кохання та бездоганної елегантності. Глибокий червоний колір пелюсток символізує щирість почуттів і силу емоцій. Такий букет стане ідеальним подарунком для вираження любові, поваги чи вдячності, доповнюючи важливий момент нотками вишуканості й тепла.",
+            image: serviceImage1,
+            rating: 4,
+        },
+        {
+            title: "Весільний букет",
+            price: "15 000",
+            description: "Ідеальний букет для найважливішого дня. Виготовлений із свіжих квітів найвищої якості.",
+            image: serviceImage2,
+            rating: 5,
+        },
+    ];
+
 
     return (
         <div
@@ -47,8 +67,8 @@ function ViewProfileProvider() {
                     <h3>Валєра Х</h3>
                     <p>Назва організації</p>
                     <div className="rating">
-            <img src={star} alt="rating" className="profile-provider-rating" />
-          </div>
+                        <img src={star} alt="rating" className="profile-provider-rating" />
+                    </div>
                 </div>
             </div>
 
@@ -59,16 +79,70 @@ function ViewProfileProvider() {
             >
                 <div>Послуги</div>
                 <div className="block-content">
-                    <p>Тут отображается список услуг, предлагаемых пользователем.</p>
+                    {services.map((service, index) => (
+                        <div key={index} className="service-card">
+                            <div className="service-image-container">
+                                <img src={service.image} alt={service.title} className="service-image" />
+                            </div>
+                            <div className="service-content">
+                                <div className="service-header">
+                                    <h3 className="service-title">{service.title}</h3>
+                                    <div className="service-header-price">
+                                        <span className="service-price">{service.price} грн</span>
+                                        <button
+                                            className="order-button"
+                                            onClick={(event) => {
+                                                event.stopPropagation(); // Останавливаем распространение клика
+                                                console.log("Кнопка 'Замовити' нажата");
+                                            }}
+                                        >
+                                            Замовити
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <div className="service-rating">
+                                    {[...Array(5)].map((_, i) => (
+                                        <svg
+                                            key={i}
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill={i < service.rating ? "gold" : "none"}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="star-icon"
+                                        >
+                                            <path
+                                                d="M12 2L14.9264 8.60145L22 9.40402L17 14.1986L18.8528 21.596L12 17.8L5.14722 21.596L7 14.1986L2 9.40402L9.07355 8.60145L12 2Z"
+                                                stroke="gold"
+                                                strokeWidth="1.2"
+                                            />
+                                        </svg>
+                                    ))}
+                                </div>
+                                <p className="service-description">{service.description}</p>
+
+                            </div>
+                        </div>
+                    ))}
                 </div>
+
+
+
             </div>
+
+
+
+
+
+
             <div
                 className={`full-width-block ${expandedBlock === 2 ? "expanded" : "collapsed"}`}
                 onClick={() => toggleBlock(2)}
             >
                 <div>Пакети послуг</div>
                 <div className="block-content">
-                    <p>Описание пакетов услуг.</p>
+                    <p>а нет их</p>
                 </div>
             </div>
             <div
