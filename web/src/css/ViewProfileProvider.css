@@ -94,3 +94,59 @@
   opacity: 1;
   transform: scaleY(1); /* Раскрытие содержимого */
 }
+
+.review-card {
+  background-color: rgba(47, 255, 0, 0.1);
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  padding: 15px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-left {
+  display: flex;
+  align-items: center;
+}
+
+.review-author-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 2px solid #fff;
+}
+
+.review-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.review-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #bbbbbb;
+}
+
+.review-rating {
+  font-size: 25px;
+  color: gold;
+  text-align: right;
+}
+
+.review-content {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 0px;
+  margin-left: 5px;
+  font-weight: 450; 
+}
