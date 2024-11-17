@@ -56,8 +56,8 @@ const ProviderProfile: React.FC = () => {
                     <Text style={styles.bottomMenuText}>Головна</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Чек-лист</Text>
+                    <Image source={require('../../assets/images/add.png')} style={styles.menuIcon} />
+                    <Text style={styles.bottomMenuText}>Додати</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
                     <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
