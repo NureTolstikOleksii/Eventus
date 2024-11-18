@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../css/Login.css";
 import google from "../assets/google.png";
 import { Link, useNavigate } from "react-router-dom";
+import profileFon from "../assets/profile-fon.png";
+
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -93,6 +95,8 @@ function Login() {
   };
 
   return (
+
+    
     <div className="login">
       <form onSubmit={handleSubmit}>
         <h2 className="main-text">УВІЙТИ</h2>

@@ -109,3 +109,158 @@
   background-repeat: no-repeat;
   background-attachment: fixed; /* Фиксируем фон при прокрутке */
 }
+
+/* Секция категорий */
+.categories {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px; /* Расстояние между иконками */
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.category-item {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease;
+  border: 3px solid #8abc54; /* Зеленая рамка */ /* Зеленая рамка вокруг иконки */
+  border-radius: 50%; /* Закругленные углы, чтобы рамка была круглой */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Тень для рамки */
+}
+
+.category-item:hover {
+  transform: scale(1.1); /* Легкое увеличение при наведении */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Усиленная тень при наведении */
+}
+
+.category-item img {
+  width: 100%; /* Иконка занимает 70% блока */
+  height: 100%; /* Подгоняем по размеру */
+  object-fit: contain; /* Масштабируем содержимое */
+  border-radius: 50%; /* Убедимся, что и картинка соответствует форме рамки */
+}
+
+
+
+/* Стили карточек пакетов */
+.top-packages {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 80px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.package-card {
+  background-color: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон */
+  border-radius: 10px; /* Закругленные углы */
+  padding: 10px; /* Внутренние отступы */
+  text-align: center;
+  color: #fff; /* Белый текст */
+  max-width: 300px; /* Ограничение ширины */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень */
+  transition: transform 0.3s ease; /* Анимация при наведении */
+  border-radius: 10px; /* Закругленные углы */
+  border: 2px solid #133f02;
+}
+
+.package-card:hover {
+  transform: scale(1.05); /* Легкое увеличение */
+  background-color: rgba(12, 77, 2, 0.308);
+}
+
+.package-card img {
+  width: 100%; /* Ширина по размеру карточки */
+  height: 180px; /* Фиксированная высота изображения */
+  object-fit: cover; /* Обрезка для сохранения пропорций */
+  border-radius: 10px; /* Закругленные углы */
+  margin-bottom: 10px; /* Отступ снизу */
+
+  border: 1px solid #133f02;
+  
+}
+
+.package-card h3 {
+  font-size: 1.2rem; /* Размер заголовка */
+  margin: 10px 0;
+}
+
+.package-card p {
+  font-size: 0.9rem; /* Размер текста описания */
+  line-height: 1.5; /* Увеличение межстрочного интервала для читабельности */
+}
+
+
+
+/* Стили карточек услуг */
+/* Секция с топ услугами */
+
+.top-services {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 50px; /* Расстояние между карточками */
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.top-services-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.top-service-card {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  padding: 15px;
+  width: 180px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  border: 2px solid #133f02;
+}
+
+.top-service-card:hover {
+  transform: scale(1.05); /* Легкое увеличение при наведении */
+  background-color: rgba(12, 77, 2, 0.308);
+}
+
+.top-service-image-container {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #8abc54; /* Зеленая рамка */
+}
+
+.top-service-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Картинка обрезается по форме */
+}
+
+.top-service-title {
+  font-size: 1rem;
+  color: #ffffff;
+  margin-top: 10px;
+}
+
+.top-service-provider {
+  font-size: 0.85rem;
+  color: #cccccc;
+  margin-top: 5px;
+}
+
+.top-service-rating {
+  color: #dbf518; /* Желтые звезды */
+  font-size: 1.5rem;
+  margin-top: 1px;
+}
