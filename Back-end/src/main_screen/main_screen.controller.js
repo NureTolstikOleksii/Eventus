@@ -39,10 +39,4 @@ router.get('/main_screen/reviews/:serviceId', async (req, res) => {
     }
 });
 
-// Фільтр
-router.post('/', async (req, res) => {
-    //далі буде
-});
-
-
 export const mainScreenRouter = router;

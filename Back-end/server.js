@@ -10,6 +10,7 @@ import { searchRouter } from './src/search/search.controller.js';
 import { profileRouter } from './src/profile/profile.controller.js';
 import { servicesRouter } from './src/services/services.controller.js';
 import { mainScreenRouter } from './src/main_screen/main_screen.controller.js';
+import { filterRouter } from './src/filtering/filter.controller.js';
 
 dotenv.config();
 
