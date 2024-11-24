@@ -133,5 +133,45 @@ export class ChangeDataService {
             throw new Error('Error updating organization name: ' + error.message);
         }
     }
-        
+
+    // Зміна контактної інформації постачальника
+    async updateProviderContactInfo(db, providerId, newPhone, newEmail) {
+        try {
+        this.validateContactInfo(newPhone, newEmail);
+
+        await db.run(
+            'UPDATE Provider SET phone = ?, email = ? WHERE provider_id = ?',
+            [newPhone || null, newEmail || null, providerId]
+        );
+        return { message: 'Contact information updated successfully' };
+        } catch (error) {
+        throw new Error('Error updating provider contact information: ' + error.message);
+        }
+    }
+
+    // Зміна контактної інформації замовника
+    async updateUserContactInfo(db, userId, newPhone, newEmail) {
+        try {
+        this.validateContactInfo(newPhone, newEmail);
+
+        await db.run(
+            'UPDATE User SET phone_number = ?, email = ? WHERE user_id = ?',
+            [newPhone || null, newEmail || null, userId]
+        );
+        return { message: 'Contact information updated successfully' };
+        } catch (error) {
+        throw new Error('Error updating user contact information: ' + error.message);
+    }
+    }
+
+    // Загальна функція для перевірки контактної інформації
+    validateContactInfo(phone, email) {
+    const phoneRegex = /^\+?[0-9]{7,15}$/;
+    if (phone && !phoneRegex.test(phone)) {
+        throw new Error('Enter a valid phone number');
+    }
+    if (email && !this.#emailRegex.test(email)) {
+        throw new Error('Enter a valid email address');
+    }
+    }   
 }
