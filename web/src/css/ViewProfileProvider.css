@@ -61,12 +61,7 @@
 }
 
 .full-width-block:hover {
-  background-color: rgba(
-    66,
-    252,
-    110,
-    0.1
-  ); /* Лёгкое осветление при наведении */
+  background-color: rgba(12, 77, 2, 0.308);
   border-color: #ffffff;
 }
 
@@ -156,7 +151,17 @@
   font-weight: 450; 
 }
 
+.review-image {
+  margin-left: 15px;
+}
 
+.review-thumbnail {
+  width: 300px;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover; /* Обрезка изображения, чтобы сохранить пропорции */
+  border: 2px solid #ffffff;
+}
 
 
 /* стили услуг */
