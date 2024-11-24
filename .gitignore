@@ -1,5 +1,5 @@
 # Игнорирование всех файлов с расширением .db
-# *.db
+*.db
 
 # Игнорирование конкретного пути
-# Back-end/database/eventus.db
+Back-end/database/eventus.db
