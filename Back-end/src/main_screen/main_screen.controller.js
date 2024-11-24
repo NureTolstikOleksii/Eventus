@@ -39,4 +39,14 @@ router.get('/main_screen/reviews/:serviceId', async (req, res) => {
     }
 });
 
+// Повернення топ послуг за рейтингом
+router.get('/top_services', async (req, res) => {
+    try {
+        const result = await mainScreenService.getTopServices(req.db);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to retrieve top services', error: error.message });
+    }
+});
+
 export const mainScreenRouter = router;

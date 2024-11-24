@@ -50,4 +50,23 @@ export default class MainScreenService {
             throw new Error('Error fetching reviews for service: ' + error.message);
         }
     }
+
+    // Повернення топ послуг за рейтингом
+    async getTopServices(db) {
+        const limit = 5; // Установлено значение по умолчанию 10
+        try {
+            const services = await db.all(
+                'SELECT * FROM Service ORDER BY raiting DESC LIMIT ?', 
+                [limit]
+            );
+    
+            if (!services || services.length === 0) {
+                throw new Error('No services found');
+            }
+    
+            return { message: 'Top services retrieved successfully', data: services };
+        } catch (error) {
+            throw new Error('Error fetching top services: ' + error.message);
+        }
+    }
 }
