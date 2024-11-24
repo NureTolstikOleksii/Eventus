@@ -1,4 +1,26 @@
 export default class MainScreenService {
+
+    //Головний екран: іконки категорій
+    async getServicesByCategory(db, categoryName) {
+        try {
+            // Перевірка наявності категорії
+            const category = await db.get('SELECT * FROM Categories WHERE name = ?', [categoryName]);
+            if (!category) {
+                throw new Error('Category not found');
+            }
+    
+            // Отримання послуг за категорією
+            const services = await db.all('SELECT * FROM Services WHERE category = ?', [categoryName]);
+            if (!services || services.length === 0) {
+                throw new Error('No services found for the specified category');
+            }
+    
+            return { message: 'Services retrieved successfully', data: services };
+        } catch (error) {
+            throw new Error('Error fetching services by category: ' + error.message);
+        }
+    }
+
     // Повернення усіх послуг постачальника
     async getServicesByProvider(db, providerId) {
         try {
