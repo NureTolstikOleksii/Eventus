@@ -58,6 +58,14 @@ function ViewProfileProvider() {
         },
     ];
 
+    // Пример данных профиля
+    const profileData = {
+        name: "Валєра Х",
+        organization: "РОМАШКА",
+        image: user,
+        rating: 4, // рейтинг в виде числа (от 0 до 5)
+    };
+
 
     return (
         <div
@@ -67,14 +75,38 @@ function ViewProfileProvider() {
             {/* Верхний блок */}
             <div className="upper-block">
                 <div className="user-info">
-                    <img src={user} alt="User" className="user-icon" />
-                    <h3>Валєра Х</h3>
-                    <p>Назва організації</p>
+                    {/* Изображение пользователя */}
+                    <img src={profileData.image} alt="User" className="user-icon" />
+
+                    {/* Имя пользователя */}
+                    <h3>{profileData.name}</h3>
+
+                    {/* Название организации */}
+                    <p>{profileData.organization}</p>
+
+                    {/* Рейтинг */}
                     <div className="rating">
-                        <img src={star} alt="rating" className="profile-provider-rating" />
+                        {[...Array(5)].map((_, i) => (
+                            <svg
+                                key={i}
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill={i < profileData.rating ? "gold" : "none"}
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="star-icon"
+                            >
+                                <path
+                                    d="M12 2L14.9264 8.60145L22 9.40402L17 14.1986L18.8528 21.596L12 17.8L5.14722 21.596L7 14.1986L2 9.40402L9.07355 8.60145L12 2Z"
+                                    stroke="gold"
+                                    stroke-width="1.2"
+                                />
+                            </svg>
+                        ))}
                     </div>
                 </div>
             </div>
+
 
             {/* Три нижних блока */}
             <div
@@ -85,7 +117,7 @@ function ViewProfileProvider() {
                 <div className="block-content">
                     {services.map((service, index) => (
                         <div key={index} className="service-card"
-                        onClick={(event) => event.stopPropagation()} // Останавливаем всплытие события
+                            onClick={(event) => event.stopPropagation()} // Останавливаем всплытие события
                         >
                             <div className="service-image-container">
                                 <img src={service.image} alt={service.title} className="service-image" />
@@ -162,9 +194,9 @@ function ViewProfileProvider() {
                 <div className="block-content">
                     {reviews.map((review, index) => (
                         <div key={index} className="review-card"
-                        onClick={(event) => event.stopPropagation()} // Останавливаем всплытие события
+                            onClick={(event) => event.stopPropagation()} // Останавливаем всплытие события
                         >
-                            
+
                             <div className="review-header">
                                 <div className="review-left">
                                     <img src={reviewUser} alt="Author" className="review-author-icon" />
@@ -199,7 +231,7 @@ function ViewProfileProvider() {
                                 <img src={review.image} alt="Review Visual" className="review-thumbnail" />
                             </div>
 
-                            
+
                         </div>
                     ))}
                 </div>

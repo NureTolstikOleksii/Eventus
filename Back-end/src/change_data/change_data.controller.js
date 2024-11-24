@@ -100,4 +100,37 @@ router.put('/update_user_email', async (req, res) => {
     }
 });
 
+// Зміна контактної інформації постачальника
+router.put('/update_provider_contact_info', async (req, res) => {
+    const { newPhone, newEmail } = req.body;
+
+    if (!req.session.userId || req.session.userRole !== 'provider') {
+        return res.status(403).json({ message: 'Access denied' });
+    }
+
+    try {
+        const result = await changeDataService.updateProviderContactInfo(req.db, req.session.userId, newPhone, newEmail);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update contact information', error: error.message });
+    }
+});
+
+// Зміна контактної інформації замовника
+router.put('/update_user_contact_info', async (req, res) => {
+    const { newPhone, newEmail } = req.body;
+
+    if (!req.session.userId || req.session.userRole !== 'customer') {
+        return res.status(403).json({ message: 'Access denied' });
+    }
+
+    try {
+        const result = await changeDataService.updateUserContactInfo(req.db, req.session.userId, newPhone, newEmail);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update contact information', error: error.message });
+    }
+});
+
+
 export const changeDataRouter = router;

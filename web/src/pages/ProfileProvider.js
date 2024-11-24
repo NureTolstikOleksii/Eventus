@@ -7,6 +7,7 @@ import user from "../assets/user.png";
 import plus from "../assets/plus.png";
 import checkMark from "../assets/checkMark.png";
 import arrow from "../assets/arrow.png";
+import serviceImage1 from "../assets/red-roses.jpg";
 import { Link } from "react-router-dom";
 
 function ProfileProvider() {
@@ -32,14 +33,17 @@ function ProfileProvider() {
     {
       name: "Дмитро",
       text: "Отримав букет для особливого свята. Загальний вигляд був симпатичним, але квіти не простояли навіть декілька днів. Здається, що використовувались вже не найсвіжіші квіти. Сервіс непоганий, але є простір для покращення саме у якості квітів.",
+      serviceImage: "../assets/serviceImage1.png",
     },
     {
       name: "Дмитро",
       text: "Прекрасний букет! Квіти свіжі, ароматні, оформлення стильне. Дуже задоволена, обов’язково замовлятиму ще!",
+      serviceImage: "../assets/serviceImage1.png",
     },
     {
       name: "Дмитро",
       text: "Прекрасний букет! Квіти свіжі, ароматні, оформлення стильне. Дуже задоволена, обов’язково замовлятиму ще!",
+      serviceImage: "../assets/serviceImage1.png",
     },
   ];
 
@@ -126,33 +130,37 @@ function ProfileProvider() {
       </div>
 
       <div className="reviews-section">
-        <h3>Відгуки</h3>
-        <div className="reviews-container">
-          {reviews.map((review, index) => (
-            <div key={index} className="review-item">
-              <div className="review-item-main">
-                <div className="review-header">
-                  <img src={user} alt="User" className="review-user-photo" />
-                  <div className="review-info">
-                    <strong>{review.name}</strong>
-                    <p className="review-date">Дата додавання: 20.11.2024</p>
-                  </div>
-                </div>
-                <div className="review-rating">
-                  <img
-                    src={star}
-                    alt="Rating"
-                    className="review-rating-photo"
-                  />
-                </div>
-              </div>
-              <div className="review-text">
-                <p>{review.text}</p>
-              </div>
+  <h3>Відгуки</h3>
+  <div className="reviews-container">
+    {reviews.map((review, index) => (
+      <div key={index} className="review-item">
+        <div className="review-item-main">
+          <div className="review-header">
+            <img src={user} alt="User" className="review-user-photo" />
+            <div className="review-info">
+              <strong>{review.name}</strong>
+              <p className="review-date">Дата додавання: 20.11.2024</p>
             </div>
-          ))}
+          </div>
+          <div className="review-rating">
+            <img src={star} alt="Rating" className="review-rating-photo" />
+          </div>
+        </div>
+        <div className="review-text">
+          <p>{review.text}</p>
+        </div>
+        <div className="review-image">
+          <img
+            src={serviceImage1}
+            alt="Service"
+            className="review-service-image"
+          />
         </div>
       </div>
+    ))}
+  </div>
+</div>
+
 
       {isModalOpen && (
         <div className="modal">
