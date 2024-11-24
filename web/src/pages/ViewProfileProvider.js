@@ -21,20 +21,24 @@ function ViewProfileProvider() {
             date: "14.11.2024",
             content: "ИМБА",
             rating: 5,
+            image: serviceImage1, // Укажите URL изображения
         },
         {
             author: "Дмитро",
             date: "14.11.2024",
             content: "Отримав букет для особливого свята. Загальний вигляд був симпатичним, але квіти не простояли навіть декілька днів. Здається, що використовувались вже не найсвіжіші квіти. Сервіс непоганий, але є простір для покращення саме у якості квітів.",
             rating: 2,
+            image: "https://example.com/image2.jpg", // Укажите URL изображения
         },
         {
             author: "димончик лимончик",
             date: "14.11.2024",
             content: "Спочатку я був растроєн сервісом. Квіти доставили в жахливому стані – зів’ялі й зламані. Від такого подарунка не оставиться ніяких позитивних емоцій! – подумав я. Але оказалось, шо казати бабло на ветер – це ваще нє про Валєру. Валєра, продавец, спокойно сказав: Та це ж не букет, це віник для бані, шеф! Ща все буде як надо. І правда, через час я вже держал у руках свіжий, розкішний букет, як будто його щас собрали в райському саду. Валєра добавив: Якшо шось не так – обращайтесь, я з веніка для бані шедевр сделаю!",
             rating: 5,
+            image: "https://example.com/image3.jpg", // Укажите URL изображения
         }
     ];
+
 
     // Пример данных для услуг
     const services = [
@@ -80,7 +84,9 @@ function ViewProfileProvider() {
                 <div>Послуги</div>
                 <div className="block-content">
                     {services.map((service, index) => (
-                        <div key={index} className="service-card">
+                        <div key={index} className="service-card"
+                        onClick={(event) => event.stopPropagation()} // Останавливаем всплытие события
+                        >
                             <div className="service-image-container">
                                 <img src={service.image} alt={service.title} className="service-image" />
                             </div>
@@ -145,6 +151,9 @@ function ViewProfileProvider() {
                     <p>а нет их</p>
                 </div>
             </div>
+
+
+
             <div
                 className={`full-width-block ${expandedBlock === 3 ? "expanded" : "collapsed"}`}
                 onClick={() => toggleBlock(3)}
@@ -152,7 +161,10 @@ function ViewProfileProvider() {
                 <div>Відгуки</div>
                 <div className="block-content">
                     {reviews.map((review, index) => (
-                        <div key={index} className="review-card">
+                        <div key={index} className="review-card"
+                        onClick={(event) => event.stopPropagation()} // Останавливаем всплытие события
+                        >
+                            
                             <div className="review-header">
                                 <div className="review-left">
                                     <img src={reviewUser} alt="Author" className="review-author-icon" />
@@ -182,6 +194,12 @@ function ViewProfileProvider() {
                                 </div>
                             </div>
                             <p className="review-content">{review.content}</p>
+
+                            <div className="review-image">
+                                <img src={review.image} alt="Review Visual" className="review-thumbnail" />
+                            </div>
+
+                            
                         </div>
                     ))}
                 </div>
