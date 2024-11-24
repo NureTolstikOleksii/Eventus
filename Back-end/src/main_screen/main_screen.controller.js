@@ -4,6 +4,17 @@ import MainScreenService from './main_screen.service.js';
 const router = Router();
 const mainScreenService = new MainScreenService();
 
+//Головний екран: іконки категорій
+router.get('/main_screen/services_by_category/:categoryName', async (req, res) => {
+    const { categoryName } = req.params;
+    try {
+        const result = await mainScreenService.getServicesByCategory(req.db, categoryName);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to retrieve services by category', error: error.message });
+    }
+});
+
 // Повернення усіх послуг постачальника
 router.get('/main_screen/services/:providerId', async (req, res) => {
     const { providerId } = req.params;
