@@ -11,8 +11,6 @@ import { profileRouter } from './src/profile/profile.controller.js';
 import { servicesRouter } from './src/services/services.controller.js';
 import { mainScreenRouter } from './src/main_screen/main_screen.controller.js';
 
-
-
 dotenv.config();
 
 const app = express();
@@ -29,9 +27,9 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         maxAge: 24 * 60 * 60 * 1000, // 24 часа
-        secure: process.env.NODE_ENV === 'production', // true для HTTPS в продакшене
-        httpOnly: true, // Защита от XSS
-        sameSite: 'lax' // Защита от CSRF
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        sameSite: 'lax'
     }
 }));
 
@@ -50,12 +48,12 @@ async function main() {
     app.use('/profile', profileRouter);   
     app.use('/services', servicesRouter);
     app.use('/main_screen', mainScreenRouter);
-   
-    //Зміна даних профілю
     app.use('/change_data', changeDataRouter);
-    //Пошук
     app.use('/search', searchRouter);
+    app.use('/filtering', filterRouter);
   
+
+
     //Для перевірки існування сесії
     app.get('/session', (req, res) => {
         if (req.session && req.session.userId) {
