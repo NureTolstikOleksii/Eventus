@@ -57,41 +57,102 @@ const HomeScreen: React.FC = () => {
                     </TouchableOpacity>
                 </ScrollView>
 
-                <Text style={styles.sectionTitle}>Топ пакетів</Text>
+                <Text style={styles.sectionTitle}>Топ послуг</Text>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.topPackages}>
                     <View style={styles.packageItem}>
                         <Image source={require('../../assets/images/birthday.png')} style={styles.packageImage} />
-                        <Text style={styles.packageText}></Text>
+                        <View style={styles.packageLabel}>
+                            <Text style={styles.packageLabelText}>День народження</Text>
+                        </View>
                     </View>
                     <View style={styles.packageItem}>
-                        <Image source={require('../../assets/images/wedding.png')} style={styles.packageImage} />
-                        <Text style={styles.packageText}></Text>
+                        <Image source={require('../../assets/images/birthday.png')} style={styles.packageImage} />
+                        <View style={styles.packageLabel}>
+                            <Text style={styles.packageLabelText}>День народження</Text>
+                        </View>
                     </View>
                     <View style={styles.packageItem}>
-                        <Image source={require('../../assets/images/rip.png')} style={styles.packageImage} />
-                        <Text style={styles.packageText}></Text>
+                        <Image source={require('../../assets/images/birthday.png')} style={styles.packageImage} />
+                        <View style={styles.packageLabel}>
+                            <Text style={styles.packageLabelText}>День народження</Text>
+                        </View>
                     </View>
                 </ScrollView>
 
-                <Text style={styles.topServicesTitle}>Топ послуг:</Text>
-                <View style={styles.servicesContainer}>
-                    <View style={styles.serviceItem}>
-                        <Text style={styles.serviceTitle}>Флористика</Text>
-                        <Text style={styles.serviceDescription}>— оформлення квітами та композиції.</Text>
+                <Text style={styles.topPackagesTitle}>Топ пакетів:</Text>
+                <ScrollView horizontal={false} showsVerticalScrollIndicator={false} style={styles.topPackagesWrapper}>
+                    <View style={styles.topPackageCard}>
+                        <Image source={require('../../assets/images/birthday.png')} style={styles.topPackageImage} />
+                        <View style={styles.topPackageDetails}>
+                            <Text style={styles.topPackageTitle}>День народження</Text>
+                            <View style={styles.topPackageRating}>
+                                {[...Array(5)].map((_, index) => (
+                                    <FontAwesome
+                                        key={index}
+                                        name="star"
+                                        size={16}
+                                        color={index < 3 ? '#FFD700' : '#ccc'} // 3 заполненные звезды
+                                        style={{ marginHorizontal: 4 }} // Увеличенное расстояние
+                                    />
+                                ))}
+                            </View>
+                        </View>
                     </View>
-                    <View style={styles.serviceItem}>
-                        <Text style={styles.serviceTitle}>Декор</Text>
-                        <Text style={styles.serviceDescription}>— оформлення локацій, меблі, текстиль, елементи декору.</Text>
+                    <View style={styles.topPackageCard}>
+                        <Image source={require('../../assets/images/birthday.png')} style={styles.topPackageImage} />
+                        <View style={styles.topPackageDetails}>
+                            <Text style={styles.topPackageTitle}>День народження</Text>
+                            <View style={styles.topPackageRating}>
+                                {[...Array(5)].map((_, index) => (
+                                    <FontAwesome
+                                        key={index}
+                                        name="star"
+                                        size={16}
+                                        color={index < 3 ? '#FFD700' : '#ccc'} // 3 заполненные звезды
+                                        style={{ marginHorizontal: 4 }} // Увеличенное расстояние
+                                    />
+                                ))}
+                            </View>
+                        </View>
                     </View>
-                    <View style={styles.serviceItem}>
-                        <Text style={styles.serviceTitle}>Кейтеринг</Text>
-                        <Text style={styles.serviceDescription}>— організація харчування, напої, сервірування.</Text>
+                    <View style={styles.topPackageCard}>
+                        <Image source={require('../../assets/images/birthday.png')} style={styles.topPackageImage} />
+                        <View style={styles.topPackageDetails}>
+                            <Text style={styles.topPackageTitle}>День народження</Text>
+                            <View style={styles.topPackageRating}>
+                                {[...Array(5)].map((_, index) => (
+                                    <FontAwesome
+                                        key={index}
+                                        name="star"
+                                        size={16}
+                                        color={index < 3 ? '#FFD700' : '#ccc'} // 3 заполненные звезды
+                                        style={{ marginHorizontal: 4 }} // Увеличенное расстояние
+                                    />
+                                ))}
+                            </View>
+                        </View>
                     </View>
-                    <View style={styles.serviceItem}>
-                        <Text style={styles.serviceTitle}>Фотографія та відеозйомка</Text>
-                        <Text style={styles.serviceDescription}>— фотографи, відеооператори, фотозони.</Text>
+                    <View style={styles.topPackageCard}>
+                        <Image source={require('../../assets/images/birthday.png')} style={styles.topPackageImage} />
+                        <View style={styles.topPackageDetails}>
+                            <Text style={styles.topPackageTitle}>День народження</Text>
+                            <View style={styles.topPackageRating}>
+                                {[...Array(5)].map((_, index) => (
+                                    <FontAwesome
+                                        key={index}
+                                        name="star"
+                                        size={16}
+                                        color={index < 3 ? '#FFD700' : '#ccc'} // 3 заполненные звезды
+                                        style={{ marginHorizontal: 4 }} // Увеличенное расстояние
+                                    />
+                                ))}
+                            </View>
+                        </View>
                     </View>
-                </View>
+
+                </ScrollView>
+
+
             </ScrollView>
             {/* Модальное окно фильтрации */}
             <Modal visible={isFilterVisible} transparent={true} animationType="slide">
@@ -110,7 +171,7 @@ const HomeScreen: React.FC = () => {
                                     <FontAwesome
                                         name={selectedCategories[category] ? "check-square" : "square-o"}
                                         size={24}
-                                        color={selectedCategories[category] ? "#6fa32b" : "#FF7043"}
+                                        color={selectedCategories[category] ? "#83B620" : "#83B620"}
                                     />
                                     <Text style={{ marginLeft: 8 }}>{category}</Text>
                                 </TouchableOpacity>
@@ -128,7 +189,7 @@ const HomeScreen: React.FC = () => {
                                     <FontAwesome
                                         name={selectedRating === rating ? "check-square" : "square-o"}
                                         size={24}
-                                        color={selectedRating === rating ? "#6fa32b" : "#FF7043"}
+                                        color={selectedRating === rating ? "#83B620" : "#83B620"}
                                     />
                                     <View style={styles.ratingStars}>
                                         {[...Array(rating)].map((_, i) => (
@@ -142,7 +203,7 @@ const HomeScreen: React.FC = () => {
 
                         <TouchableOpacity style={styles.applyButton} onPress={() => setFilterVisible(false)}>
                             <LinearGradient
-                                colors={['#FFAE55', '#FF7E3E']}
+                                colors={['#83B620', '#83B620']}
                                 style={styles.applyGradientButton}
                             >
                                 <Text style={styles.applyButtonText}>Застосувати</Text>
@@ -194,7 +255,7 @@ const styles = StyleSheet.create({
     placeholderText: { color: '#888' },
     filterButton: { marginLeft: 10, justifyContent: 'center', alignItems: 'center' },
     filterIcon: { width: 24, height: 24 },
-    sectionTitle: { fontSize: 18, fontWeight: 'bold', color: '#fff', marginVertical: 10, paddingHorizontal: 20 },
+    sectionTitle: { fontSize: 24, color: '#fff', marginVertical: 10, paddingHorizontal: 20 },
     topServicesTitle: {
         fontSize: 18,
         color: '#335237',
@@ -205,8 +266,12 @@ const styles = StyleSheet.create({
     categoryItem: { alignItems: 'center', marginHorizontal: 10 },
     icon: { width: 40, height: 40 },
     topPackages: { paddingHorizontal: 20, marginBottom: 10 },
-    packageItem: { width: 150, marginRight: 15, alignItems: 'center' },
-    packageImage: { width: 150, height: 150, borderRadius: 10 },
+    packageItem: {
+        width: 150,
+        marginRight: 15,
+        alignItems: 'center',
+    },
+    packageImage: { width: 150, height: 150, borderRadius: 20 },
     packageText: { color: '#fff', fontWeight: 'bold', position: 'absolute', bottom: 10, left: 10 },
     servicesContainer: {
         paddingHorizontal: 20,
@@ -267,15 +332,14 @@ const styles = StyleSheet.create({
     modalTitle: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#6fa32b',
+        color: '#83B620',
         marginBottom: 10,
         textAlign: 'center',
         alignSelf: 'center',
         width: '100%'
     },
     filterSectionTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
+        fontSize: 24,
         color: '#333',
         marginVertical: 10,
     },
@@ -317,6 +381,62 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 20,
     },
+    packageLabel: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        backgroundColor: '#6fa32b',
+        paddingVertical: 10, // Увеличено для толщины полосы
+        borderBottomLeftRadius: 15, // Увеличено для большего закругления
+        borderBottomRightRadius: 15, // Увеличено для большего закругления
+        alignItems: 'center',
+    },
+    packageLabelText: {
+        color: '#fff',
+        fontSize: 16, // Сделано крупнее для лучшей видимости
+        textAlign: 'center',
+    },
+    topPackagesTitle: {
+        fontSize: 24,
+        color: '#335237',
+        marginVertical: 10,
+        paddingHorizontal: 20,
+    },
+    topPackagesWrapper: {
+        paddingHorizontal: 20,
+        marginBottom: 10,
+    },
+    topPackageCard: {
+        borderRadius: 15,
+        overflow: 'hidden',
+        backgroundColor: '#83B620',
+        marginBottom: 10,
+    },
+    topPackageImage: {
+        width: '100%',
+        height: 100, // Уменьшенная высота изображения
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+    },
+    topPackageDetails: {
+        padding: 15, // Увеличены отступы
+        backgroundColor: '#6fa32b',
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    topPackageTitle: {
+        color: '#fff',
+        fontSize: 16,
+    },
+    topPackageRating: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+
 
 });
 
