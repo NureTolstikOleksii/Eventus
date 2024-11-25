@@ -84,15 +84,17 @@ const styles = StyleSheet.create({
     },
     serviceItem: {
         backgroundColor: '#A4C644',
-        padding: 15,
+        height: 100, // Фиксированная высота для всех блоков
+        width: '100%',
+        justifyContent: 'center', // Центрирование текста по вертикали
         borderRadius: 10,
         marginBottom: 15, // Расстояние между блоками
-        width: '100%',
+        paddingHorizontal: 15, // Добавлен внутренний отступ для текста
     },
     serviceText: {
-        fontSize: 18,
+        fontSize: 20,
         color: '#ffffff',
-        flexWrap: 'wrap', // Перенос текста на следующую строку
+        textAlign: 'left', // Текст выравнивается по левому краю
     },
     addButton: {
         marginTop: 20, // Отступ сверху для кнопки относительно блоков

@@ -30,7 +30,7 @@ const WishlistScreen: React.FC = () => {
                 <Text style={styles.title}>Список бажань</Text>
             </View>
 
-            <ScrollView contentContainerStyle={styles.wishlistContainer}>
+            <ScrollView contentContainerStyle={[styles.wishlistContainer, { paddingBottom: 100 }]}>
                 {wishlistItems.map((item, index) => (
                     <View key={index} style={styles.itemContainer}>
                         <Image source={item.image} style={styles.itemImage} />
@@ -44,6 +44,11 @@ const WishlistScreen: React.FC = () => {
                     </View>
                 ))}
             </ScrollView>
+
+            <TouchableOpacity style={styles.addButton}>
+                <Image source={require('../../assets/images/plus.png')} style={styles.addIcon} />
+            </TouchableOpacity>
+
 
             <TouchableOpacity style={styles.addButton}>
                 <Image source={require('../../assets/images/plus.png')} style={styles.addIcon} />
@@ -134,14 +139,15 @@ const styles = StyleSheet.create({
 
     },
     addButton: {
-        position: 'absolute', // Фиксированное положение
-        bottom: 370, // Расположение выше внизу экрана
-        alignSelf: 'center',
+        position: 'absolute', // Абсолютное позиционирование
+        bottom: 350, // Расстояние от последнего элемента или нижнего края
+        alignSelf: 'center', // Центрирование по горизонтали
         width: 50,
         height: 50,
         borderRadius: 25,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        elevation: 5, // Для Android
     },
     addIcon: {
         width: 30,

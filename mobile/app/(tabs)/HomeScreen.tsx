@@ -3,12 +3,25 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'rea
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import { Modal } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import Slider from '@react-native-community/slider';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
+
 
 const HomeScreen: React.FC = () => {
     const [isFilterVisible, setFilterVisible] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState<Record<string, boolean>>({});
     const [selectedRating, setSelectedRating] = useState<number | null>(null);
+    const [minPrice, setMinPrice] = useState<string>(''); // Для минимальной цены
+    const [maxPrice, setMaxPrice] = useState<string>(''); // Для максимальной цены
+    const topPackages = [
+        { title: 'День народження', image: require('../../assets/images/birthday.png'), rating: 4, price: 500 },
+        { title: 'День народження', image: require('../../assets/images/birthday.png'), rating: 5, price: 1500 },
+        { title: 'День народження', image: require('../../assets/images/birthday.png'), rating: 3, price: 1200 },
+        { title: 'День народження', image: require('../../assets/images/birthday.png'), rating: 3, price: 1200 },
+
+    ];
+
+    const [filteredPackages, setFilteredPackages] = useState(topPackages);
 
     const toggleCategory = (category: string) => {
         setSelectedCategories((prevState) => ({
@@ -20,7 +33,19 @@ const HomeScreen: React.FC = () => {
     const toggleRating = (rating: number) => {
         setSelectedRating(rating === selectedRating ? null : rating);
     };
+    const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]); // Диапазон цен: [минимум, максимум]
 
+    // Функция фильтрации
+    const applyFilters = () => {
+        const [min, max] = priceRange; // Минимальная и максимальная цена из слайдера
+        const filtered = topPackages.filter(
+            (pkg) =>
+                pkg.price >= min &&
+                pkg.price <= max &&
+                (selectedRating === null || pkg.rating === selectedRating)
+        );
+        setFilteredPackages(filtered); // Обновляем отображаемые пакеты
+    };
 
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
@@ -79,77 +104,30 @@ const HomeScreen: React.FC = () => {
                     </View>
                 </ScrollView>
 
-                <Text style={styles.topPackagesTitle}>Топ пакетів:</Text>
-                <ScrollView horizontal={false} showsVerticalScrollIndicator={false} style={styles.topPackagesWrapper}>
-                    <View style={styles.topPackageCard}>
-                        <Image source={require('../../assets/images/birthday.png')} style={styles.topPackageImage} />
-                        <View style={styles.topPackageDetails}>
-                            <Text style={styles.topPackageTitle}>День народження</Text>
-                            <View style={styles.topPackageRating}>
-                                {[...Array(5)].map((_, index) => (
-                                    <FontAwesome
-                                        key={index}
-                                        name="star"
-                                        size={16}
-                                        color={index < 3 ? '#FFD700' : '#ccc'} // 3 заполненные звезды
-                                        style={{ marginHorizontal: 4 }} // Увеличенное расстояние
-                                    />
-                                ))}
+                <ScrollView style={styles.scrollContainer}>
+                    <Text style={styles.greenSectionTitle}>Топ пакетів:</Text>
+                    <ScrollView horizontal={false} showsVerticalScrollIndicator={false} style={styles.topPackagesWrapper}>
+                        {topPackages.map((pkg, index) => (
+                            <View key={index} style={styles.topPackageCard}>
+                                <Image source={pkg.image} style={styles.topPackageImage} />
+                                <View style={styles.topPackageDetails}>
+                                    <Text style={styles.topPackageTitle}>{pkg.title}</Text>
+                                    <Text style={styles.topPackageTitle}>{pkg.price} грн</Text>
+                                    <View style={styles.topPackageRating}>
+                                        {[...Array(5)].map((_, i) => (
+                                            <FontAwesome
+                                                key={i}
+                                                name="star"
+                                                size={16}
+                                                color={i < pkg.rating ? "#FFD700" : "#ccc"} // Жёлтые звёзды для рейтинга, серые для отсутствующих
+                                                style={{ marginRight: 4 }} // Добавляем отступы между звёздами
+                                            />
+                                        ))}
+                                    </View>
+                                </View>
                             </View>
-                        </View>
-                    </View>
-                    <View style={styles.topPackageCard}>
-                        <Image source={require('../../assets/images/birthday.png')} style={styles.topPackageImage} />
-                        <View style={styles.topPackageDetails}>
-                            <Text style={styles.topPackageTitle}>День народження</Text>
-                            <View style={styles.topPackageRating}>
-                                {[...Array(5)].map((_, index) => (
-                                    <FontAwesome
-                                        key={index}
-                                        name="star"
-                                        size={16}
-                                        color={index < 3 ? '#FFD700' : '#ccc'} // 3 заполненные звезды
-                                        style={{ marginHorizontal: 4 }} // Увеличенное расстояние
-                                    />
-                                ))}
-                            </View>
-                        </View>
-                    </View>
-                    <View style={styles.topPackageCard}>
-                        <Image source={require('../../assets/images/birthday.png')} style={styles.topPackageImage} />
-                        <View style={styles.topPackageDetails}>
-                            <Text style={styles.topPackageTitle}>День народження</Text>
-                            <View style={styles.topPackageRating}>
-                                {[...Array(5)].map((_, index) => (
-                                    <FontAwesome
-                                        key={index}
-                                        name="star"
-                                        size={16}
-                                        color={index < 3 ? '#FFD700' : '#ccc'} // 3 заполненные звезды
-                                        style={{ marginHorizontal: 4 }} // Увеличенное расстояние
-                                    />
-                                ))}
-                            </View>
-                        </View>
-                    </View>
-                    <View style={styles.topPackageCard}>
-                        <Image source={require('../../assets/images/birthday.png')} style={styles.topPackageImage} />
-                        <View style={styles.topPackageDetails}>
-                            <Text style={styles.topPackageTitle}>День народження</Text>
-                            <View style={styles.topPackageRating}>
-                                {[...Array(5)].map((_, index) => (
-                                    <FontAwesome
-                                        key={index}
-                                        name="star"
-                                        size={16}
-                                        color={index < 3 ? '#FFD700' : '#ccc'} // 3 заполненные звезды
-                                        style={{ marginHorizontal: 4 }} // Увеличенное расстояние
-                                    />
-                                ))}
-                            </View>
-                        </View>
-                    </View>
-
+                        ))}
+                    </ScrollView>
                 </ScrollView>
 
 
@@ -160,6 +138,7 @@ const HomeScreen: React.FC = () => {
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>Фільтрація</Text>
 
+                        {/* Фильтр по категориям */}
                         <Text style={styles.filterSectionTitle}>Категорія</Text>
                         <View style={styles.checkboxContainer}>
                             {["Флористика", "Їжа", "Локації", "Зйомка", "Декор", "Розваги", "Організація", "Одяг та краса", "Транспорт", "Оренда"].map((category) => (
@@ -171,7 +150,7 @@ const HomeScreen: React.FC = () => {
                                     <FontAwesome
                                         name={selectedCategories[category] ? "check-square" : "square-o"}
                                         size={24}
-                                        color={selectedCategories[category] ? "#83B620" : "#83B620"}
+                                        color={selectedCategories[category] ? "#83B620" : "#ccc"}
                                     />
                                     <Text style={{ marginLeft: 8 }}>{category}</Text>
                                 </TouchableOpacity>
@@ -189,23 +168,57 @@ const HomeScreen: React.FC = () => {
                                     <FontAwesome
                                         name={selectedRating === rating ? "check-square" : "square-o"}
                                         size={24}
-                                        color={selectedRating === rating ? "#83B620" : "#83B620"}
+                                        color={selectedRating === rating ? "#83B620" : "#ccc"}
                                     />
                                     <View style={styles.ratingStars}>
-                                        {[...Array(rating)].map((_, i) => (
-                                            <FontAwesome key={i} name="star" size={20} color="orange" />
+                                        {[...Array(5)].map((_, i) => (
+                                            <FontAwesome
+                                                key={i}
+                                                name="star"
+                                                size={20}
+                                                color={i < rating ? "#6fa32b" : "#ddd"} // Зелёные звезды для рейтинга, серые для оставшихся
+                                                style={styles.starIcon}
+
+                                            />
                                         ))}
                                     </View>
                                 </TouchableOpacity>
                             ))}
                         </View>
-
-
-                        <TouchableOpacity style={styles.applyButton} onPress={() => setFilterVisible(false)}>
-                            <LinearGradient
-                                colors={['#83B620', '#83B620']}
-                                style={styles.applyGradientButton}
-                            >
+                        {/* Слайдер для выбора диапазона цен */}
+                        <Text style={styles.filterSectionTitle}>Ціна</Text>
+                        <View style={styles.sliderContainer}>
+                            <View style={styles.priceRow}>
+                                <Text style={styles.priceLabel}>{priceRange[0]} грн</Text>
+                                <Text style={styles.priceLabel}>{priceRange[1]} грн</Text>
+                            </View>
+                            <MultiSlider
+                                values={priceRange}
+                                sliderLength={250}
+                                onValuesChange={(values) => setPriceRange(values)}
+                                min={0}
+                                max={2000}
+                                step={100}
+                                selectedStyle={{
+                                    backgroundColor: '#6fa32b', // Цвет активной линии
+                                }}
+                                unselectedStyle={{
+                                    backgroundColor: '#ddd', // Цвет неактивной линии
+                                }}
+                                markerStyle={{
+                                    backgroundColor: '#6fa32b', // Цвет маркеров
+                                }}
+                            />
+                        </View>
+                        {/* Кнопка "Застосувати" */}
+                        <TouchableOpacity
+                            style={styles.applyButton}
+                            onPress={() => {
+                                applyFilters();
+                                setFilterVisible(false);
+                            }}
+                        >
+                            <LinearGradient colors={['#83B620', '#83B620']} style={styles.applyGradientButton}>
                                 <Text style={styles.applyButtonText}>Застосувати</Text>
                             </LinearGradient>
                         </TouchableOpacity>
@@ -361,11 +374,14 @@ const styles = StyleSheet.create({
     ratingItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 5,
+        marginBottom: 10,
     },
     ratingStars: {
         flexDirection: 'row',
-        marginLeft: 8,
+        marginLeft: 10,
+    },
+    starIcon: {
+        marginRight: 5, // Расстояние между звездами
     },
     applyButton: {
         marginTop: 20,
@@ -436,7 +452,62 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
+    priceFilterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginVertical: 10,
+    },
+    priceInput: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        padding: 10,
+        width: '45%',
+        textAlign: 'center',
+    },
+    sliderContainer: {
+        marginVertical: 20,
+        alignItems: 'center',
+    },
+    sliderRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    priceLabel: {
+        fontSize: 14,
+        color: 'black', // Цвет текста
+    },
+    slider: {
+        flex: 1,
+        marginHorizontal: 10, // Расстояние между ползунками и текстом
+    },
 
-
+    sliderValues: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Разместить элементы по краям
+        paddingHorizontal: 20, // Отступы от краёв
+        marginBottom: 10,
+    },
+    priceText: {
+        fontSize: 16, // Размер текста
+        color: '#333', // Цвет текста
+    },
+    priceValue: {
+        fontWeight: 'bold', // Выделение чисел
+        color: '#6fa32b', // Цвет чисел
+    },
+    priceRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Расположить текстовые элементы по краям
+        width: 250, // Ширина контейнера с текстом должна соответствовать слайдеру
+        marginBottom: 10, // Отступ от текста до слайдера
+    },
+    greenSectionTitle: {
+        fontSize: 24, // Размер текста
+        color: '#335237', // Зеленый цвет
+        marginVertical: 10,
+        paddingHorizontal: 20,
+    },
 });
 

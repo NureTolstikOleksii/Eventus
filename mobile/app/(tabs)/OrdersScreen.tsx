@@ -14,7 +14,7 @@ const OrdersScreen: React.FC = () => {
             </View>
 
             {/* Список заказов */}
-            <ScrollView contentContainerStyle={styles.ordersContainer}>
+            <ScrollView contentContainerStyle={[styles.ordersContainer, { paddingBottom: 100 }]}>
                 {[
                     { title: 'Букет', date: '12/08/2024', price: '1 000 грн', image: require('../../assets/images/bouquet.png') },
                     { title: 'Банкет', date: '15/04/2024', price: '10 000 грн', image: require('../../assets/images/banquet.png') },
@@ -33,12 +33,11 @@ const OrdersScreen: React.FC = () => {
                         </View>
                     </View>
                 ))}
-
-                {/* Кнопка добавления заказа */}
-                <TouchableOpacity style={styles.addButton}>
-                    <Image source={require('../../assets/images/plus.png')} style={styles.addIcon} />
-                </TouchableOpacity>
             </ScrollView>
+
+            <TouchableOpacity style={styles.addButton}>
+                <Image source={require('../../assets/images/plus.png')} style={styles.addIcon} />
+            </TouchableOpacity>
 
             {/* Нижнее меню с пользовательскими иконками */}
             <View style={styles.bottomMenu}>
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
     ordersContainer: {
         paddingHorizontal: 20,
         paddingTop: 10,
-        paddingBottom: 20,
+        paddingBottom: 100,
     },
     orderItem: {
         backgroundColor: '#ffffff',
@@ -137,10 +136,15 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     addButton: {
-        alignSelf: 'center',
-        marginTop: 20,
+        position: 'absolute', // Абсолютное позиционирование
+        bottom: 450, // Расстояние от последнего элемента или нижнего края
+        alignSelf: 'center', // Центрирование по горизонтали
+        width: 50,
+        height: 50,
+        borderRadius: 25,
         alignItems: 'center',
         justifyContent: 'center',
+        elevation: 5, // Для Android
     },
     addIcon: {
         width: 30,
