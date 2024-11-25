@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet, Picker } from 'react-native';
+import { useFonts, Kurale_400Regular } from '@expo-google-fonts/kurale';
+import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Picker } from '@react-native-picker/picker';
 
 const ProviderProfile: React.FC = () => {
     const [isModalVisible, setModalVisible] = useState(false);
@@ -9,6 +11,8 @@ const ProviderProfile: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [userName, setUserName] = useState('Lee Know'); // Имя пользователя
+    const [organizationName, setOrganizationName] = useState('Назва організації'); // Название организации
 
     const fields = [
         { label: "Повне ім'я", placeholder: 'Нове ім\'я' },
@@ -51,8 +55,8 @@ const ProviderProfile: React.FC = () => {
             {/* Інформація профілю */}
             <View style={styles.profileContainer}>
                 <Image source={require('../../assets/images/providerphoto.png')} style={styles.profileImage} />
-                <Text style={styles.userName}>Lee Know</Text>
-                <Text style={styles.organizationName}>Назва організації</Text>
+                <Text style={styles.userName}>{userName}</Text>
+                <Text style={styles.organizationName}>{organizationName}</Text>
                 <View style={styles.starsContainer}>
                     {[...Array(4)].map((_, index) => (
                         <Image
@@ -149,6 +153,26 @@ const ProviderProfile: React.FC = () => {
                     </TouchableOpacity>
                 </View>
             </Modal>
+
+            {/* Нижнее меню */}
+            <View style={styles.bottomMenu}>
+                <TouchableOpacity style={styles.bottomMenuItem}>
+                    <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />
+                    <Text style={styles.bottomMenuText}>Головна</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomMenuItem}>
+                    <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
+                    <Text style={styles.bottomMenuText}>Чек-лист</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomMenuItem}>
+                    <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
+                    <Text style={styles.bottomMenuText}>Чат</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomMenuItem}>
+                    <Image source={require('../../assets/images/user.png')} style={styles.menuIcon} />
+                    <Text style={styles.bottomMenuText}>Профіль</Text>
+                </TouchableOpacity>
+            </View>
         </LinearGradient>
     );
 };
@@ -180,14 +204,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 20,
-        alignItems: 'flex-start', // Выровнять содержимое по левому краю
+        alignItems: 'flex-start',
     },
     modalTitle: {
         fontSize: 20,
         marginBottom: 15,
         color: '#6fa32b',
-        textAlign: 'center', // Заголовок по левому краю
-        width: '100%', // Заголовок будет занимать всю ширину
+        textAlign: 'center',
+        width: '100%',
     },
     optionButton: {
         width: '100%',
@@ -196,14 +220,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#cde2a6',
         marginBottom: 10,
-        textAlign: 'left', // Текст кнопок выбора по левому краю
     },
     optionButtonSelected: { backgroundColor: '#6fa32b' },
-    optionText: {
-        fontSize: 16,
-        color: '#ffffff',
-        textAlign: 'left', // Текст внутри кнопок выбора по левому краю
-    },
+    optionText: { fontSize: 16, color: '#ffffff' },
     input: {
         width: '100%',
         height: 50,
@@ -214,7 +233,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 15,
         backgroundColor: '#f5f9e9',
-        textAlign: 'left', // Текст ввода по левому краю
     },
     saveButton: {
         backgroundColor: '#6fa32b',
@@ -234,6 +252,37 @@ const styles = StyleSheet.create({
         marginTop: 15,
         backgroundColor: '#f5f9e9',
     },
+
+    userName: {
+        fontSize: 24, // Увеличенный размер текста для имени
+        fontWeight: 'bold', // Сделать текст жирным
+        color: '#FFFFFF', // Белый цвет текста
+        marginTop: 10, // Отступ сверху
+        textAlign: 'center', // Выравнивание текста по центру
+        fontFamily: 'Kurale_400Regular', // Шрифт Kurale
+    },
+    organizationName: {
+        fontSize: 16, // Чуть меньший размер текста
+        color: '#FFFFFF', // Белый цвет текста
+        marginTop: 5, // Небольшой отступ сверху
+        textAlign: 'center', // Выравнивание текста по центру
+        fontFamily: 'Kurale_400Regular', // Шрифт Kurale
+    },
+
+    bottomMenu: {
+        position: 'absolute',
+        bottom: 0,
+        flexDirection: 'row',
+        width: '100%',
+        backgroundColor: '#ffffff',
+        paddingVertical: 10,
+        justifyContent: 'space-around',
+        borderTopWidth: 1,
+        borderTopColor: '#e0e0e0',
+    },
+    bottomMenuItem: { alignItems: 'center' },
+    menuIcon: { width: 24, height: 24 },
+    bottomMenuText: { fontSize: 12, color: '#6fa32b', fontFamily: 'Kurale_400Regular' },
 });
 
 export default ProviderProfile;
