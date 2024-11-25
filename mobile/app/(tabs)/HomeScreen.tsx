@@ -33,7 +33,7 @@ const HomeScreen: React.FC = () => {
     const toggleRating = (rating: number) => {
         setSelectedRating(rating === selectedRating ? null : rating);
     };
-    const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]); // Диапазон цен: [минимум, максимум]
+    const [priceRange, setPriceRange] = useState([0, 2000]);
 
     // Функция фильтрации
     const applyFilters = () => {
@@ -194,11 +194,11 @@ const HomeScreen: React.FC = () => {
                             </View>
                             <MultiSlider
                                 values={priceRange}
-                                sliderLength={250}
-                                onValuesChange={(values) => setPriceRange(values)}
-                                min={0}
-                                max={2000}
-                                step={100}
+                                sliderLength={250} // Длина слайдера
+                                onValuesChange={(values) => setPriceRange(values)} // Обновляем диапазон цен
+                                min={0} // Минимальное значение
+                                max={2000} // Максимальное значение
+                                step={100} // Шаг изменения значений
                                 selectedStyle={{
                                     backgroundColor: '#6fa32b', // Цвет активной линии
                                 }}
