@@ -4,6 +4,8 @@ import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet } from 'reac
 import Modal from 'react-native-modal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Picker } from '@react-native-picker/picker';
+import Navigation from './app/(tabs)/Navigation';
+
 
 const ProviderProfile: React.FC = () => {
     const [isModalVisible, setModalVisible] = useState(false);
@@ -154,7 +156,7 @@ const ProviderProfile: React.FC = () => {
                 </View>
             </Modal>
 
-            {/* Нижнее меню */}
+            Нижнее меню
             <View style={styles.bottomMenu}>
                 <TouchableOpacity style={styles.bottomMenuItem}>
                     <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />

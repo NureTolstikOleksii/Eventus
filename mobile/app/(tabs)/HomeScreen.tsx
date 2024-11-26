@@ -5,7 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Modal } from 'react-native';
 import Slider from '@react-native-community/slider';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-
+import NavigationPanel from './Navigation'; // Импорт панели
 
 const HomeScreen: React.FC = () => {
     const [isFilterVisible, setFilterVisible] = useState(false);
