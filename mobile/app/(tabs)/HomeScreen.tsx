@@ -226,25 +226,7 @@ const HomeScreen: React.FC = () => {
                 </View>
             </Modal>
 
-            {/* Нижнее меню с пользовательскими иконками */}
-            <View style={styles.bottomMenu}>
-                <TouchableOpacity style={styles.menuItem}>
-                    <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />
-                    <Text style={styles.menuText}>Головна</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.menuItem}>
-                    <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
-                    <Text style={styles.menuText}>Чек-лист</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.menuItem}>
-                    <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
-                    <Text style={styles.menuText}>Чат</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.menuItem}>
-                    <Image source={require('../../assets/images/user.png')} style={styles.menuIcon} />
-                    <Text style={styles.menuText}>Профіль</Text>
-                </TouchableOpacity>
-            </View>
+           
 
         </LinearGradient>
     );

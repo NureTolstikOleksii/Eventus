@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet } from 'reac
 import Modal from 'react-native-modal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Picker } from '@react-native-picker/picker';
-import Navigation from './app/(tabs)/Navigation';
+
 
 
 const ProviderProfile: React.FC = () => {
@@ -156,25 +156,7 @@ const ProviderProfile: React.FC = () => {
                 </View>
             </Modal>
 
-            Нижнее меню
-            <View style={styles.bottomMenu}>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Головна</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Чек-лист</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Чат</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/user.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Профіль</Text>
-                </TouchableOpacity>
-            </View>
+           
         </LinearGradient>
     );
 };
