@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { useFonts, Kurale_400Regular } from '@expo-google-fonts/kurale';
 import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
-import Modal from 'react-native-modal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Picker } from '@react-native-picker/picker';
+import WebView from 'react-native-webview';
 
 
 
@@ -156,7 +155,7 @@ const ProviderProfile: React.FC = () => {
                 </View>
             </Modal>
 
-           
+
         </LinearGradient>
     );
 };
