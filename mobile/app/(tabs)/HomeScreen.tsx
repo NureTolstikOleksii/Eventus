@@ -240,6 +240,11 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
 
+    container: {
+        flex: 1, // Занимает всё пространство экрана
+        backgroundColor: '#fff', // Белый фон (или любой нужный)
+    },
+
     scrollContainer: { flexGrow: 1, paddingBottom: 80 },
     topBar: {
         flexDirection: 'row',

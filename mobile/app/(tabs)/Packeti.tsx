@@ -9,13 +9,13 @@ const PacketiScreen: React.FC = () => {
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
                     <TouchableOpacity style={styles.backButton}>
-                        <Image source={{ uri: '../../assets/images/backarrow.png' }} style={styles.icon} />
+                        <Image source={require('../../assets/images/backarrow.png')} style={styles.icon} />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Пакети послуг</Text>
                 </View>
 
                 <View style={styles.cardContainer}>
-                    <Image source={{ uri: '../../assets/images/flowerspackages.png' }} style={styles.cardImage} resizeMode="cover" />
+                    <Image source={require('../../assets/images/flowerspackages.png')} style={styles.cardImage} resizeMode="cover" />
                     <View style={styles.textContainer}>
                         <Text style={styles.cardTitle}>Пакет “Ніжність”</Text>
                         <Text style={styles.cardPrice}>10 000 грн</Text>
@@ -27,25 +27,25 @@ const PacketiScreen: React.FC = () => {
                             <FontAwesome name="star" size={18} color="#BDBDBD" style={styles.star} />
                         </View>
                     </View>
-                    <Image source={{ uri: '../../assets/images/rightarrow.png' }} style={styles.arrowIcon} />
+                    <Image source={require('../../assets/images/rightarrow.png')} style={styles.arrowIcon} />
                 </View>
             </ScrollView>
 
             <View style={styles.bottomMenu}>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/home.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Головна</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/book.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Чек-лист</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/chat.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Чат</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/user.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/user.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Профіль</Text>
                 </TouchableOpacity>
             </View>
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     star: {
-        marginRight: 4,  // Увеличен интервал между звездами
+        marginRight: 4, // Увеличен интервал между звездами
     },
     arrowIcon: {
         width: 36,

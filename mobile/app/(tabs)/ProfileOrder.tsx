@@ -9,14 +9,14 @@ const ProfileScreen: React.FC = () => {
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
                     <TouchableOpacity style={styles.backButton}>
-                        <Image source={{ uri: '../../assets/images/backarrow.png' }} style={styles.icon} />
+                        <Image source={require('../../assets/images/backarrow.png')} style={styles.icon} />
                     </TouchableOpacity>
-                    <Image source={{ uri: '../../assets/images/chatwhite.png' }} style={styles.icon} />
+                    <Image source={require('../../assets/images/chatwhite.png')} style={styles.icon} />
                 </View>
 
                 <View style={styles.profileContainer}>
                     <View style={styles.avatarWrapper}>
-                        <Image source={{ uri: '../../assets/images/china.png' }} style={styles.avatar} />
+                        <Image source={require('../../assets/images/china.png')} style={styles.avatar} />
                     </View>
                     <Text style={styles.nameText}>Lee Know</Text>
                     <Text style={styles.organizationText}>Назва організації</Text>
@@ -47,19 +47,19 @@ const ProfileScreen: React.FC = () => {
 
             <View style={styles.bottomMenu}>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/home.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Головна</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/book.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Чек-лист</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/chat.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Чат</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/user.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/user.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Профіль</Text>
                 </TouchableOpacity>
             </View>

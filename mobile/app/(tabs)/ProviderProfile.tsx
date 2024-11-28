@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, TextInput, Modal, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Picker } from '@react-native-picker/picker';
 import WebView from 'react-native-webview';
@@ -92,7 +92,7 @@ const ProviderProfile: React.FC = () => {
             </View>
 
             {/* Модальне вікно для редагування */}
-            <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
+            <Modal visible={isModalVisible} transparent={true} onRequestClose={toggleModal}>
                 <View style={styles.modalContainer}>
                     <Text style={styles.modalTitle}>Редагування профілю</Text>
                     {fields.map((field, index) => (
