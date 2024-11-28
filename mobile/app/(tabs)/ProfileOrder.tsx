@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '100%',
         paddingHorizontal: 20,
-        paddingTop: 60,
+        paddingTop: 40,
     },
     backButton: { padding: 5 },
     icon: { width: 24, height: 24 },

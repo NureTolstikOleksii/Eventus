@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         textAlign: 'left', // Текст выравнивается по левому краю
     },
     addButton: {
-        marginTop: 20, // Отступ сверху для кнопки относительно блоков
+        marginTop: 5, // Отступ сверху для кнопки относительно блоков
         width: 50,
         height: 50,
         alignItems: 'center',

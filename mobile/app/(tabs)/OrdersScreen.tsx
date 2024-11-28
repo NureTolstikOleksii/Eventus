@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     },
     addButton: {
         position: 'absolute', // Абсолютное позиционирование
-        bottom: 450, // Расстояние от последнего элемента или нижнего края
+        bottom: 300, // Расстояние от последнего элемента или нижнего края
         alignSelf: 'center', // Центрирование по горизонтали
         width: 50,
         height: 50,
