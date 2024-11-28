@@ -44,16 +44,10 @@ const WishlistScreen: React.FC = () => {
                     </View>
                 ))}
             </ScrollView>
-
             <TouchableOpacity style={styles.addButton}>
                 <Image source={require('../../assets/images/plus.png')} style={styles.addIcon} />
             </TouchableOpacity>
 
-
-            <TouchableOpacity style={styles.addButton}>
-                <Image source={require('../../assets/images/plus.png')} style={styles.addIcon} />
-            </TouchableOpacity>
-            
         </LinearGradient>
     );
 };
@@ -63,9 +57,9 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingTop: 40,
-        paddingBottom: 20,
+        width: '100%',
         paddingHorizontal: 20,
+        paddingTop: 60, // Увеличен отступ сверху
     },
     backIcon: {
         width: 18,
@@ -122,7 +116,7 @@ const styles = StyleSheet.create({
     },
     addButton: {
         position: 'absolute', // Абсолютное позиционирование
-        bottom: 350, // Расстояние от последнего элемента или нижнего края
+        bottom: 250, // Расстояние от последнего элемента или нижнего края
         alignSelf: 'center', // Центрирование по горизонтали
         width: 50,
         height: 50,

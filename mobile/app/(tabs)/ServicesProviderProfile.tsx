@@ -61,9 +61,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingTop: 40,
         paddingBottom: 10,
         paddingHorizontal: 20,
+        paddingTop: 60,
     },
     backIcon: {
         width: 18,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         textAlign: 'left', // Текст выравнивается по левому краю
     },
     addButton: {
-        marginTop: 20, // Отступ сверху для кнопки относительно блоков
+        marginTop: 5, // Отступ сверху для кнопки относительно блоков
         width: 50,
         height: 50,
         alignItems: 'center',

@@ -162,7 +162,7 @@ const ProviderProfile: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
-    header: { flexDirection: 'row', justifyContent: 'space-between', padding: 20, alignItems: 'center' },
+    header: { flexDirection: 'row', justifyContent: 'space-between', padding: 20, alignItems: 'center', paddingTop: 60 },
     title: { fontSize: 20, color: '#ffffff' },
     backIcon: { width: 15, height: 15 },
     editIcon: { width: 28, height: 28 },
