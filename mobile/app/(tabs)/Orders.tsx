@@ -10,9 +10,7 @@ const ServiceScreen: React.FC = () => {
 
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
-                    <TouchableOpacity>
-                        <Image source={require('../../assets/images/arrow.png')} style={styles.backIcon} />
-                    </TouchableOpacity>
+
                     <TouchableOpacity style={styles.backButton}>
                         <Image source={require('../../assets/images/backarrow.png')} style={styles.icon} />
                     </TouchableOpacity>
