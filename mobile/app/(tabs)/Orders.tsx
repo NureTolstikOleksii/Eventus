@@ -1,13 +1,17 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 
 const ServiceScreen: React.FC = () => {
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
+
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
+                    <TouchableOpacity>
+                        <Image source={require('../../assets/images/arrow.png')} style={styles.backIcon} />
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.backButton}>
                         <Image source={{ uri: '../../assets/images/backarrow.png' }} style={styles.icon} />
                     </TouchableOpacity>
@@ -62,7 +66,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         paddingHorizontal: 20,
-        paddingTop: 20,
+        paddingTop: 60, // Увеличен отступ сверху
+    },
+    backIcon: {
+        width: 18,
+        height: 18,
+        tintColor: '#ffffff',
     },
     backButton: { padding: 5 },
     icon: { width: 24, height: 24 },

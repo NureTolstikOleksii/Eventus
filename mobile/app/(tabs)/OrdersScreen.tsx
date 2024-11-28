@@ -7,7 +7,7 @@ const OrdersScreen: React.FC = () => {
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             {/* Шапка с заголовком и стрелкой */}
             <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
+                <TouchableOpacity>
                     <Image source={require('../../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Мої замовлення</Text>
@@ -66,9 +66,9 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingTop: 29,
         paddingBottom: 20,
         paddingHorizontal: 20,
+        paddingTop: 60,
     },
     backButton: {
         position: 'absolute',

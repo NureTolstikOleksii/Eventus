@@ -8,8 +8,8 @@ const ReviewsScreen: React.FC = () => {
         <LinearGradient colors={['#78A519', '#a6cf4a']} style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.backButton}>
-                        <Image source={{ uri: '../../assets/images/backarrow.png' }} style={styles.icon} />
+                    <TouchableOpacity>
+                        <Image source={require('../../assets/images/arrow.png')} style={styles.backIcon} />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Відгуки</Text>
                 </View>
@@ -38,8 +38,8 @@ const ReviewsScreen: React.FC = () => {
                                     {index === 0
                                         ? "Отримав букет для особливого свята. Загальний вигляд був симпатичним, але квіти не простояли навіть декілька днів. Здається, що використовувались вже не найсвіжіші квіти."
                                         : index === 1
-                                        ? "Прекрасний букет! Квіти свіжі, ароматні, оформлення стильне. Дуже задоволена, обов’язково замовлятиму ще!"
-                                        : "Я розчарована сервісом. Квіти доставили в жахливому стані – зв'ялі й зламані. Від такого подарунка не залишилось жодних позитивних емоцій."
+                                            ? "Прекрасний букет! Квіти свіжі, ароматні, оформлення стильне. Дуже задоволена, обов’язково замовлятиму ще!"
+                                            : "Я розчарована сервісом. Квіти доставили в жахливому стані – зв'ялі й зламані. Від такого подарунка не залишилось жодних позитивних емоцій."
                                     }
                                 </Text>
                             </View>
@@ -82,7 +82,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         paddingHorizontal: 20,
-        paddingTop: 20,
+        paddingTop: 60, // Увеличен отступ сверху
+    },
+    backIcon: {
+        width: 18,
+        height: 18,
+        tintColor: '#ffffff',
     },
     backButton: { padding: 5 },
     icon: { width: 24, height: 24 },

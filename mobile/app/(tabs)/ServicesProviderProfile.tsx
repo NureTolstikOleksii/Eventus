@@ -61,9 +61,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingTop: 40,
         paddingBottom: 10,
         paddingHorizontal: 20,
+        paddingTop: 60,
     },
     backIcon: {
         width: 18,

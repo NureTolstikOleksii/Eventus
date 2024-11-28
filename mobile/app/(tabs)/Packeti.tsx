@@ -8,8 +8,8 @@ const PacketiScreen: React.FC = () => {
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.backButton}>
-                        <Image source={{ uri: '../../assets/images/backarrow.png' }} style={styles.icon} />
+                    <TouchableOpacity>
+                        <Image source={require('../../assets/images/arrow.png')} style={styles.backIcon} />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Пакети послуг</Text>
                 </View>
@@ -58,12 +58,17 @@ export default PacketiScreen;
 const styles = StyleSheet.create({
     container: { flex: 1 },
     scrollContainer: { paddingBottom: 80, alignItems: 'center' },
+    backIcon: {
+        width: 18,
+        height: 18,
+        tintColor: '#ffffff',
+    },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
         width: '100%',
         paddingHorizontal: 20,
-        paddingTop: 20,
+        paddingTop: 60, // Увеличен отступ сверху
     },
     backButton: { padding: 5 },
     icon: { width: 24, height: 24 },

@@ -53,7 +53,7 @@ const WishlistScreen: React.FC = () => {
             <TouchableOpacity style={styles.addButton}>
                 <Image source={require('../../assets/images/plus.png')} style={styles.addIcon} />
             </TouchableOpacity>
-            
+
         </LinearGradient>
     );
 };
@@ -63,9 +63,9 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingTop: 40,
-        paddingBottom: 20,
+        width: '100%',
         paddingHorizontal: 20,
+        paddingTop: 60, // Увеличен отступ сверху
     },
     backIcon: {
         width: 18,
