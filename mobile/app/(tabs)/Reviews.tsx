@@ -8,7 +8,7 @@ const ReviewsScreen: React.FC = () => {
         <LinearGradient colors={['#78A519', '#a6cf4a']} style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
-                    <TouchableOpacity>
+                    <TouchableOpacity style={styles.backButton}>
                         <Image source={require('../../assets/images/arrow.png')} style={styles.backIcon} />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Відгуки</Text>
@@ -17,7 +17,7 @@ const ReviewsScreen: React.FC = () => {
                 {[1, 2, 3].map((_, index) => (
                     <View key={index}>
                         <View style={styles.reviewCard}>
-                            <Image source={{ uri: index === 2 ? '../../assets/images/navalny.png' : '../../assets/images/navalny.png' }} style={styles.avatar} />
+                            <Image source={require('../../assets/images/navalny.png')} style={styles.avatar} />
                             <View style={styles.reviewContent}>
                                 <View style={styles.userInfo}>
                                     <Text style={styles.userName}>Дмитро</Text>
@@ -52,19 +52,19 @@ const ReviewsScreen: React.FC = () => {
 
             <View style={styles.bottomMenu}>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/home.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Головна</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/book.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Чек-лист</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/chat.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Чат</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={{ uri: '../../assets/images/user.png' }} style={styles.menuIcon} />
+                    <Image source={require('../../assets/images/user.png')} style={styles.menuIcon} />
                     <Text style={styles.bottomMenuText}>Профіль</Text>
                 </TouchableOpacity>
             </View>
@@ -84,13 +84,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 60, // Увеличен отступ сверху
     },
+    backButton: { padding: 5 },
     backIcon: {
         width: 18,
         height: 18,
         tintColor: '#ffffff',
     },
-    backButton: { padding: 5 },
-    icon: { width: 24, height: 24 },
     headerText: {
         fontSize: 26,
         fontFamily: 'Kurale',
