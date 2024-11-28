@@ -6,6 +6,7 @@ import { Modal } from 'react-native';
 import Slider from '@react-native-community/slider';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Navigation from '../navigation/Navigation';
 
 const HomeScreen: React.FC = () => {
     const [isFilterVisible, setFilterVisible] = useState(false);

@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, TextInput, Modal, StyleSheet } fro
 import { LinearGradient } from 'expo-linear-gradient';
 import { Picker } from '@react-native-picker/picker';
 import WebView from 'react-native-webview';
+import Navigation from '../navigation/Navigation';
 
 
 

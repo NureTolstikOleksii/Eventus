@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Navigation from '../navigation/Navigation';
 
 const ServicesScreen: React.FC = () => {
     const services = [

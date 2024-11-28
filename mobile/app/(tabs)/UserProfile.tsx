@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Navigation from '../navigation/Navigation';
 
 const UserProfile: React.FC = () => {
     return (

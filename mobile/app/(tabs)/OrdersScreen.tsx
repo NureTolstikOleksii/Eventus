@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Navigation from '../navigation/Navigation';
 
 const OrdersScreen: React.FC = () => {
     return (
