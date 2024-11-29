@@ -9,6 +9,8 @@ import Profile from './pages/Profile';
 import ViewProfileProvider from './pages/ViewProfileProvider';
 import ProfileProvider from './pages/ProfileProvider';
 import { UserProvider } from './context/UserContext'; // Импортируем UserProvider
+import ServicePage from './pages/ServicePage';
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/service-page" element={<ServicePage />} />
             {/* Добавьте другие маршруты здесь */}
           </Routes>
           <Footer /> {/* Отображаем Footer на всех страницах */}

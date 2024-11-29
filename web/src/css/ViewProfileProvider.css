@@ -14,6 +14,7 @@
   box-sizing: border-box;
 }
 
+/* Пользователь */
 .upper-block {
   background-color: rgba(0, 0, 0, 0.67);
   border: 1px solid #ccc;
@@ -34,7 +35,6 @@
   overflow: hidden; /* Гарантирует, что лишнее будет обрезано */
 }
 
-
 .user-info h3 {
   margin-bottom: 10px;
 }
@@ -49,6 +49,9 @@
   width: 100px;
   margin-top: 10px;
 }
+
+
+
 
 /* Нижние блоки */
 .full-width-block {
@@ -76,7 +79,7 @@
 }
 
 .full-width-block.expanded {
-  max-height: 1000px; /* Адаптивное увеличение */
+  max-height: auto; /* Адаптивное увеличение */
   transition: all 0.4s ease; /* Анимация при раскрытии */
 }
 
@@ -129,6 +132,7 @@
   height: 50px;
   border-radius: 50%;
   margin-right: 10px;
+  margin-top: 10px;
   border: 2px solid #fff;
 }
 
@@ -164,10 +168,20 @@
 .review-thumbnail {
   width: 300px;
   height: 150px;
+  margin-top: -20px;
   border-radius: 10px;
   object-fit: cover; /* Обрезка изображения, чтобы сохранить пропорции */
   border: 2px solid #ffffff;
 }
+.review-service {
+  font-size: 14px;
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+
+
+
 
 
 /* стили услуг */
@@ -275,5 +289,96 @@
 }
 
 .order-button:hover {
+  background-color: #3ae342;
+}
+
+
+
+
+/* ПАКЕТ */
+.package-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Центрируем карточки */
+  gap: 20px; /* Расстояние между карточками */
+}
+
+.package-card-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  color: #ffffff;
+  width: 450px; /* Фиксированная ширина карточки */
+  box-sizing: border-box;
+  background-color:  rgba(15, 67, 3, 0.658);
+  transition: background-color 0.3s ease;
+}
+
+.package-card-centered:hover {
+  background-color: rgba(21, 136, 3, 0.473);
+}
+
+.package-header-centered {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.package-title-centered {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.package-price-centered {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.package-rating {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.package-image-container {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.package-image-centered {
+  width: 100%;
+  height: 200px; /* Увеличенная высота */
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #fff;
+}
+
+.package-order-button-centered {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  align-self: center;
+
+  font-weight: bold; /* Жирный текст */
+  border: 2px solid #ccc; /* Граница */
+  border-radius: 30px; /* Закругленные углы */
+  cursor: pointer; /* Курсор при наведении */
+  transition: all 0.3s ease; /* Плавный переход при наведении */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25); /* Тень для кнопки */
+  min-width: 200px; /* Фиксированная минимальная длина кнопки */
+  text-align: center; /* Выравнивание текста по центру */
+}
+
+.package-order-button-centered:hover {
   background-color: #3ae342;
 }
