@@ -58,10 +58,12 @@ const Header = () => {
       </Link>
       <nav>
         <ul>
-        <li><Link to="/service-page">Послуга</Link></li>
+          <li><Link to="/service-page">Послуга</Link></li>
+          <li><Link to="/package-of-services-page">Пакет</Link></li>
           <li><Link to="/profile-provider">Профіль постачальника</Link></li>
           <li><Link to="/view-profile-provider">Вид постачальника</Link></li>
           <li><Link to="/services">Послуги</Link></li>
+
           {userName ? (
             <>
               <li><Link to="/profile">Привіт, {userName}</Link></li>
