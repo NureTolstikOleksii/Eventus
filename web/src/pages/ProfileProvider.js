@@ -129,37 +129,48 @@ function ProfileProvider() {
         </div>
       </div>
 
-      <div className="reviews-section">
+      <div className="profile-provider-reviews-section">
   <h3>Відгуки</h3>
-  <div className="reviews-container">
+  <div className="profile-provider-reviews-container">
     {reviews.map((review, index) => (
-      <div key={index} className="review-item">
-        <div className="review-item-main">
-          <div className="review-header">
-            <img src={user} alt="User" className="review-user-photo" />
-            <div className="review-info">
+      <div key={index} className="profile-provider-review-item">
+        <div className="profile-provider-review-item-main">
+          <div className="profile-provider-review-header">
+            <img
+              src={user}
+              alt="User"
+              className="profile-provider-review-user-photo"
+            />
+            <div className="profile-provider-review-info">
               <strong>{review.name}</strong>
-              <p className="review-date">Дата додавання: 20.11.2024</p>
+              <p className="profile-provider-review-date">
+                Дата додавання: 20.11.2024
+              </p>
             </div>
           </div>
-          <div className="review-rating">
-            <img src={star} alt="Rating" className="review-rating-photo" />
+          <div className="profile-provider-review-rating">
+            <img
+              src={star}
+              alt="Rating"
+              className="profile-provider-review-rating-photo"
+            />
           </div>
         </div>
-        <div className="review-text">
+        <div className="profile-provider-review-text">
           <p>{review.text}</p>
         </div>
-        <div className="review-image">
+        <div className="profile-provider-review-image">
           <img
             src={serviceImage1}
             alt="Service"
-            className="review-service-image"
+            className="profile-provider-review-service-image"
           />
         </div>
       </div>
     ))}
   </div>
 </div>
+
 
 
       {isModalOpen && (
