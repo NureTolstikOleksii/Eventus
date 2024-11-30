@@ -11,14 +11,15 @@ import { profileRouter } from './src/profile/profile.controller.js';
 import { servicesRouter } from './src/services/services.controller.js';
 import { mainScreenRouter } from './src/main_screen/main_screen.controller.js';
 import { filterRouter } from './src/filtering/filter.controller.js';
+import { orderRouter } from './src/order/order.controller.js';
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:3000', // URL вашего фронтенда
-    credentials: true // Включить отправку cookie
+    origin: 'http://localhost:3000',
+    credentials: true 
 }));
 
 // Конфигурация сессии
@@ -52,6 +53,7 @@ async function main() {
     app.use('/change_data', changeDataRouter);
     app.use('/search', searchRouter);
     app.use('/filtering', filterRouter);
+    app.use('/order', orderRouter)
   
 
 
