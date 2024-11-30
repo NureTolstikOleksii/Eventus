@@ -8,6 +8,7 @@ import Footer from './components/footer/footer';
 import Profile from './pages/Profile';
 import ViewProfileProvider from './pages/ViewProfileProvider';
 import ProfileProvider from './pages/ProfileProvider';
+import ProfileCustomer from './pages/ProfileCustomer';
 import { UserProvider } from './context/UserContext'; // Импортируем UserProvider
 import ServicePage from './pages/ServicePage';
 import PackageOfServicesPage from './pages/PackageOfServicesPage';
@@ -20,6 +21,7 @@ function App() {
           <Header /> {/* Отображаем Header на всех страницах */}
           <Routes>
           <Route path="/profile-provider" element={<ProfileProvider />} />
+          <Route path="/profile-customer" element={<ProfileCustomer />} />
           <Route path="/view-profile-provider" element={<ViewProfileProvider />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
