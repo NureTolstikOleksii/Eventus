@@ -12,6 +12,7 @@ import { servicesRouter } from './src/services/services.controller.js';
 import { mainScreenRouter } from './src/main_screen/main_screen.controller.js';
 import { filterRouter } from './src/filtering/filter.controller.js';
 import { orderRouter } from './src/order/order.controller.js';
+import { checklistRouter } from './src/checklist/checklist.controller.js';
 
 dotenv.config();
 
@@ -53,10 +54,10 @@ async function main() {
     app.use('/change_data', changeDataRouter);
     app.use('/search', searchRouter);
     app.use('/filtering', filterRouter);
-    app.use('/order', orderRouter)
+    app.use('/order', orderRouter);
+    app.use('/checklist', checklistRouter);
+
   
-
-
     //Для перевірки існування сесії
     app.get('/session', (req, res) => {
         if (req.session && req.session.userId) {
