@@ -1,76 +1,92 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createNavigationContainerRef } from '@react-navigation/native';
 import { View, TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
 
-// Импорты экранов
+// Import all screens
 import HomeScreen from '../(tabs)/HomeScreen';
-import Wishlist from '../(tabs)/Wishlist';
+import OrdersScreen from '../(tabs)/OrdersScreen';
+import Packeti from '../(tabs)/Packeti';
+import ProfileOrder from '../(tabs)/ProfileOrder';
 import ProviderProfile from '../(tabs)/ProviderProfile';
+import Reviews from '../(tabs)/Reviews';
+import ServicesProviderProfile from '../(tabs)/ServicesProviderProfile';
+import UserProfile from '../(tabs)/UserProfile';
+import WelcomeScreen from '../(tabs)/WelcomeScreen';
+import Wishlist from '../(tabs)/Wishlist';
 
+// Define route types
+type RootStackParamList = {
+    Home: undefined;
+    Orders: undefined;
+    Packeti: undefined;
+    ProfileOrder: undefined;
+    ProviderProfile: undefined;
+    Reviews: undefined;
+    ServicesProviderProfile: undefined;
+    UserProfile: undefined;
+    Welcome: undefined;
+    Wishlist: undefined;
+};
 
-// Чат-заглушка
+// Create a stack navigator
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+export default function Navigation() {
+    return (
+        <View style={{ flex: 1 }}>
+            {/* Main navigation stack */}
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Orders" component={OrdersScreen} />
+                <Stack.Screen name="Packeti" component={Packeti} />
+                <Stack.Screen name="ProfileOrder" component={ProfileOrder} />
+                <Stack.Screen name="ProviderProfile" component={ProviderProfile} />
+                <Stack.Screen name="Reviews" component={Reviews} />
+                <Stack.Screen name="ServicesProviderProfile" component={ServicesProviderProfile} />
+                <Stack.Screen name="UserProfile" component={UserProfile} />
+                <Stack.Screen name="Welcome" component={WelcomeScreen} />
+                <Stack.Screen name="Wishlist" component={Wishlist} />
+            </Stack.Navigator>
+
+            {/* Bottom navigation menu */}
+            <BottomMenu />
+        </View>
+    );
+}
+
+// Bottom menu component
+const BottomMenu = () => {
+    return (
+        <View style={styles.bottomMenu}>
+            <MenuButton route="Home" icon={require('../../assets/images/home.png')} label="Головна" />
+            <MenuButton route="Wishlist" icon={require('../../assets/images/book.png')} label="Чек-лист" />
+            <MenuButton route="Orders" icon={require('../../assets/images/chat.png')} label="Замовлення" />
+            <MenuButton route="ProviderProfile" icon={require('../../assets/images/user.png')} label="Профіль" />
+        </View>
+    );
+};
+
+// Placeholder component for Chat
 const ChatPlaceholder = () => (
     <View style={styles.placeholderContainer}>
         <Text style={styles.placeholderText}>Чат пока не реализован</Text>
     </View>
 );
 
-// Создаем стек-навигацию
-const Stack = createNativeStackNavigator();
-
-// Создаем референс для навигации
-export const navigationRef = createNavigationContainerRef();
-
-export default function Navigation() {
+// Button component for the bottom menu
+const MenuButton = ({ route, icon, label }: { route: keyof RootStackParamList; icon: any; label: string }) => {
     return (
-        <NavigationContainer ref={navigationRef}>
-            <View style={{ flex: 1 }}>
-                {/* Основной стек навигации */}
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="Home" component={HomeScreen} />
-                    <Stack.Screen name="Wishlist" component={Wishlist} />
-                    <Stack.Screen name="Chat" component={ChatPlaceholder} />
-                    <Stack.Screen name="Profile" component={ProviderProfile} />
-                </Stack.Navigator>
-
-                {/* Панель навигации */}
-                <View style={styles.bottomMenu}>
-                <TouchableOpacity
-                style={styles.bottomMenuItem}
-                onPress={() => navigationRef.current?.navigate('Home')}
-                >
-                <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />
-                <Text style={styles.bottomMenuText}>Головна</Text>
-                </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.bottomMenuItem}
-                        onPress={() => navigationRef.current?.navigate('Wishlist')}
-                    >
-                        <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
-                        <Text style={styles.bottomMenuText}>Чек-лист</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.bottomMenuItem}
-                        onPress={() => navigationRef.current?.navigate('Chat')}
-                    >
-                        <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
-                        <Text style={styles.bottomMenuText}>Чат</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.bottomMenuItem}
-                        onPress={() => navigationRef.current?.navigate('Profile')}
-                    >
-                        <Image source={require('../../assets/images/user.png')} style={styles.menuIcon} />
-                        <Text style={styles.bottomMenuText}>Профіль</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </NavigationContainer>
+        <TouchableOpacity
+            style={styles.bottomMenuItem}
+            onPress={() => console.log(`Navigating to ${route}`)}
+        >
+            <Image source={icon} style={styles.menuIcon} />
+            <Text style={styles.bottomMenuText}>{label}</Text>
+        </TouchableOpacity>
     );
-}
+};
 
+// Styles for navigation
 const styles = StyleSheet.create({
     bottomMenu: {
         flexDirection: 'row',

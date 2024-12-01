@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Navigation from '../navigation/Navigation';
+
 
 const OrdersScreen: React.FC = () => {
     return (
@@ -40,25 +40,7 @@ const OrdersScreen: React.FC = () => {
                 <Image source={require('../../assets/images/plus.png')} style={styles.addIcon} />
             </TouchableOpacity>
 
-            {/* Нижнее меню с пользовательскими иконками */}
-            <View style={styles.bottomMenu}>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Головна</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Чек-лист</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Чат</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/user.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Профіль</Text>
-                </TouchableOpacity>
-            </View>
+       
         </LinearGradient>
     );
 };
@@ -169,28 +151,7 @@ const styles = StyleSheet.create({
     menuText: { fontSize: 20, color: '#6fa32b' },
     arrowIcon: { width: 15, height: 15, tintColor: '#6fa32b' },
 
-    bottomMenu: {
-        position: 'absolute',
-        bottom: 0,
-        flexDirection: 'row',
-        width: '100%',
-        backgroundColor: '#ffffff',
-        paddingVertical: 10,
-        justifyContent: 'space-around',
-        borderTopWidth: 1,
-        borderTopColor: '#e0e0e0',
-    },
-    bottomMenuItem: {
-        alignItems: 'center',
-    },
-    menuIcon: {
-        width: 24,
-        height: 24,
-    },
-    bottomMenuText: {
-        fontSize: 12,
-        color: '#6fa32b',
-    },
+    
 });
 
 export default OrdersScreen;

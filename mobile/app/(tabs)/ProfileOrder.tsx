@@ -46,24 +46,7 @@ const ProfileScreen: React.FC = () => {
                 </View>
             </ScrollView>
 
-            <View style={styles.bottomMenu}>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Головна</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Чек-лист</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Чат</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/user.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Профіль</Text>
-                </TouchableOpacity>
-            </View>
+            
         </LinearGradient>
     );
 };
@@ -152,28 +135,7 @@ const styles = StyleSheet.create({
         color: '#6fa32b',
         marginBottom: 10,
         textDecorationLine: 'underline',
-    },
-    bottomMenu: {
-        position: 'absolute',
-        bottom: 0,
-        flexDirection: 'row',
-        width: '100%',
-        backgroundColor: '#ffffff',
-        paddingVertical: 10,
-        justifyContent: 'space-around',
-        borderTopWidth: 1,
-        borderTopColor: '#e0e0e0',
-    },
-    bottomMenuItem: {
-        alignItems: 'center',
-    },
-    menuIcon: {
-        width: 24,
-        height: 24,
-    },
-    bottomMenuText: {
-        fontFamily: 'Kurale',
-        fontSize: 12,
-        color: '#6fa32b',
-    },
+    }
+    
+    
 });

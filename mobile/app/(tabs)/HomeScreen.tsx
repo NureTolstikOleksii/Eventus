@@ -6,7 +6,7 @@ import { Modal } from 'react-native';
 import Slider from '@react-native-community/slider';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import Navigation from '../navigation/Navigation';
+
 
 const HomeScreen: React.FC = () => {
     const [isFilterVisible, setFilterVisible] = useState(false);
@@ -21,6 +21,9 @@ const HomeScreen: React.FC = () => {
         { title: 'День народження', image: require('../../assets/images/birthday.png'), rating: 3, price: 1200 },
 
     ];
+
+
+    
 
     const [filteredPackages, setFilteredPackages] = useState(topPackages);
 
@@ -227,25 +230,7 @@ const HomeScreen: React.FC = () => {
                 </View>
             </Modal>
 
-            {/* Нижнее меню с пользовательскими иконками */}
-            <View style={styles.bottomMenu}>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/home.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Головна</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/book.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Чек-лист</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/chat.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Чат</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomMenuItem}>
-                    <Image source={require('../../assets/images/user.png')} style={styles.menuIcon} />
-                    <Text style={styles.bottomMenuText}>Профіль</Text>
-                </TouchableOpacity>
-            </View>
+            
 
         </LinearGradient>
 
@@ -496,27 +481,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         paddingHorizontal: 20,
     },
-    bottomMenu: {
-        position: 'absolute',
-        bottom: 0,
-        flexDirection: 'row',
-        width: '100%',
-        backgroundColor: '#ffffff',
-        paddingVertical: 10,
-        justifyContent: 'space-around',
-        borderTopWidth: 1,
-        borderTopColor: '#e0e0e0',
-    },
-    bottomMenuItem: {
-        alignItems: 'center',
-    },
-    menuIcon: {
-        width: 24,
-        height: 24,
-    },
-    bottomMenuText: {
-        fontSize: 12,
-        color: '#6fa32b',
-    },
+    
+
 });
 

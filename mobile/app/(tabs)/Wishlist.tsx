@@ -148,28 +148,7 @@ const styles = StyleSheet.create({
     menuText: { fontSize: 20, color: '#6fa32b' },
     arrowIcon: { width: 15, height: 15, tintColor: '#6fa32b' },
 
-    bottomMenu: {
-        position: 'absolute',
-        bottom: 0,
-        flexDirection: 'row',
-        width: '100%',
-        backgroundColor: '#ffffff',
-        paddingVertical: 10,
-        justifyContent: 'space-around',
-        borderTopWidth: 1,
-        borderTopColor: '#e0e0e0',
-    },
-    bottomMenuItem: {
-        alignItems: 'center',
-    },
-    menuIcon: {
-        width: 24,
-        height: 24,
-    },
-    bottomMenuText: {
-        fontSize: 12,
-        color: '#6fa32b',
-    },
+    
 });
 
 export default WishlistScreen;

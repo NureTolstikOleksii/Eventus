@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
-import Navigation from './navigation/Navigation';
 
 const ReviewsScreen: React.FC = () => {
     return (
@@ -10,7 +9,7 @@ const ReviewsScreen: React.FC = () => {
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
                     <TouchableOpacity style={styles.backButton}>
-                        <Image source={require('../../assets/images/backarrow.png')} style={styles.icon} />
+                        <Image source={require('../../assets/images/arrow.png')} style={styles.backIcon} />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Відгуки</Text>
                 </View>
