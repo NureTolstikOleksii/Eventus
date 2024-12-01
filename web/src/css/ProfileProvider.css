@@ -33,9 +33,9 @@
   max-height: 400px;
 }
 .block:hover {
-  background-color: rgba(16,93,2, 0.473);
+  background-color: rgba(16, 93, 2, 0.473);
   transition: background-color 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .icon-pencil {
@@ -127,9 +127,6 @@
   cursor: pointer;
 }
 
-
-
-
 .profile-provider-reviews-section {
   padding: 20px;
   text-align: center;
@@ -220,10 +217,8 @@
   height: auto;
   border-radius: 10px;
   object-fit: cover;
-  
 }
 
-/* Адаптивность */
 @media (max-width: 1024px) {
   .profile-provider-review-item {
     width: calc(50% - 20px);
@@ -235,7 +230,6 @@
     width: 100%;
   }
 }
-
 
 .modal {
   position: fixed;
@@ -354,7 +348,6 @@
 .profile-provider-review-image {
   margin-top: 10px;
   text-align: left;
-
 }
 
 .profile-provider-review-service-image {

@@ -130,48 +130,46 @@ function ProfileProvider() {
       </div>
 
       <div className="profile-provider-reviews-section">
-  <h3>Відгуки</h3>
-  <div className="profile-provider-reviews-container">
-    {reviews.map((review, index) => (
-      <div key={index} className="profile-provider-review-item">
-        <div className="profile-provider-review-item-main">
-          <div className="profile-provider-review-header">
-            <img
-              src={user}
-              alt="User"
-              className="profile-provider-review-user-photo"
-            />
-            <div className="profile-provider-review-info">
-              <strong>{review.name}</strong>
-              <p className="profile-provider-review-date">
-                Дата додавання: 20.11.2024
-              </p>
+        <h3>Відгуки</h3>
+        <div className="profile-provider-reviews-container">
+          {reviews.map((review, index) => (
+            <div key={index} className="profile-provider-review-item">
+              <div className="profile-provider-review-item-main">
+                <div className="profile-provider-review-header">
+                  <img
+                    src={user}
+                    alt="User"
+                    className="profile-provider-review-user-photo"
+                  />
+                  <div className="profile-provider-review-info">
+                    <strong>{review.name}</strong>
+                    <p className="profile-provider-review-date">
+                      Дата додавання: 20.11.2024
+                    </p>
+                  </div>
+                </div>
+                <div className="profile-provider-review-rating">
+                  <img
+                    src={star}
+                    alt="Rating"
+                    className="profile-provider-review-rating-photo"
+                  />
+                </div>
+              </div>
+              <div className="profile-provider-review-text">
+                <p>{review.text}</p>
+              </div>
+              <div className="profile-provider-review-image">
+                <img
+                  src={serviceImage1}
+                  alt="Service"
+                  className="profile-provider-review-service-image"
+                />
+              </div>
             </div>
-          </div>
-          <div className="profile-provider-review-rating">
-            <img
-              src={star}
-              alt="Rating"
-              className="profile-provider-review-rating-photo"
-            />
-          </div>
-        </div>
-        <div className="profile-provider-review-text">
-          <p>{review.text}</p>
-        </div>
-        <div className="profile-provider-review-image">
-          <img
-            src={serviceImage1}
-            alt="Service"
-            className="profile-provider-review-service-image"
-          />
+          ))}
         </div>
       </div>
-    ))}
-  </div>
-</div>
-
-
 
       {isModalOpen && (
         <div className="modal">
