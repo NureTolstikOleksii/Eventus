@@ -1,152 +1,355 @@
-.profile-customer-main {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 100px;
-    width: 100%;
-    height: 100vh;
-    background-color: #000000;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  .profile-customer-block:first-child {
-    width: 300px;
-  }
-  
-  .profile-customer-block:nth-child(2),
-  .profile-customer-block:nth-child(3) {
-    width: 400px;
-  }
-  
-  .profile-customer-block {
-    background-color: rgba(0, 0, 0, 0.67);
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    text-align: center;
-    position: relative;
-    padding-top: 30px;
-    max-height: 500px;
+::-webkit-scrollbar {
+  width: 8px;
+}
 
-  }
-  .profile-customer-block:hover {
-    transition: background-color 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  }
-  
-  .icon-pencil {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-  }
-  
-  .user-icon {
-    width: 150px;
-  }
-  
-  .user-info {
-    color: #ffffff;
-  }
-  
-  .user-info h3 {
-    margin-bottom: 10px;
-  }
-  
-  .user-info p {
-    margin-top: 0;
-    font-size: 12px;
-  }
-  
-  .links {
-    text-align: center;
-  }
-  
-  .reviews,
-  .logout {
-    text-decoration: none;
-    color: #ffffff;
-    display: block;
-  }
-  
-  .logout {
-    margin: 30px 0 40px 20px;
-    text-align: left;
-  }
-  .profile-customer-rating {
-    width: 100px;
-  }
-  .profile-customer-second-block-header p {
-    color: #ffffff;
-  }
-  .profile-customer-third-block-header p {
-    color: #ffffff;
-  }
-  .wish-list {
-    max-height: 350px;
-    overflow-y: auto;
-  }
-  .my-orders {
-    max-height: 270px;
-    overflow-y: auto;
-  }
-  .my-orders-item {
-    padding: 10px;
-    margin: 10px auto;
-    width: 250px;
-    background-color: rgba(74, 74, 74, 0.6);
-    border-radius: 10px;
-    text-align: left;
-    font-weight: 600;
-    color: #ffffff;
-  }
-  .plus-wish-list {
-    margin: 20px 0 15px 0;
-    width: 20px;
-    cursor: pointer;
-  }
-  .plus-my-orders {
-    margin: 20px 0 15px 0;
-    width: 20px;
-    cursor: pointer;
-  }
-  .wish-list-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #072A01;
-    border-radius: 5px;
-    margin:10px;
-    background-color:rgba(12,71,1, 0.5);
-  }
-  .wish-list-item:hover{
-    background-color:rgba(19,119,2, 0.5);
-  }
-  
-  .wish-list-image {
-    width: 60px;
-    height: 60px;
-margin:0 10px 0 0;
-    border-radius: 5px;
-  }
-  
-  .wish-list-info h5 {
-    margin: 0;
-text-align:left;
-    font-size: 16px;
-    color: #ffffff;
-  }
-  
-  .wish-list-info p {
-    margin: 0;
-    font-size: 14px;
-    color: #ffffff;
-  }
-  
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.profile-customer-main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 100px;
+  width: 100%;
+  height: 80vh;
+  background-color: #000000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.profile-customer-block:first-child {
+  width: 300px;
+}
+
+.profile-customer-block:nth-child(2),
+.profile-customer-block:nth-child(3) {
+  width: 400px;
+}
+
+.profile-customer-block {
+  background-color: rgba(0, 0, 0, 0.67);
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  text-align: center;
+  position: relative;
+  padding-top: 30px;
+  max-height: 500px;
+}
+.profile-customer-block:hover {
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.icon-pencil {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.user-icon {
+  width: 150px;
+}
+
+.user-info {
+  color: #ffffff;
+}
+
+.user-info h3 {
+  margin-bottom: 10px;
+}
+
+.user-info p {
+  margin-top: 0;
+  font-size: 12px;
+}
+
+.links {
+  text-align: center;
+}
+
+.reviews,
+.logout {
+  text-decoration: none;
+  color: #ffffff;
+  display: block;
+}
+
+.logout {
+  margin: 30px 0 40px 20px;
+  text-align: left;
+}
+.profile-customer-rating {
+  width: 100px;
+}
+.profile-customer-second-block-header p {
+  color: #ffffff;
+  font-size: 17px;
+}
+.profile-customer-third-block-header p {
+  color: #ffffff;
+  font-size: 17px;
+}
+.wish-list {
+  max-height: 350px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.1);
+}
+.my-orders {
+  max-height: 350px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.1);
+}
+.wish-list::-webkit-scrollbar {
+  width: 8px;
+}
+.add-service-package {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.plus-wish-list {
+  margin: 20px 0 15px 0;
+  width: 20px;
+  cursor: pointer;
+}
+.plus-my-orders {
+  margin: 20px 0 15px 0;
+  width: 20px;
+  cursor: pointer;
+}
+.wish-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #072a01;
+  border-radius: 5px;
+  background-color: rgba(12, 71, 1, 0.5);
+  margin: 10px;
+}
+.my-orders-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #072a01;
+  border-radius: 5px;
+  background-color: rgba(12, 71, 1, 0.5);
+  margin: 10px;
+}
+.my-orders-item:hover {
+  background-color: rgba(19, 119, 2, 0.5);
+}
+.wish-list-info {
+  flex-grow: 1;
+}
+.my-orders-info {
+  flex-grow: 1;
+}
+.wish-list-item:hover {
+  background-color: rgba(19, 119, 2, 0.5);
+}
+
+.wish-list-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.my-orders-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.my-orders-info h6 {
+  margin: 0;
+  text-align: left;
+  font-size: 16px;
+  color: #ffffff;
+}
+.my-orders-info p {
+  margin: 0;
+  text-align: left;
+  font-size: 16px;
+  color: #ffffff;
+}
+.wish-list-info h6 {
+  margin: 0;
+  text-align: left;
+  font-size: 16px;
+  color: #ffffff;
+}
+.wish-list-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #ffffff;
+  text-align: left;
+}
+.remove-wish-list-link img {
+  text-align: right;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+.remove-orders-link img {
+  text-align: right;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+.profile-customer-check-letter {
+  padding: 20px;
+  text-align: center;
+  background-color: #000000;
+  background-image: url("../assets/profile-fon.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.profile-customer-check-letter button {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: 0;
+  cursor: pointer;
+  z-index: 1000;
+  display: block;
+  text-align: center;
+  border: 1px solid #ffffff;
+}
+.profile-customer-check-letter button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-check-letter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.modal-check-letter-content {
+  background-color: white;
+  padding: 20px;
+  position: relative;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.strikethrough {
+  text-decoration: line-through;
+  color: #999;
+}
+.modal-check-letter-content h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+.profile-customer-close-modal-button {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  z-index: 10000;
+}
+.close-arrow-icon {
+  width: 20px;
+  height: 20px;
+}
+.modal-check-letter-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.modal-check-letter-item input[type="checkbox"]:checked {
+  background-color: #28a745;
+  border-color: #28a745;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+}
+.modal-check-letter-item input[type="checkbox"]:checked::after {
+  content: "✔";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 16px;
+}
+
+.modal-check-letter-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid #ccc;
+  background-color: #fff;
+  position: relative;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.modal-check-letter-item input[type="text"] {
+  flex-grow: 1;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.modal-check-letter-item input[type="text"]:focus {
+  border: 1px solid #28a745;
+  outline: none;
+}
+.profile-customer-close-arrow-icon {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  cursor: pointer;
+  width: 30px;
+}
+.profile-customer-remove-item-button {
+  cursor: pointer;
+  width: 30px;
+  padding: 0 0 0 10px;
+}
+.profile-customer-add-item-button {
+  cursor: pointer;
+  width: 30px;
+  margin: 5px 0 0 0;
+}
+
+.profile-customer-check-letter {
+  position: relative;
+}
