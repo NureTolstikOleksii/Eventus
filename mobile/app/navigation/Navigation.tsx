@@ -26,6 +26,7 @@ type RootStackParamList = {
     UserProfile: undefined;
     Welcome: undefined;
     Wishlist: undefined;
+    Chat: undefined; // Added Chat as a placeholder
 };
 
 // Create a stack navigator
@@ -46,6 +47,7 @@ export default function Navigation() {
                 <Stack.Screen name="UserProfile" component={UserProfile} />
                 <Stack.Screen name="Welcome" component={WelcomeScreen} />
                 <Stack.Screen name="Wishlist" component={Wishlist} />
+                <Stack.Screen name="Chat" component={ChatPlaceholder} />
             </Stack.Navigator>
 
             {/* Bottom navigation menu */}
@@ -56,12 +58,24 @@ export default function Navigation() {
 
 // Bottom menu component
 const BottomMenu = () => {
+    // Define menu items for easy scalability
+    const menuItems = [
+        { route: 'Home', icon: require('../../assets/images/home.png'), label: 'Головна' },
+        { route: 'Wishlist', icon: require('../../assets/images/book.png'), label: 'Чек-лист' },
+        { route: 'Chat', icon: require('../../assets/images/chat.png'), label: 'Чат' },
+        { route: 'ProviderProfile', icon: require('../../assets/images/user.png'), label: 'Профіль' },
+    ];
+
     return (
         <View style={styles.bottomMenu}>
-            <MenuButton route="Home" icon={require('../../assets/images/home.png')} label="Головна" />
-            <MenuButton route="Wishlist" icon={require('../../assets/images/book.png')} label="Чек-лист" />
-            <MenuButton route="Orders" icon={require('../../assets/images/chat.png')} label="Замовлення" />
-            <MenuButton route="ProviderProfile" icon={require('../../assets/images/user.png')} label="Профіль" />
+            {menuItems.map((item) => (
+                <MenuButton
+                    key={item.route}
+                    route={item.route as keyof RootStackParamList}
+                    icon={item.icon}
+                    label={item.label}
+                />
+            ))}
         </View>
     );
 };

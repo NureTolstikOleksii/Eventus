@@ -1,13 +1,11 @@
 import React from 'react';
 import Navigation from '../navigation/Navigation';
-import "expo-router/entry"; /* <--- Maybe not efficient */
-import { NavigationContainer } from '@react-navigation/native';
+import "expo-router/entry";
 
 export default function App() {
     return (
-        <NavigationContainer>
-            <Navigation /> {/* Внутри уже настроены стеки, табы и переходы */}
-        </NavigationContainer>
-    );
+        <Navigation /> 
+            );
 }
 
+{/* NavigationContainer уже настроен в expo-router */}

@@ -253,18 +253,18 @@ const styles = StyleSheet.create({
         fontFamily: 'Kurale_400Regular', // Шрифт Kurale
     },
 
-    bottomMenu: {
-        position: 'absolute',
-        bottom: 0,
-        flexDirection: 'row',
-        width: '100%',
-        backgroundColor: '#ffffff',
-        paddingVertical: 10,
-        justifyContent: 'space-around',
-        borderTopWidth: 1,
-        borderTopColor: '#e0e0e0',
-    },
-    bottomMenuItem: { alignItems: 'center' },
+    // bottomMenu: {
+    //     position: 'absolute',
+    //     bottom: 0,
+    //     flexDirection: 'row',
+    //     width: '100%',
+    //     backgroundColor: '#ffffff',
+    //     paddingVertical: 10,
+    //     justifyContent: 'space-around',
+    //     borderTopWidth: 1,
+    //     borderTopColor: '#e0e0e0',
+    // },
+    // bottomMenuItem: { alignItems: 'center' },
     menuIcon: { width: 24, height: 24 },
     bottomMenuText: { fontSize: 12, color: '#6fa32b', fontFamily: 'Kurale_400Regular' },
 });
