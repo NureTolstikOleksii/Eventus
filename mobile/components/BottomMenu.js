@@ -7,7 +7,7 @@ const BottomMenu = () => {
 
     const menuItems = [
         { route: 'Home', icon: require('../assets/images/home.png'), label: 'Головна' },
-        { route: 'Wishlist', icon: require('../assets/images/book.png'), label: 'Чек-лист' },
+        { route: 'CheckList', icon: require('../assets/images/book.png'), label: 'Чек-лист' },
         { route: 'Chat', icon: require('../assets/images/chat.png'), label: 'Чат' },
         { route: 'ProviderProfile', icon: require('../assets/images/user.png'), label: 'Профіль' },
     ];

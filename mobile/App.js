@@ -6,7 +6,7 @@ import HomeScreen from './components/HomeScreen';
 import PacketiScreen from './components/Packeti';
 import ReviewsScreen from './components/Reviews';
 // import ProfileOrder from './components/ProfileOrder';
-// import Wishlist from './components/Wishlist';
+import CheckList from './components/checklist';
 import ProviderProfile from './components/ProviderProfile';
 
 const Stack = createStackNavigator();
@@ -20,7 +20,7 @@ export default function App() {
                 <Stack.Screen name="Packeti" component={PacketiScreen} />
                 <Stack.Screen name="Reviews" component={ReviewsScreen} />
                 <Stack.Screen name="ProviderProfile" component={ProviderProfile} />
-                
+                <Stack.Screen name="CheckList" component={CheckList} />
             </Stack.Navigator>
         </NavigationContainer>
     );
