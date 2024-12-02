@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image, Modal } fr
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import BottomMenu from '../components/BottomMenu';
 
 const HomeScreen = () => {
     const [selectedTab, setSelectedTab] = useState('home'); // Для отслеживания текущей вкладки
@@ -68,8 +69,10 @@ const HomeScreen = () => {
     };
 
     return (
-        <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
-            <ScrollView style={styles.scrollContainer}>
+        <View style={styles.container}>
+       
+       <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
+       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 0 }}>
                 {/* Top Bar */}
                 <View style={styles.topBar}>
                     <Text style={styles.cityText}>Харків</Text>
@@ -96,6 +99,10 @@ const HomeScreen = () => {
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
+
+
+
+
 
                 {/* Top Services */}
                 <Text style={styles.sectionTitle}>Топ послуг</Text>
@@ -134,7 +141,7 @@ const HomeScreen = () => {
                         </View>
                     ))}
                 </ScrollView>
-            </ScrollView>
+            
             {/* Modal for Filters */}
             <Modal visible={isFilterVisible} transparent animationType="slide">
                 <View style={styles.modalContainer}>
@@ -209,67 +216,24 @@ const HomeScreen = () => {
                         <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
                             <Text style={styles.applyButtonText}>Застосувати</Text>
                         </TouchableOpacity>
+                        
                     </View>
+                    
                 </View>
+                
             </Modal>
-
-            {/* Bottom Navigation */}
-            <View style={styles.bottomNav}>
-                <TouchableOpacity
-                    style={styles.navItem}
-                    onPress={() => handleTabPress('home')}
-                >
-                    <FontAwesome
-                        name="home"
-                        size={24}
-                        color={selectedTab === 'home' ? '#83B620' : '#B5B5B5'}
-                    />
-                    <Text style={styles.navText}>Головна</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.navItem}
-                    onPress={() => handleTabPress('checklist')}
-                >
-                    <FontAwesome
-                        name="book"
-                        size={24}
-                        color={selectedTab === 'checklist' ? '#83B620' : '#B5B5B5'}
-                    />
-                    <Text style={styles.navText}>Чек-лист</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.navItem}
-                    onPress={() => handleTabPress('chat')}
-                >
-                    <FontAwesome
-                        name="comments"
-                        size={24}
-                        color={selectedTab === 'chat' ? '#83B620' : '#B5B5B5'}
-                    />
-                    <Text style={styles.navText}>Чат</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.navItem}
-                    onPress={() => handleTabPress('profile')}
-                >
-                    <FontAwesome
-                        name="user"
-                        size={24}
-                        color={selectedTab === 'profile' ? '#83B620' : '#B5B5B5'}
-                    />
-                    <Text style={styles.navText}>Профіль</Text>
-                </TouchableOpacity>
-            </View>
+            </ScrollView>
+           
         </LinearGradient>
-
+        <BottomMenu />
+        </View>
     );
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-    container: { flex: 1 },
-    scrollContainer: { flexGrow: 1, paddingBottom: 150 },
+    
     topBar: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingTop: 20 },
     cityText: { color: '#fff', fontSize: 18 },
     locationIcon: { width: 16, height: 20, marginLeft: 10 },
@@ -398,35 +362,14 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         marginTop: 20,
     },
+
+// Place for bottom navigation
+
     applyButtonText: {
         fontSize: 18,
         color: '#fff',
         textAlign: 'center',
     },
-    bottomNav: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 70,
-        backgroundColor: '#f7f7f7',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowOffset: { width: 0, height: -2 },
-        elevation: 5,
-    },
-    navItem: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    navText: {
-        marginTop: 5,
-        fontSize: 12,
-        color: '#83B620',
-    },
+   
+    
 });

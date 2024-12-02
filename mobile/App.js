@@ -7,6 +7,7 @@ import PacketiScreen from './components/Packeti';
 import ReviewsScreen from './components/Reviews';
 // import ProfileOrder from './components/ProfileOrder';
 // import Wishlist from './components/Wishlist';
+import ProviderProfile from './components/ProviderProfile';
 
 const Stack = createStackNavigator();
 
@@ -18,8 +19,8 @@ export default function App() {
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="Packeti" component={PacketiScreen} />
                 <Stack.Screen name="Reviews" component={ReviewsScreen} />
-                {/* <Stack.Screen name="Profile" component={ProfileOrder} />
-                <Stack.Screen name="Wishlist" component={Wishlist} /> */}
+                <Stack.Screen name="ProviderProfile" component={ProviderProfile} />
+                
             </Stack.Navigator>
         </NavigationContainer>
     );
