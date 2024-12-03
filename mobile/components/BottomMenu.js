@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const BottomMenu = () => {
-    const navigation = useNavigation(); // Используем хук для навигации
+    const navigation = useNavigation();
 
     const menuItems = [
         { route: 'Home', icon: require('../assets/images/home.png'), label: 'Головна' },
@@ -30,16 +30,18 @@ const BottomMenu = () => {
 
 const styles = StyleSheet.create({
     bottomMenu: {
-        position: 'relative',
+        position: 'absolute', // Фиксация меню
         bottom: 0,
         left: 0,
         right: 0,
+        height: 60, // Фиксированная высота меню
         flexDirection: 'row',
         justifyContent: 'space-around',
-        backgroundColor: '#ffffff',
-        paddingVertical: 10,
+        alignItems: 'center', // Центрирование иконок
+        backgroundColor: '#fff',
         borderTopWidth: 1,
         borderTopColor: '#e0e0e0',
+        zIndex: 10,
     },
     bottomMenuItem: {
         alignItems: 'center',
