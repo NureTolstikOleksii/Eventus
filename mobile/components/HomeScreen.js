@@ -69,10 +69,11 @@ const HomeScreen = () => {
     };
 
     return (
-        <View style={styles.container}>
+       
+       <View style={styles.container}>
        
        <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
-       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 0 }}>
+      
                 {/* Top Bar */}
                 <View style={styles.topBar}>
                     <Text style={styles.cityText}>Харків</Text>
@@ -222,11 +223,13 @@ const HomeScreen = () => {
                 </View>
                 
             </Modal>
-            </ScrollView>
+           
            
         </LinearGradient>
         <BottomMenu />
+        
         </View>
+       
     );
 };
 
@@ -371,5 +374,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
    
+    container: {
+        flex: 1,
+        paddingBottom: 60, // Отступ для размещения нижнего меню
+    },
     
 });
