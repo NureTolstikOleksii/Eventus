@@ -29,7 +29,21 @@ const BottomMenu = () => {
 };
 
 const styles = StyleSheet.create({
+    // bottomMenu: {
+    //     position: 'relative',
+    //     bottom: 0,
+    //     left: 0,
+    //     right: 0,
+    //     flexDirection: 'row',
+    //     justifyContent: 'space-around',
+    //     backgroundColor: '#ffffff',
+    //     paddingVertical: 10,
+    //     borderTopWidth: 1,
+    //     borderTopColor: '#e0e0e0',
+    // },
+
     bottomMenu: {
+        position: 'absolute', // Фиксация меню внизу
         position: 'absolute', // Фиксация меню
         bottom: 0,
         left: 0,
@@ -37,24 +51,32 @@ const styles = StyleSheet.create({
         height: 60, // Фиксированная высота меню
         flexDirection: 'row',
         justifyContent: 'space-around',
+        backgroundColor: '#ffffff',
+        paddingVertical: 12, // Увеличьте padding для улучшения видимости
         alignItems: 'center', // Центрирование иконок
         backgroundColor: '#fff',
         borderTopWidth: 1,
         borderTopColor: '#e0e0e0',
+        zIndex: 10,
         zIndex: 10,
     },
     bottomMenuItem: {
         alignItems: 'center',
     },
     menuIcon: {
-        width: 24,
-        height: 24,
+        width: 28, // Увеличьте иконки для мобильных устройств
+        height: 28,
     },
     bottomMenuText: {
-        fontSize: 12,
+        fontSize: 14, // Увеличьте размер шрифта для читаемости
         color: '#6fa32b',
         marginTop: 5,
     },
+
+    bottomMenuItem: {
+        alignItems: 'center',
+    },
+
 });
 
 export default BottomMenu;
