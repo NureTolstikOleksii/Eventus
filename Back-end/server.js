@@ -11,6 +11,8 @@ import { profileRouter } from './src/profile/profile.controller.js';
 import { servicesRouter } from './src/services/services.controller.js';
 import { mainScreenRouter } from './src/main_screen/main_screen.controller.js';
 import { filterRouter } from './src/filtering/filter.controller.js';
+import { orderRouter } from './src/order/order.controller.js';
+import { checklistRouter } from './src/checklist/checklist.controller.js';
 
 dotenv.config();
 
@@ -19,8 +21,8 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-    origin: 'http://localhost:3000', // URL вашего фронтенда
-    credentials: true // Включить отправку cookie
+    origin: 'http://localhost:3000',
+    credentials: true 
 }));
 
 // Конфигурация сессии
@@ -54,13 +56,12 @@ async function main() {
     app.use('/change_data', changeDataRouter);
     app.use('/search', searchRouter);
     app.use('/filtering', filterRouter);
-    app.use('/services', servicesRouter);
-    
+
+    app.use('/order', orderRouter);
+    app.use('/checklist', checklistRouter);
 
 
   
-
-
     //Для перевірки існування сесії
     app.get('/session', (req, res) => {
         if (req.session && req.session.userId) {
