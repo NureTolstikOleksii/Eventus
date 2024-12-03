@@ -90,5 +90,49 @@ router.get('/provider/:providerId/packages', async (req, res) => {
     }
 });
 
+// Маршрут для тестового платежа
+router.post('/order/:orderId/initiate-payment', async (req, res) => {
+    const { orderId } = req.params;
+
+    try {
+        const paymentResponse = await servicesService.processTestPayment(req.db, orderId, 1); // 1 грн
+        res.status(200).json(paymentResponse);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+/// Новый маршрут для инициации реального платежа через Donatello API
+router.post('/order/:orderId/pay', async (req, res) => {
+    const { orderId } = req.params;
+
+    try {
+        const paymentResponse = await servicesService.processRealPaymentDonatello(req.db, orderId, 1); // 1 грн
+        res.status(200).json(paymentResponse); // Возвращает ссылку на оплату
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Обработка обратного вызова от Donatello API
+router.post('/payment-callback', async (req, res) => {
+    try {
+        console.log('Raw Body:', req.body);
+        if (!req.body || Object.keys(req.body).length === 0) {
+            throw new Error('Empty body received');
+        }
+
+        const callbackData = req.body;
+        const result = await servicesService.handlePaymentCallbackDonatello(req.db, callbackData);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Ошибка при обработке callback:', error.message);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+
+
 
 export const servicesRouter = router;

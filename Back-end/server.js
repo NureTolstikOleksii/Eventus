@@ -1,5 +1,5 @@
-import express from 'express';
 import dotenv from 'dotenv';
+import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import { connectToDatabase } from './database/database.js';
@@ -15,6 +15,8 @@ import { filterRouter } from './src/filtering/filter.controller.js';
 dotenv.config();
 
 const app = express();
+
+app.use(express.json());
 
 app.use(cors({
     origin: 'http://localhost:3000', // URL вашего фронтенда
@@ -52,6 +54,10 @@ async function main() {
     app.use('/change_data', changeDataRouter);
     app.use('/search', searchRouter);
     app.use('/filtering', filterRouter);
+    app.use('/services', servicesRouter);
+    
+
+
   
 
 
