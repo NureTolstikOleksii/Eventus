@@ -9,6 +9,8 @@ import ReviewsScreen from './components/Reviews';
 import CheckList from './components/checklist';
 import ProviderProfile from './components/ProviderProfile';
 import ServicesScreen from './components/ServicesProviderProfile';
+import PacketServices from './components/PacketServices';
+
 
 
 const Stack = createStackNavigator();
@@ -24,6 +26,7 @@ export default function App() {
                 <Stack.Screen name="ProviderProfile" component={ProviderProfile} />
                 <Stack.Screen name="CheckList" component={CheckList} />
                 <Stack.Screen name="ServicesScreen" component={ServicesScreen} />
+                <Stack.Screen name="PacketServices" component={PacketServices} />
             </Stack.Navigator>
         </NavigationContainer>
     );

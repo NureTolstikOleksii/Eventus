@@ -14,6 +14,8 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
     const [selectedCategory, setSelectedCategory] = useState('');
     const [userName, setUserName] = useState('Lee Know');
     const [organizationName, setOrganizationName] = useState('Назва організації');
+    const [isNotificationsModalVisible, setNotificationsModalVisible] = useState(false); // Для уведомлений
+
 
     const fields = [
         { label: "Повне ім'я", placeholder: "Нове ім'я" },
@@ -41,6 +43,10 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
         setInputValue('');
         setOldPassword('');
         setSelectedCategory('');
+    };
+
+    const toggleNotificationsModal = () => {
+        setNotificationsModalVisible(!isNotificationsModalVisible);
     };
 
     return (
@@ -84,12 +90,12 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.menuItem}>
+                    <TouchableOpacity onPress={() => navigation.navigate('PacketServices')} style={styles.menuItem}>
                         <Text style={styles.menuText}>Пакети послуг</Text>
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[styles.menuItem, styles.lastMenuItem]}>
+                    <TouchableOpacity onPress={toggleNotificationsModal} style={[styles.menuItem, styles.lastMenuItem]}>
                         <Text style={styles.menuText}>Сповіщення</Text>
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
@@ -136,7 +142,33 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
                 </Modal>
 
             </ScrollView>
-
+            {/* Модальное окно "Сповіщення" */}
+            <Modal
+                visible={isNotificationsModalVisible}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={toggleNotificationsModal}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.notificationsModal}>
+                        <Text style={styles.modalTitle}>Сповіщення</Text>
+                        <ScrollView>
+                            <View style={styles.notificationItem}>
+                                <Text style={styles.notificationText}>Ви отримали відгук від ...</Text>
+                            </View>
+                            <View style={styles.notificationItem}>
+                                <Text style={styles.notificationText}>Нове замовлення від n...</Text>
+                            </View>
+                            <View style={styles.notificationItem}>
+                                <Text style={styles.notificationText}>Ви отримали відгук від ...</Text>
+                            </View>
+                        </ScrollView>
+                        <TouchableOpacity style={styles.closeButton} onPress={toggleNotificationsModal}>
+                            <Text style={styles.closeButtonText}>Закрити</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
             {/* Фиксированное меню */}
             <BottomMenu />
         </LinearGradient>
@@ -237,6 +269,34 @@ const styles = StyleSheet.create({
         backgroundColor: '#d8e6be',
         fontSize: 16,
     },
+    notificationsModal: {
+        width: '90%',
+        padding: 20,
+        borderRadius: 20,
+        backgroundColor: '#ffffff',
+    },
+    modalTitle: {
+        fontSize: 24,
+        color: '#6fa32b',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    notificationItem: {
+        backgroundColor: '#a6cf4a',
+        borderRadius: 10,
+        padding: 10,
+        marginBottom: 10,
+    },
+    notificationText: { fontSize: 16, color: '#fff' },
+    closeButton: {
+        backgroundColor: '#6fa32b',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        alignSelf: 'center',
+        marginTop: 10,
+    },
+    closeButtonText: { color: '#fff', fontSize: 18 },
 });
 
 export default ProviderProfile;

@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomMenu from '../components/BottomMenu'; // Подключаем компонент нижнего меню
 
-const ServicesScreen = ({ navigation }) => {
+const PacketServices = ({ navigation }) => {
     const services = [
-        'Букет',
-        'Прикраса зали',
-        'Прикраса автомобілю',
-        'Букет нареченої'
+        'Пакет №1',
+        'Пакет №2',
+        'Пакет №3',
+        'Пакет №4'
     ];
 
     return (
@@ -18,18 +18,14 @@ const ServicesScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
-                <Text style={styles.title}>Послуги</Text>
+                <Text style={styles.title}>Пакети послуг</Text>
             </View>
 
             {/* Контейнер с услугами */}
             <View style={styles.servicesContainer}>
                 {services.map((service, index) => (
                     <TouchableOpacity key={index} style={styles.serviceItem}>
-                        <Text style={styles.serviceText}>
-                            {service.split(' ').map((word, idx) =>
-                                idx === 1 ? `\n${word}` : word
-                            )}
-                        </Text>
+                        <Text style={styles.serviceText}>{service}</Text>
                     </TouchableOpacity>
                 ))}
                 <TouchableOpacity style={styles.addButton}>
@@ -83,6 +79,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#ffffff',
         textAlign: 'left', // Текст выравнивается по левому краю
+        whiteSpace: 'nowrap', // Отключение переноса текста
     },
     addButton: {
         marginTop: 5, // Отступ сверху для кнопки относительно блоков
@@ -98,4 +95,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ServicesScreen;
+export default PacketServices;
