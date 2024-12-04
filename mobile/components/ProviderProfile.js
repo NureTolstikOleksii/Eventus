@@ -6,7 +6,7 @@ import BottomMenu from '../components/BottomMenu'; // Подключение к�
 import { FontAwesome } from '@expo/vector-icons';
 
 
-const ProviderProfile = () => {
+const ProviderProfile = ({ navigation }) => { // Добавлено { navigation }
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedField, setSelectedField] = useState('');
     const [inputValue, setInputValue] = useState('');
@@ -79,7 +79,7 @@ const ProviderProfile = () => {
 
                 {/* Меню */}
                 <View style={styles.menuContainer}>
-                    <TouchableOpacity style={styles.menuItem}>
+                    <TouchableOpacity onPress={() => navigation.navigate('ServicesScreen')} style={styles.menuItem}>
                         <Text style={styles.menuText}>Послуги</Text>
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
@@ -146,12 +146,14 @@ const ProviderProfile = () => {
 const styles = StyleSheet.create({
     container: { flex: 1 },
     content: { paddingBottom: 80 },
-    header: { flexDirection: 'row', justifyContent: 'space-between', padding: 20, alignItems: 'center', paddingTop: 40 },
+    header: { flexDirection: 'row', justifyContent: 'space-between', padding: 20, alignItems: 'center', paddingTop: 20 },
     title: { fontSize: 20, color: '#ffffff' },
     backIcon: { width: 15, height: 15 },
     editIcon: { width: 28, height: 28 },
     profileContainer: { alignItems: 'center', marginTop: 20 },
     profileImage: { width: 119, height: 116, borderRadius: 40 },
+    userName: { color: 'white' },
+    organizationName: { color: 'white' },
     starsContainer: { flexDirection: 'row', marginTop: 5 },
     starIcon: { width: 25, height: 25, marginHorizontal: 8 },
     menuContainer: { marginTop: 20 },

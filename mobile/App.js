@@ -8,6 +8,8 @@ import ReviewsScreen from './components/Reviews';
 // import ProfileOrder from './components/ProfileOrder';
 import CheckList from './components/checklist';
 import ProviderProfile from './components/ProviderProfile';
+import ServicesScreen from './components/ServicesProviderProfile';
+
 
 const Stack = createStackNavigator();
 
@@ -21,6 +23,7 @@ export default function App() {
                 <Stack.Screen name="Reviews" component={ReviewsScreen} />
                 <Stack.Screen name="ProviderProfile" component={ProviderProfile} />
                 <Stack.Screen name="CheckList" component={CheckList} />
+                <Stack.Screen name="ServicesScreen" component={ServicesScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
