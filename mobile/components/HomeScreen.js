@@ -30,7 +30,18 @@ const HomeScreen = () => {
         { key: 'eat', image: require('../assets/images/eat.png') },
         { key: 'hb', image: require('../assets/images/hb.png') },
     ];
-
+    const categories = [
+        'Флористика',
+        'Їжа',
+        'Локації',
+        'Зйомка',
+        'Декор',
+        'Розваги',
+        'Організація',
+        'Одяг та краса',
+        'Транспорт',
+        'Оренда',
+    ];
     const toggleCategory = (category) => {
         setSelectedCategories((prevState) => ({
             ...prevState,
@@ -115,8 +126,85 @@ const HomeScreen = () => {
                         </View>
                     ))}
                 </ScrollView>
-            </LinearGradient>
 
+            </LinearGradient>
+            {/* Modal for Filters */}
+            <Modal visible={isFilterVisible} transparent animationType="slide">
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Фільтрація</Text>
+
+                        <Text style={styles.filterSectionTitle}>Категорія</Text>
+                        <View style={styles.checkboxContainer}>
+                            {categories.map((category) => (
+                                <TouchableOpacity
+                                    key={category}
+                                    style={styles.checkboxItem}
+                                    onPress={() => toggleCategory(category)}
+                                >
+                                    <FontAwesome
+                                        name={selectedCategories[category] ? 'check-square' : 'square-o'}
+                                        size={24}
+                                        color={selectedCategories[category] ? '#83B620' : '#ccc'}
+                                    />
+                                    <Text style={styles.checkboxText}>{category}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+
+                        <Text style={styles.filterSectionTitle}>Рейтинг</Text>
+                        <View style={styles.ratingContainer}>
+                            {[5, 4, 3, 2, 1].map((rating) => (
+                                <TouchableOpacity
+                                    key={rating}
+                                    style={styles.ratingItem}
+                                    onPress={() => toggleRating(rating)}
+                                >
+                                    <FontAwesome
+                                        name={selectedRating === rating ? 'check-square' : 'square-o'}
+                                        size={24}
+                                        color={selectedRating === rating ? '#83B620' : '#ccc'}
+                                    />
+                                    <View style={styles.ratingStars}>
+                                        {[...Array(5)].map((_, i) => (
+                                            <FontAwesome
+                                                key={i}
+                                                name="star"
+                                                size={20}
+                                                color={i < rating ? '#6fa32b' : '#ddd'}
+                                                style={{ marginRight: 4 }}
+                                            />
+                                        ))}
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+
+                        <Text style={styles.filterSectionTitle}>Ціна</Text>
+                        <View style={styles.priceSliderContainer}>
+                            <View style={styles.sliderValues}>
+                                <Text style={styles.sliderText}>{priceRange[0]} грн</Text>
+                                <Text style={styles.sliderText}>{priceRange[1]} грн</Text>
+                            </View>
+                            <MultiSlider
+                                values={priceRange}
+                                sliderLength={250}
+                                onValuesChange={(values) => setPriceRange(values)}
+                                min={0}
+                                max={2000}
+                                step={100}
+                                selectedStyle={{ backgroundColor: '#6fa32b' }}
+                                unselectedStyle={{ backgroundColor: '#ddd' }}
+                                markerStyle={{ backgroundColor: '#6fa32b' }}
+                            />
+                        </View>
+
+                        <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
+                            <Text style={styles.applyButtonText}>Застосувати</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
             {/* Фиксированное меню */}
             <BottomMenu />
         </View>
@@ -217,7 +305,7 @@ const styles = StyleSheet.create({
     },
     greenSectionTitle: {
         fontSize: 24,
-        color: '#335237',
+        color: '#83B620',
         marginVertical: 10,
         paddingHorizontal: 20,
     },
@@ -247,5 +335,83 @@ const styles = StyleSheet.create({
     },
     topPackageRating: {
         flexDirection: 'row',
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 15,
+        width: '90%',
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#83B620',
+        marginBottom: 20,
+    },
+    filterSectionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#83B620',
+        marginVertical: 10,
+        alignSelf: 'flex-start',
+    },
+    checkboxContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    checkboxItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 5,
+        width: '48%',
+    },
+    checkboxText: {
+        marginLeft: 10,
+        fontSize: 16,
+        color: '#000',
+    },
+    ratingContainer: {
+        width: '100%',
+        alignItems: 'left',
+    },
+    ratingItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 5,
+    },
+    ratingStars: {
+        flexDirection: 'row',
+        marginLeft: 10,
+    },
+    priceSliderContainer: {
+        marginVertical: 20,
+        width: '100%',
+    },
+    sliderValues: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        paddingHorizontal: 10,
+        marginBottom: 10,
+    },
+    sliderText: {
+        fontSize: 16,
+        color: '#000',
+    },
+    applyButton: {
+        backgroundColor: '#83B620',
+        paddingVertical: 12,
+        paddingHorizontal: 25,
+        borderRadius: 25,
+        marginTop: 20,
     },
 });
