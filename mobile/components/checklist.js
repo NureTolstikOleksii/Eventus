@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Modal, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
+import BottomMenu from '../components/BottomMenu';
 
-const WishlistScreen = () => {
+
+const CheckList = () => {
     const [wishlistItems, setWishlistItems] = useState([
         { id: 1, title: 'Замовити букет', completed: true },
         { id: 2, title: 'Зарезервувати місце для дня народження', completed: false },
@@ -73,16 +75,19 @@ const WishlistScreen = () => {
                             </TouchableOpacity>
                         </View>
                     ))}
-                </ScrollView>
 
-                {/* Add Button */}
-                <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={() => setModalVisible(true)}
-                >
-                    <FontAwesome name="plus" size={30} color="#6fa32b" />
-                </TouchableOpacity>
+                    {/* Add Button */}
+                    <TouchableOpacity
+                        style={styles.addButton}
+                        onPress={() => setModalVisible(true)}
+                    >
+                        <FontAwesome name="plus" size={30} color="#83B620" />
+                    </TouchableOpacity>
+                </ScrollView>
             </LinearGradient>
+
+            {/* Bottom Menu */}
+            <BottomMenu />
 
             {/* Modal for Adding Item */}
             <Modal
@@ -119,7 +124,7 @@ const WishlistScreen = () => {
     );
 };
 
-export default WishlistScreen;
+export default CheckList;
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff' },
@@ -149,15 +154,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     addButton: {
-        position: 'absolute',
-        bottom: 30,
-        right: 30,
+        alignSelf: 'center', // Выравнивание по центру
+        marginTop: 20, // Отступ сверху
         width: 60,
         height: 60,
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f2f2f2',
         elevation: 5,
     },
     modalContainer: {

@@ -303,6 +303,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 40,
     },
+    serviceLabelText: {
+        color: '#fff',
+        fontSize: 16,
+    },
     greenSectionTitle: {
         fontSize: 24,
         color: '#83B620',
