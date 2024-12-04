@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image, Modal } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import BottomMenu from '../components/BottomMenu';
+import { StyleSheet } from 'react-native';
 
 const HomeScreen = () => {
     const [selectedTab, setSelectedTab] = useState('home');
@@ -14,8 +15,9 @@ const HomeScreen = () => {
 
     const topPackages = [
         { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 4, price: 500 },
-        { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 5, price: 1500 },
-        { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 3, price: 1200 },
+        { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 4, price: 500 },
+        { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 4, price: 500 },
+
     ];
 
     const topServices = [
@@ -59,10 +61,15 @@ const HomeScreen = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={{ flex: 1 }}>
             {/* Основной контент */}
-            <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.gradient}>
-                <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+            <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={[styles.gradient, { flex: 1, position: 'relative' }]}
+            >
+                <ScrollView
+                    showsVerticalScrollIndicator={true}
+                    nestedScrollEnabled={true}
+                    style={styles.topPackages}
+                >
                     {/* Top Bar */}
                     <View style={styles.topBar}>
                         <Text style={styles.cityText}>Харків</Text>
@@ -105,108 +112,112 @@ const HomeScreen = () => {
 
                     {/* Top Packages */}
                     <Text style={styles.greenSectionTitle}>Топ пакетів:</Text>
-                    {topPackages.map((pkg, index) => (
-                        <View key={index} style={styles.topPackageCard}>
-                            <Image source={pkg.image} style={styles.topPackageImage} />
-                            <View style={styles.topPackageDetails}>
-                                <Text style={styles.topPackageTitle}>{pkg.title}</Text>
-                                <Text style={styles.topPackagePrice}>{pkg.price} грн</Text>
-                                <View style={styles.topPackageRating}>
-                                    {[...Array(5)].map((_, i) => (
-                                        <FontAwesome
-                                            key={i}
-                                            name="star"
-                                            size={16}
-                                            color={i < pkg.rating ? '#FFD700' : '#ccc'}
-                                            style={{ marginRight: 4 }}
-                                        />
-                                    ))}
-                                </View>
-                            </View>
-                        </View>
-                    ))}
-                </ScrollView>
-
-            </LinearGradient>
-            {/* Modal for Filters */}
-            <Modal visible={isFilterVisible} transparent animationType="slide">
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Фільтрація</Text>
-
-                        <Text style={styles.filterSectionTitle}>Категорія</Text>
-                        <View style={styles.checkboxContainer}>
-                            {categories.map((category) => (
-                                <TouchableOpacity
-                                    key={category}
-                                    style={styles.checkboxItem}
-                                    onPress={() => toggleCategory(category)}
-                                >
-                                    <FontAwesome
-                                        name={selectedCategories[category] ? 'check-square' : 'square-o'}
-                                        size={24}
-                                        color={selectedCategories[category] ? '#83B620' : '#ccc'}
-                                    />
-                                    <Text style={styles.checkboxText}>{category}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-
-                        <Text style={styles.filterSectionTitle}>Рейтинг</Text>
-                        <View style={styles.ratingContainer}>
-                            {[5, 4, 3, 2, 1].map((rating) => (
-                                <TouchableOpacity
-                                    key={rating}
-                                    style={styles.ratingItem}
-                                    onPress={() => toggleRating(rating)}
-                                >
-                                    <FontAwesome
-                                        name={selectedRating === rating ? 'check-square' : 'square-o'}
-                                        size={24}
-                                        color={selectedRating === rating ? '#83B620' : '#ccc'}
-                                    />
-                                    <View style={styles.ratingStars}>
+                    <View style={{ height: 300 }}> {/* Установите желаемую высоту */}
+                        {topPackages.map((pkg, index) => (
+                            <View key={index} style={styles.topPackageCard}>
+                                <Image source={pkg.image} style={styles.topPackageImage} />
+                                <View style={styles.topPackageDetails}>
+                                    <Text style={styles.topPackageTitle}>{pkg.title}</Text>
+                                    <Text style={styles.topPackagePrice}>{pkg.price} грн</Text>
+                                    <View style={styles.topPackageRating}>
                                         {[...Array(5)].map((_, i) => (
                                             <FontAwesome
                                                 key={i}
                                                 name="star"
-                                                size={20}
-                                                color={i < rating ? '#6fa32b' : '#ddd'}
+                                                size={16}
+                                                color={i < pkg.rating ? '#FFD700' : '#ccc'}
                                                 style={{ marginRight: 4 }}
                                             />
                                         ))}
                                     </View>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-
-                        <Text style={styles.filterSectionTitle}>Ціна</Text>
-                        <View style={styles.priceSliderContainer}>
-                            <View style={styles.sliderValues}>
-                                <Text style={styles.sliderText}>{priceRange[0]} грн</Text>
-                                <Text style={styles.sliderText}>{priceRange[1]} грн</Text>
+                                </View>
                             </View>
-                            <MultiSlider
-                                values={priceRange}
-                                sliderLength={250}
-                                onValuesChange={(values) => setPriceRange(values)}
-                                min={0}
-                                max={2000}
-                                step={100}
-                                selectedStyle={{ backgroundColor: '#6fa32b' }}
-                                unselectedStyle={{ backgroundColor: '#ddd' }}
-                                markerStyle={{ backgroundColor: '#6fa32b' }}
-                            />
-                        </View>
-
-                        <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
-                            <Text style={styles.applyButtonText}>Застосувати</Text>
-                        </TouchableOpacity>
+                        ))}
                     </View>
-                </View>
-            </Modal>
-            {/* Фиксированное меню */}
-            <BottomMenu />
+
+                    {/* Modal for Filters */}
+                    <Modal visible={isFilterVisible} transparent animationType="slide">
+                        <View style={styles.modalContainer}>
+                            <View style={styles.modalContent}>
+                                <Text style={styles.modalTitle}>Фільтрація</Text>
+
+                                <Text style={styles.filterSectionTitle}>Категорія</Text>
+                                <View style={styles.checkboxContainer}>
+                                    {categories.map((category) => (
+                                        <TouchableOpacity
+                                            key={category}
+                                            style={styles.checkboxItem}
+                                            onPress={() => toggleCategory(category)}
+                                        >
+                                            <FontAwesome
+                                                name={selectedCategories[category] ? 'check-square' : 'square-o'}
+                                                size={24}
+                                                color={selectedCategories[category] ? '#83B620' : '#ccc'}
+                                            />
+                                            <Text style={styles.checkboxText}>{category}</Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+
+                                <Text style={styles.filterSectionTitle}>Рейтинг</Text>
+                                <View style={styles.ratingContainer}>
+                                    {[5, 4, 3, 2, 1].map((rating) => (
+                                        <TouchableOpacity
+                                            key={rating}
+                                            style={styles.ratingItem}
+                                            onPress={() => toggleRating(rating)}
+                                        >
+                                            <FontAwesome
+                                                name={selectedRating === rating ? 'check-square' : 'square-o'}
+                                                size={24}
+                                                color={selectedRating === rating ? '#83B620' : '#ccc'}
+                                            />
+                                            <View style={styles.ratingStars}>
+                                                {[...Array(5)].map((_, i) => (
+                                                    <FontAwesome
+                                                        key={i}
+                                                        name="star"
+                                                        size={20}
+                                                        color={i < rating ? '#6fa32b' : '#ddd'}
+                                                        style={{ marginRight: 4 }}
+                                                    />
+                                                ))}
+                                            </View>
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+
+                                <Text style={styles.filterSectionTitle}>Ціна</Text>
+                                <View style={styles.priceSliderContainer}>
+                                    <View style={styles.sliderValues}>
+                                        <Text style={styles.sliderText}>{priceRange[0]} грн</Text>
+                                        <Text style={styles.sliderText}>{priceRange[1]} грн</Text>
+                                    </View>
+                                    <MultiSlider
+                                        values={priceRange}
+                                        sliderLength={250}
+                                        onValuesChange={(values) => setPriceRange(values)}
+                                        min={0}
+                                        max={2000}
+                                        step={100}
+                                        selectedStyle={{ backgroundColor: '#6fa32b' }}
+                                        unselectedStyle={{ backgroundColor: '#ddd' }}
+                                        markerStyle={{ backgroundColor: '#6fa32b' }}
+                                    />
+                                </View>
+
+                                <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
+                                    <Text style={styles.applyButtonText}>Застосувати</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+                </ScrollView>
+                {/* Нижнее меню */}
+                <BottomMenu />
+            </LinearGradient>
+
+
         </View>
     );
 };
