@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
+import BottomMenu from '../components/BottomMenu'; // Подключение компонента меню
 
 const ProfileOrder = () => {
     return (
