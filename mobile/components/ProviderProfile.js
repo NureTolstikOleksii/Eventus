@@ -54,9 +54,14 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
             <ScrollView contentContainerStyle={styles.content}>
                 {/* Заголовок */}
                 <View style={styles.header}>
-                    <TouchableOpacity>
-                        <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
-                    </TouchableOpacity>
+                <TouchableOpacity
+                onPress={() => navigation.navigate('Home')} // Переход на HomeScreen(добавленая функция, может быть не оч)
+            >
+                <Image
+                    source={require('../assets/images/arrow.png')}
+                    style={styles.backIcon}
+                />
+            </TouchableOpacity>
                     <Text style={styles.title}>Профіль</Text>
                     <TouchableOpacity onPress={toggleModal}>
                         <Image source={require('../assets/images/pencil.png')} style={styles.editIcon} />
