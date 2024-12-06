@@ -9,11 +9,8 @@ import CheckList from './components/checklist';
 import ProviderProfile from './components/ProviderProfile';
 import ServicesScreen from './components/ServicesProviderProfile';
 import PacketServices from './components/PacketServices';
-// import Orders from './components/Orders';
-// import ProfileOrder from './components/ProfileOrder';
-//Эти 2 странички уже есть, не соединены, первая делает блекаут приложению.
-
-
+import Orders from './components/Orders';
+import ProfileOrder from './components/ProfileOrder';
 
 const Stack = createStackNavigator();
 
@@ -29,8 +26,8 @@ export default function App() {
                 <Stack.Screen name="CheckList" component={CheckList} />
                 <Stack.Screen name="ServicesScreen" component={ServicesScreen} />
                 <Stack.Screen name="PacketServices" component={PacketServices} />
-                {/* <Stack.Screen name="Orders" component={Orders} />;  */}
-                {/* <Stack.Screen name="ProfileOrder" component={ProfileOrder} /> */}
+                <Stack.Screen name="Orders" component={Orders} />
+                <Stack.Screen name="ProfileOrder" component={ProfileOrder} />
             </Stack.Navigator>
         </NavigationContainer>
     );

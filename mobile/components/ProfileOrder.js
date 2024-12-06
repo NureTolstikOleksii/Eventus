@@ -10,14 +10,14 @@ const ProfileOrder = () => {
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
                     <TouchableOpacity style={styles.backButton}>
-                        <Image source={require('../../assets/images/backarrow.png')} style={styles.icon} />
+                        <Image source={require('../assets/images/backarrow.png')} style={styles.icon} />
                     </TouchableOpacity>
-                    <Image source={require('../../assets/images/chatwhite.png')} style={styles.icon} />
+                    <Image source={require('../assets/images/chatwhite.png')} style={styles.icon} />
                 </View>
 
                 <View style={styles.profileContainer}>
                     <View style={styles.avatarWrapper}>
-                        <Image source={require('../../assets/images/china.png')} style={styles.avatar} />
+                        <Image source={require('../assets/images/china.png')} style={styles.avatar} />
                     </View>
                     <Text style={styles.nameText}>Lee Know</Text>
                     <Text style={styles.organizationText}>Назва організації</Text>
@@ -53,7 +53,7 @@ const ProfileOrder = () => {
     );
 };
 
-export default ProfileOrder;
+
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
@@ -139,3 +139,5 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
     },
 });
+
+export default ProfileOrder;

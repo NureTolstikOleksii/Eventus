@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import BottomMenu from '../components/BottomMenu'; // Подключаем компонент нижнего меню
 
-const ServiceScreen = ({ navigation }) => {
+const Orders = ({ navigation }) => {
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -48,7 +48,7 @@ const ServiceScreen = ({ navigation }) => {
     );
 };
 
-export default ServiceScreen;
+
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
@@ -109,3 +109,4 @@ const styles = StyleSheet.create({
     },
 });
 // New screen was added
+export default Orders;
