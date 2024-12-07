@@ -171,9 +171,6 @@ function ProfileCustomer() {
                   <p>Дата замовлення: {order.date}</p>
                   <p>Ціна: {order.price}</p>
                 </div>
-                <Link to="#" className="remove-orders-link">
-                  <img src={minus} alt="Minus" />
-                </Link>
               </div>
             ))}
           </div>

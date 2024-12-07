@@ -18,7 +18,10 @@
   width: 300px;
 }
 
-.block:nth-child(2),
+.block:nth-child(2){
+  width: 400px;
+  /* height: 345px; */
+}
 .block:nth-child(3) {
   width: 400px;
 }
@@ -33,7 +36,7 @@
   max-height: 400px;
 }
 .block:hover {
-  background-color: rgba(16, 93, 2, 0.473);
+  background-color: rgba(6,6,6, 0.473);
   transition: background-color 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -106,6 +109,9 @@
   font-weight: 600;
   color: #ffffff;
 }
+.my-service-item:hover{
+  background-color: rgba(116,116,116, 0.6);
+}
 .my-services-package-item {
   padding: 10px;
   margin: 10px auto;
@@ -116,8 +122,11 @@
   font-weight: 600;
   color: #ffffff;
 }
+.my-services-package-item:hover{
+  background-color: rgba(116,116,116, 0.6);
+}
 .plus-my-services {
-  margin: 20px 0 15px 0;
+  margin: 35px 0 15px 0;
   width: 20px;
   cursor: pointer;
 }
@@ -139,7 +148,7 @@
 }
 
 .profile-provider-review-item:hover {
-  background-color: rgba(16, 93, 2, 0.473);
+  background-color: rgba(6,6,6, 0.473);
   transition: background-color 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -246,7 +255,8 @@
 }
 
 .modal-content {
-  background-color: #4f6244;
+  background-color: #3B3B3B;
+  opacity: 0.95;
   padding: 20px;
   border-radius: 10px;
   max-width: 600px;
@@ -254,8 +264,7 @@
   box-sizing: border-box;
 }
 .modal-content form {
-  background-color: #394732;
-  opacity: 0.9;
+  background-color: #282828;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -263,7 +272,7 @@
   width: 100%;
   border-radius: 5px;
   border: 1px solid #ccc;
-  background-color: #637a56;
+  background-color: #313131;
   color: #fff;
   box-sizing: border-box;
   margin: 10px 0 0 0;
@@ -273,17 +282,17 @@
   height: 100px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  background-color: #637a56;
+  background-color: #313131;
   color: #fff;
   box-sizing: border-box;
   margin: 15px 0 0 0;
   resize: none;
 }
 .modal-content form input:focus {
-  background-color: #43533b;
+  background-color: #515151;
 }
 .modal-content form textarea:focus {
-  background-color: #43533b;
+  background-color: #515151;
 }
 
 .form-buttons {
