@@ -151,4 +151,73 @@ export class ServicesService {
     }
     }
 
+    //addService
+
+    async addService(db, serviceData) {
+        try {
+            const query = `
+                INSERT INTO Service (name, description, photo_url, price, location_id, provider_id, category_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            `;
+            const params = [
+                serviceData.name,
+                serviceData.description,
+                serviceData.photo_url,
+                serviceData.price,
+                serviceData.location_id,
+                serviceData.provider_id,
+                serviceData.category_id,
+            ];
+            const result = await db.run(query, params);
+    
+            if (!result) {
+                throw new Error('Failed to add service');
+            }
+    
+            return { message: 'Service added successfully', serviceId: result.lastID };
+        } catch (error) {
+            throw new Error('Failed to add service: ' + error.message);
+        }
+    }
+    
+    //confirmDeleteService
+
+    async confirmDeleteService(db, serviceId) {
+        try {
+            const query = `
+                SELECT COUNT(*) AS activeOrders 
+                FROM Orders 
+                WHERE service_id = ? AND status = 'active'
+            `;
+            const result = await db.get(query, [serviceId]);
+    
+            if (result.activeOrders > 0) {
+                return { canDelete: false, message: 'Service has active orders and cannot be deleted' };
+            }
+    
+            return { canDelete: true, message: 'Service can be deleted' };
+        } catch (error) {
+            throw new Error('Failed to confirm service deletion: ' + error.message);
+        }
+    }
+
+    //deleteService
+
+    async deleteService(db, serviceId) {
+        try {
+            const query = `DELETE FROM Service WHERE service_id = ?`;
+            const result = await db.run(query, [serviceId]);
+    
+            if (result.changes === 0) {
+                throw new Error('Service not found');
+            }
+    
+            return { message: 'Service deleted successfully' };
+        } catch (error) {
+            throw new Error('Failed to delete service: ' + error.message);
+        }
+    }
+    
+    
+    
 }
