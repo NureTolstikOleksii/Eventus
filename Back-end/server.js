@@ -14,6 +14,7 @@ import { filterRouter } from './src/filtering/filter.controller.js';
 import { orderRouter } from './src/order/order.controller.js';
 import { checklistRouter } from './src/checklist/checklist.controller.js';
 import { reviewsRouter } from './src/reviews/reviews.controller.js';
+import { wishlistRouter } from './src/wishlist/wishlist.controller.js';
 
 dotenv.config();
 
@@ -58,6 +59,7 @@ async function main() {
     app.use('/order', orderRouter);
     app.use('/checklist', checklistRouter);
     app.use('/reviews', reviewsRouter);
+    app.use('/wishlist', wishlistRouter);
   
     //Для перевірки існування сесії
     app.get('/session', (req, res) => {
