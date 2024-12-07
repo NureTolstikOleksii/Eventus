@@ -1,0 +1,155 @@
+.order-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 80vh;
+    padding: 40px;
+    background-color: #000000;
+    background-image: url('../assets/background-order.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    box-sizing: border-box;
+}
+
+.order-page-title {
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.order-page-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.order-page-left {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #035d0f;
+    border-radius: 10px;
+    padding: 20px;
+    color: #fff;
+    flex: 1;
+
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.order-page-left p {
+    margin: 5px 0; /* Уменьшает вертикальные отступы между абзацами */
+    line-height: 1.4; /* Регулирует расстояние между строками */
+  }
+  
+  .order-page-left p b {
+    margin-right: 5px; /* Отступ между жирным текстом и обычным */
+  }
+.order-page-right {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #035d0f;
+    border-radius: 10px;
+    padding: 20px;
+    color: #fff;
+    flex: 1;
+    height: 270px;
+    justify-content: space-between;
+}
+
+.order-page-calendar-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    min-width: 200px;
+    text-align: center;
+}
+
+.order-page-calendar-button:hover {
+    background-color: #45a049;
+}
+
+.order-page-textarea {
+    width: 96%; /* Задает ширину поля */
+    height: 165px; /* Устанавливает высоту поля */
+    padding: 10px; /* Внутренний отступ */
+    border: 1px solid #046b09; /* Цвет границы */
+    border-radius: 5px; /* Скругление углов */
+    background-color: #096e1d51; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    font-size: 16px; /* Размер шрифта */
+    resize: none;
+}
+
+  /* Изменение стиля при фокусе */
+  .order-page-textarea:focus {
+    outline: none; /* Убирает стандартный синий контур браузера */
+    border-color: #4caf50; /* Цвет границы при фокусе */
+    background-color: #0294134d; /* Более светлый фон при фокусе */
+  }
+
+.order-page-input {
+    width: 96%; /* Задает ширину поля */
+    height: 27px; /* Устанавливает высоту поля */
+    padding: 10px; /* Внутренний отступ */
+    border: 1px solid #046b09; /* Цвет границы */
+    border-radius: 5px; /* Скругление углов */
+    background-color: #096e1d51; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    font-size: 16px; /* Размер шрифта */
+  }
+  
+  /* Изменение стиля при фокусе */
+  .order-page-input:focus {
+    outline: none; /* Убирает стандартный синий контур браузера */
+    border-color: #4caf50; /* Цвет границы при фокусе */
+    background-color: #0294134d; /* Более светлый фон при фокусе */
+  }
+
+.order-page-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.order-page-submit-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    min-width: 200px;
+    text-align: center;
+    width: 50%;
+}
+
+.order-page-submit-button:hover {
+    background-color: #45a049;
+}
