@@ -13,6 +13,8 @@ import { UserProvider } from './context/UserContext'; // Импортируем 
 import ServicePage from './pages/ServicePage';
 import Services from './pages/Services';
 import PackageOfServicesPage from './pages/PackageOfServicesPage';
+import OrderPage from './pages/OrderPage';
+
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
             <Route path="/service-page" element={<ServicePage />} />
             <Route path="/services" element={<Services />} />
             <Route path="/package-of-services-page" element={<PackageOfServicesPage />} />
+            <Route path="/order-page" element={<OrderPage />} />
             {/* Добавьте другие маршруты здесь */}
           </Routes>
           <Footer /> {/* Отображаем Footer на всех страницах */}
