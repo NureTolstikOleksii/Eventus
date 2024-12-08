@@ -15,6 +15,34 @@ function ProfileProvider() {
   const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
   const [isAddServiceModalOpen, setIsAddServiceModalOpen] = useState(false);
 
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [profileInfo, setProfileInfo] = useState({
+    name: "Валєра Х",
+    company: "Назва організації",
+    photo: user,
+  });
+
+  const handleProfileModalOpen = () => setIsProfileModalOpen(true);
+  const handleProfileModalClose = () => setIsProfileModalOpen(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfileInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfileInfo((prev) => ({
+        ...prev,
+        photo: URL.createObjectURL(file),
+      }));
+    }
+  };
+
   const services = [
     "Букет",
     "Прикраса зали",
@@ -62,15 +90,22 @@ function ProfileProvider() {
       >
         <div className="block">
           <div className="block-header">
-            <img src={pencil} alt="Edit" className="icon-pencil" />
+            <img
+              src={pencil}
+              alt="Edit"
+              className="icon-pencil"
+              onClick={handleProfileModalOpen}
+            />
           </div>
+
           <div className="user-info">
-            <img src={user} alt="User" className="user-icon" />
+            <img src={profileInfo.photo} alt="User" className="user-icon" />
             <div>
-              <h3>Валєра Х</h3>
-              <p>Назва організації</p>
+              <h3>{profileInfo.name}</h3>
+              <p>{profileInfo.company}</p>
             </div>
           </div>
+
           <div className="rating">
             <img src={star} alt="rating" className="profile-provider-rating" />
           </div>
@@ -86,7 +121,6 @@ function ProfileProvider() {
 
         <div className="block">
           <div className="second-block-header">
-            <img src={pencil} alt="Edit" className="icon-pencil" />
             <p>Мої послуги</p>
           </div>
           <div className="my-services">
@@ -108,7 +142,6 @@ function ProfileProvider() {
 
         <div className="block">
           <div className="third-block-header">
-            <img src={pencil} alt="Edit" className="icon-pencil" />
             <p>Мої пакети послуг</p>
           </div>
           <div className="my-services-package">
@@ -297,6 +330,63 @@ function ProfileProvider() {
               </select>
             </div>
             <button className="add-service-button">Додати до пакету</button>
+          </div>
+        </div>
+      )}
+
+      {isProfileModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <div className="form-buttons">
+              <img
+                src={arrow}
+                alt="arrow"
+                className="arrow-my-services-package"
+                onClick={handleProfileModalClose}
+              />
+              <img
+                src={checkMark}
+                alt="checkMark"
+                className="check-mark-my-services-package"
+                onClick={handleProfileModalClose}
+              />
+            </div>
+            <h2>Зміна профілю</h2>
+            <form>
+              <div className="form-group">
+                <label htmlFor="input-photo">Фото</label>
+                <input
+                  type="file"
+                  id="input-photo"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="input-name">Ім'я</label>
+                <input
+                  type="text"
+                  id="input-name"
+                  name="name"
+                  value={profileInfo.name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="input-company">Назва компанії</label>
+                <input
+                  type="text"
+                  id="input-company"
+                  name="company"
+                  value={profileInfo.company}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            </form>
           </div>
         </div>
       )}
