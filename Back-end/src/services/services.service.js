@@ -1,12 +1,4 @@
-import crypto from 'crypto';
-import axios from 'axios';
-
-
-
-
 export class ServicesService {
-
-    
     // Существующий метод для получения информации о услуге
     async getServiceDetails(db, serviceId) {
         try {
@@ -159,108 +151,73 @@ export class ServicesService {
     }
     }
 
-    async processTestPayment(db, orderId, amount) {
+    //addService
+
+    async addService(db, serviceData) {
         try {
-            // Проверка существования заказа
-            const orderQuery = 'SELECT * FROM Orders WHERE order_id = ?'; // Убедитесь, что таблица "Orders" существует
-            const order = await db.get(orderQuery, [orderId]);
-            if (!order) {
-                throw new Error('Order not found');
+            const query = `
+                INSERT INTO Service (name, description, photo_url, price, location_id, provider_id, category_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            `;
+            const params = [
+                serviceData.name,
+                serviceData.description,
+                serviceData.photo_url,
+                serviceData.price,
+                serviceData.location_id,
+                serviceData.provider_id,
+                serviceData.category_id,
+            ];
+            const result = await db.run(query, params);
+    
+            if (!result) {
+                throw new Error('Failed to add service');
             }
     
-            // Заглушка для тестового платежа
-            const paymentResponse = {
-                status: 'success',
-                transactionId: 'TEST12345',
-                amount,
-                currency: 'UAH',
-                orderId,
-                details: 'Test payment of 1 UAH',
-            };
-    
-            // Запись транзакции в таблицу Payment
-            const insertQuery = `
-                INSERT INTO Payment (payment_amount, payment_details, payment_status, payment_date, order_id)
-                VALUES (?, ?, ?, DATE('now'), ?)
-            `;
-            await db.run(insertQuery, [amount, paymentResponse.details, paymentResponse.status, orderId]);
-    
-            return paymentResponse;
+            return { message: 'Service added successfully', serviceId: result.lastID };
         } catch (error) {
-            throw new Error('Ошибка при обработке тестового платежа: ' + error.message);
+            throw new Error('Failed to add service: ' + error.message);
+        }
+    }
+    
+    //confirmDeleteService
+
+    async confirmDeleteService(db, serviceId) {
+        try {
+            const query = `
+                SELECT COUNT(*) AS activeOrders 
+                FROM Orders 
+                WHERE service_id = ? AND status = 'active'
+            `;
+            const result = await db.get(query, [serviceId]);
+    
+            if (result.activeOrders > 0) {
+                return { canDelete: false, message: 'Service has active orders and cannot be deleted' };
+            }
+    
+            return { canDelete: true, message: 'Service can be deleted' };
+        } catch (error) {
+            throw new Error('Failed to confirm service deletion: ' + error.message);
         }
     }
 
-    async processRealPaymentDonatello(db, orderId, amount) {
-        const donatelloApiUrl = 'https://donatello.to/EVENTUS';
-        const apiKey = process.env.DONATELLO_API_KEY;
-    
-        try {
-            // Проверка существования заказа
-            const orderQuery = 'SELECT * FROM Orders WHERE order_id = ?';
-            const order = await db.get(orderQuery, [orderId]);
-            if (!order) {
-                throw new Error('Order not found');
-            }
-    
-            // Параметры платежа
-            const paymentData = {
-                amount: amount , // Donatello API принимает сумму в копейках
-                currency: 'UAH',
-                description: `Payment for order #${orderId}`,
-                order_id: `${orderId}_${Date.now()}`, // Уникальный ID заказа
-                result_url: 'http://localhost:3000/payment-success', // URL для редиректа после успешного платежа
-                server_url: 'http://localhost:4200/services/payment-callback', // URL для вебхука
-            };
-    
-            console.log('Payment Data:', paymentData); // Логируем параметры перед отправкой
-    
-            const headers = {
-                'X-Token': apiKey, // Используем X-Token вместо Authorization
-                'Content-Type': 'application/json',
-            };
-    
-            // Отправка запроса на создание платежа
-            const response = await axios.post(donatelloApiUrl, paymentData, { headers });
-            const paymentLink = response.data.link;
-    
-            // Сохранение информации о платеже
-            const insertQuery = 
-                `INSERT INTO Payment (payment_amount, payment_details, payment_status, payment_date, order_id)
-                VALUES (?, ?, ?, DATE('now'), ?)`
-            await db.run(insertQuery, [amount, 'Pending payment via Donatello', 'pending', orderId]);
-    
-            return { status: 'pending', paymentLink };
-        } catch (error) {
-            console.error('Error creating payment via Donatello API:', error.response ? error.response.data : error.message);
-            throw new Error('Ошибка при создании платежа через Donatello API: ' + error.message);
-        }
-    }
-    
-    async handlePaymentCallbackDonatello(db, callbackData) {
-        try {
-            if (!callbackData || !callbackData.order_id || !callbackData.status || !callbackData.amount) {
-                throw new Error('Invalid callback data');
-            }
-    
-            const { order_id, status, amount } = callbackData;
-    
-            // Обновление статуса в базе данных
-            const updateQuery = `
-                UPDATE Payment
-                SET payment_status = ?, payment_details = ?
-                WHERE payment_details LIKE ? AND payment_amount = ?
-            `;
-            await db.run(updateQuery, [status, JSON.stringify(callbackData), `%${order_id}%`, amount]);
-    
-            return { status: 'success', message: 'Payment status updated' };
-        } catch (error) {
-            console.error('Ошибка при обработке callback от Donatello:', error.message);
-            throw error;
-        }
-    }
-    
-    
-    
+    //deleteService
 
+    async deleteService(db, serviceId) {
+        try {
+            const query = `DELETE FROM Service WHERE service_id = ?`;
+            const result = await db.run(query, [serviceId]);
+    
+            if (result.changes === 0) {
+                throw new Error('Service not found');
+            }
+    
+            return { message: 'Service deleted successfully' };
+        } catch (error) {
+            throw new Error('Failed to delete service: ' + error.message);
+        }
+    }
+    
+    
+    
 }

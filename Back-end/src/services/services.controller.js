@@ -89,49 +89,53 @@ router.get('/provider/:providerId/packages', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+// Маршрут для добавления новой услуги
+router.post('/', async (req, res) => {
+    const { name, description, photo_url, price, location_id, provider_id, category_id } = req.body;
 
-// Маршрут для тестового платежа
-router.post('/order/:orderId/initiate-payment', async (req, res) => {
-    const { orderId } = req.params;
+    if (!name || !provider_id) {
+        return res.status(400).json({ error: 'Name and Provider ID are required' });
+    }
 
     try {
-        const paymentResponse = await servicesService.processTestPayment(req.db, orderId, 1); // 1 грн
-        res.status(200).json(paymentResponse);
+        const newService = await servicesService.addService(req.db, {
+            name,
+            description,
+            photo_url,
+            price,
+            location_id,
+            provider_id,
+            category_id,
+        });
+        res.status(201).json(newService);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
-/// Новый маршрут для инициации реального платежа через Donatello API
-router.post('/order/:orderId/pay', async (req, res) => {
-    const { orderId } = req.params;
+// Маршрут для подтверждения удаления услуги
+router.get('/:serviceId/confirm-delete', async (req, res) => {
+    const { serviceId } = req.params;
 
     try {
-        const paymentResponse = await servicesService.processRealPaymentDonatello(req.db, orderId, 1); // 1 грн
-        res.status(200).json(paymentResponse); // Возвращает ссылку на оплату
+        const canDelete = await servicesService.confirmDeleteService(req.db, serviceId);
+        res.status(200).json(canDelete);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
-// Обработка обратного вызова от Donatello API
-router.post('/payment-callback', async (req, res) => {
-    try {
-        console.log('Raw Body:', req.body);
-        if (!req.body || Object.keys(req.body).length === 0) {
-            throw new Error('Empty body received');
-        }
+// Маршрут для удаления услуги
+router.delete('/:serviceId', async (req, res) => {
+    const { serviceId } = req.params;
 
-        const callbackData = req.body;
-        const result = await servicesService.handlePaymentCallbackDonatello(req.db, callbackData);
-        res.status(200).json(result);
+    try {
+        const deleteResult = await servicesService.deleteService(req.db, serviceId);
+        res.status(200).json(deleteResult);
     } catch (error) {
-        console.error('Ошибка при обработке callback:', error.message);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
-
-
 
 
 

@@ -11,8 +11,10 @@ import ProfileProvider from './pages/ProfileProvider';
 import ProfileCustomer from './pages/ProfileCustomer';
 import { UserProvider } from './context/UserContext'; // Импортируем UserProvider
 import ServicePage from './pages/ServicePage';
+import Services from './pages/Services';
 import PackageOfServicesPage from './pages/PackageOfServicesPage';
 import OrderPage from './pages/OrderPage';
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
             <Route path="/registration" element={<Registration />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/service-page" element={<ServicePage />} />
+            <Route path="/services" element={<Services />} />
             <Route path="/package-of-services-page" element={<PackageOfServicesPage />} />
             <Route path="/order-page" element={<OrderPage />} />
             {/* Добавьте другие маршруты здесь */}

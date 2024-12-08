@@ -13,7 +13,16 @@ import { Link } from "react-router-dom";
 
 function ProfileCustomer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [reviewImage, setReviewImage] = useState(null);
+  const [reviewText, setReviewText] = useState("");
   const [items, setItems] = useState([{ text: "", checked: false }]);
+  const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    name: "Валєра Х",
+    photo: user,
+  });
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -21,6 +30,24 @@ function ProfileCustomer() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setIsReviewModalOpen(false);
+  };
+
+  const handleOpenReviewModal = (order) => {
+    setSelectedOrder(order);
+    setIsReviewModalOpen(true);
+  };
+
+  const handleAddReviewImage = (e) => {
+    const file = e.target.files[0];
+    setReviewImage(file);
+  };
+
+  const handleSubmitReview = () => {
+    console.log("Відгук на замовлення:", selectedOrder.name);
+    console.log("Відгук:", reviewText);
+    console.log("Фото:", reviewImage);
+    handleCloseModal();
   };
 
   const handleCheckboxChange = (index) => {
@@ -43,6 +70,27 @@ function ProfileCustomer() {
   const handleAddItem = () => {
     setItems([...items, { text: "", checked: false }]);
   };
+
+  const handleCloseUserInfoModal = () => {
+    setIsUserInfoModalOpen(false);
+  };
+
+  const handleSaveUserInfo = () => {
+    console.log("User Info Updated:", userInfo);
+    setIsUserInfoModalOpen(false);
+  };
+
+  const handleUserNameChange = (e) => {
+    setUserInfo({ ...userInfo, name: e.target.value });
+  };
+
+  const handleUserPhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUserInfo({ ...userInfo, photo: URL.createObjectURL(file) });
+    }
+  };
+
   const list = [
     {
       name: "Букет",
@@ -52,6 +100,11 @@ function ProfileCustomer() {
     {
       name: "Прикраса зали",
       supplier: "Декоратор 'Святковий стиль'",
+      image: flower,
+    },
+    {
+      name: "Букет нареченної",
+      supplier: "Квіткова студія 'Роза'",
       image: flower,
     },
     {
@@ -79,22 +132,34 @@ function ProfileCustomer() {
       price: "1000 грн",
     },
     {
+      name: "Букет червоних троянд",
+      image: flower,
+      date: "01.12.2024",
+      price: "1000 грн",
+    },
+    {
+      name: "Букет червоних троянд",
+      image: flower,
+      date: "01.12.2024",
+      price: "1000 грн",
+    },
+    {
+      name: "Букет червоних троянд",
+      image: flower,
+      date: "01.12.2024",
+      price: "1000 грн",
+    },
+    {
+      name: "Букет червоних троянд",
+      image: flower,
+      date: "01.12.2024",
+      price: "1000 грн",
+    },
+    {
       name: "Букет лілій",
       image: flower,
       date: "02.12.2024",
       price: "1200 грн",
-    },
-    {
-      name: "Букет орхідей",
-      image: flower,
-      date: "03.12.2024",
-      price: "1500 грн",
-    },
-    {
-      name: "Букет нареченої",
-      image: flower,
-      date: "04.12.2024",
-      price: "1800 грн",
     },
   ];
 
@@ -106,14 +171,21 @@ function ProfileCustomer() {
       >
         <div className="profile-customer-block">
           <div className="profile-customer-block-header">
-            <img src={pencil} alt="Edit" className="icon-pencil" />
+            <img
+              src={pencil}
+              alt="Edit"
+              className="icon-pencil"
+              onClick={() => setIsUserInfoModalOpen(true)}
+            />
           </div>
+
           <div className="user-info">
-            <img src={user} alt="User" className="user-icon" />
+            <img src={userInfo.photo} alt="User" className="user-icon" />
             <div>
-              <h3>Валєра Х</h3>
+              <h3>{userInfo.name}</h3>
             </div>
           </div>
+
           <div className="links">
             <Link to="#notifications" className="reviews">
               Сповіщення
@@ -160,7 +232,11 @@ function ProfileCustomer() {
           </div>
           <div className="my-orders">
             {orders.map((order, index) => (
-              <div key={index} className="my-orders-item">
+              <div
+                key={index}
+                className="my-orders-item"
+                onClick={() => handleOpenReviewModal(order)}
+              >
                 <img
                   src={order.image}
                   alt={order.name}
@@ -171,17 +247,91 @@ function ProfileCustomer() {
                   <p>Дата замовлення: {order.date}</p>
                   <p>Ціна: {order.price}</p>
                 </div>
-                <Link to="#" className="remove-orders-link">
-                  <img src={minus} alt="Minus" />
-                </Link>
               </div>
             ))}
           </div>
-          <div className="add-order">
-            <img src={plus} alt="Plus" className="plus-my-orders" />
-          </div>
         </div>
       </div>
+
+      {isReviewModalOpen && selectedOrder && (
+        <div className="profile-customer-modal-review">
+          <div className="profile-customer-modal-review-content">
+            <img
+              src={greenArrow}
+              alt="Close"
+              className="profile-customer-close-arrow-icon"
+              onClick={handleCloseModal}
+            />
+            <h2>Додати відгук</h2>
+            <p>Послуга: {selectedOrder.name}</p>
+            <p>Постачальник: {}</p>
+            <p>Дата: {}</p>
+            <div className="profile-customer-review-image-section">
+              <label htmlFor="reviewImage">
+                Додати фото:
+                <input
+                  type="file"
+                  id="reviewImage"
+                  accept="image/*"
+                  onChange={handleAddReviewImage}
+                  className="review-image-input"
+                />
+              </label>
+            </div>
+            <textarea
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              placeholder="Напишіть ваш відгук"
+              className="profile-customer-review-textarea"
+            />
+            <button
+              onClick={handleSubmitReview}
+              className="profile-customer-submit-review-button"
+            >
+              Відправити відгук
+            </button>
+          </div>
+        </div>
+      )}
+      {isUserInfoModalOpen && (
+        <div className="profile-customer-modal-user-info">
+          <div className="profile-customer-modal-user-info-content">
+            <img
+              src={greenArrow}
+              alt="Close"
+              className="profile-customer-close-arrow-icon"
+              onClick={handleCloseUserInfoModal}
+            />
+            <h2>Редагувати профіль</h2>
+            <div className="edit-user-info-field">
+              <label htmlFor="userName">Ім'я:</label>
+              <input
+                type="text"
+                id="userName"
+                value={userInfo.name}
+                onChange={handleUserNameChange}
+                className="edit-user-info-input"
+              />
+            </div>
+            <div className="edit-user-info-field">
+              <label htmlFor="userPhoto">Фото:</label>
+              <input
+                type="file"
+                id="userPhoto"
+                accept="image/*"
+                onChange={handleUserPhotoChange}
+                className="edit-user-info-file-input"
+              />
+            </div>
+            <button
+              onClick={handleSaveUserInfo}
+              className="profile-customer-submit-user-info-button"
+            >
+              Зберегти зміни
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="profile-customer-check-letter">
         <button onClick={handleOpenModal}>Чек-лист</button>

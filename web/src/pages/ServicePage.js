@@ -1,9 +1,8 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 import "../css/ServicePage.css";
 import serviceImage1 from "../assets/red-roses.jpg"; // Укажите путь к изображению букета
 import reviewUser from '../assets/dimon.jpg';
-
+import { Link } from 'react-router-dom';
 
 const service = {
   id: 1,
@@ -81,10 +80,10 @@ const ServicePage = () => {
           <p className="price-service">{service.price} грн</p>
           <p className="description-service">{service.description}</p>
           <button className="button-order">
-  <Link to="/order-page" style={{ textDecoration: 'none', color: 'inherit' }}>
-    Замовити
-  </Link>
-</button>
+            <Link to="/order-page" style={{ textDecoration: 'none', color: 'inherit' }}>
+              Замовити
+            </Link>
+          </button>
         </div>
 
         {/* Блок отзывов */}

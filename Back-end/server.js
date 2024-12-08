@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
 import express from 'express';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import session from 'express-session';
 import { connectToDatabase } from './database/database.js';
@@ -13,12 +13,12 @@ import { mainScreenRouter } from './src/main_screen/main_screen.controller.js';
 import { filterRouter } from './src/filtering/filter.controller.js';
 import { orderRouter } from './src/order/order.controller.js';
 import { checklistRouter } from './src/checklist/checklist.controller.js';
+import { reviewsRouter } from './src/reviews/reviews.controller.js';
+import { wishlistRouter } from './src/wishlist/wishlist.controller.js';
 
 dotenv.config();
 
 const app = express();
-
-app.use(express.json());
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -56,11 +56,10 @@ async function main() {
     app.use('/change_data', changeDataRouter);
     app.use('/search', searchRouter);
     app.use('/filtering', filterRouter);
-
     app.use('/order', orderRouter);
     app.use('/checklist', checklistRouter);
-
-
+    app.use('/reviews', reviewsRouter);
+    app.use('/wishlist', wishlistRouter);
   
     //Для перевірки існування сесії
     app.get('/session', (req, res) => {

@@ -1,5 +1,4 @@
-import Constants from 'expo-constants';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -11,109 +10,25 @@ import {
     ScrollView,
     FlatList,
     ImageBackground,
-    TouchableWithoutFeedback,
 } from 'react-native';
 
-const API_KEY = Constants.expoConfig?.extra?.API_KEY;
-
-export default function WelcomeScreen({ navigation }) {
+export default function WelcomeScreen({ navigation }) { // Добавлен параметр navigation
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
     const [isProvider, setIsProvider] = useState(false);
-    const [categories, setCategories] = useState([]);
-    const [isCategoryModalVisible, setIsCategoryModalVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [isCategoryModalVisible, setIsCategoryModalVisible] = useState(false);
 
-   useEffect(() => {
-        const loadCategories = async () => {
-            const fetchedCategories = await fetchCategories();
-            setCategories(fetchedCategories);
-        };
-        loadCategories();
-    }, []);
+    const categories = ['Флористика', 'Їжа', 'Локації', 'Зйомка', 'Декор', 'Розваги', 'Організація', 'Одяг та краса', 'Транспорт', 'Оренда'];
 
-    const fetchCategories = async () => {
-        try {
-            const response = await fetch(`${API_KEY}/register/categories`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch categories');
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error fetching categories:', error);
-            alert('Не вдалося завантажити категорії. Перевірте зʼєднання з інтернетом.');
-            return [];
-        }
-    };
-    
-    const [errors, setErrors] = useState({});
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        phone_number: '',
-        company_name: '',
-        service_category: '',
-    });
-        
-    const handleInputChange = (field, value) => {
-        setFormData((prev) => ({ ...prev, [field]: value }));
-        setErrors((prev) => ({ ...prev, [field]: null })); // Очистка ошибок
-    };
-    
-    const handleSubmit = async () => {
-        try {
-            setErrors({});
-            const endpoint = isProvider ? '/provider' : '/customer';
-            const response = await fetch(`${API_KEY}/register${endpoint}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
-    
-            const result = await response.json();
-            if (!response.ok) {
-                if (result.missingFields) {
-                    setErrors(result.missingFields);
-                } else {
-                    setErrors({ general: result.message });
-                }
-            } else {
-                alert('Registration successful!');
-                handleCloseModal();
-                navigation.navigate('Welcome');
-            }
-        } catch (error) {
-            setErrors({ general: 'Something went wrong. Please try again later.' });
-        }
-    };
-   
     const handleOpenModal = () => {
-        setErrors({}); // Сбрасываем все ошибки
-        setFormData({
-            name: '',
-            email: '',
-            password: '',
-            phone_number: '',
-            company_name: '',
-            service_category: '',
-        });
         setIsModalVisible(true);
     };
 
     const handleCloseModal = () => {
-        setErrors({});
-        setFormData({
-            name: '',
-            email: '',
-            password: '',
-            phone_number: '',
-            company_name: '',
-            service_category: '',
-        });
         setIsModalVisible(false);
         setIsProvider(false);
+        navigation.navigate('Home');
     };
 
     const toggleProvider = () => {
@@ -130,21 +45,25 @@ export default function WelcomeScreen({ navigation }) {
         navigation.navigate('Home');
     };
 
+    const openCategoryModal = () => {
+        setIsCategoryModalVisible(true);
+    };
 
     const closeCategoryModal = () => {
         setIsCategoryModalVisible(false);
     };
 
     const selectCategory = (category) => {
-        setFormData((prev) => ({ ...prev, service_category: category.id }));
-        setSelectedCategory(category.name);
+        setSelectedCategory(category);
         closeCategoryModal();
     };
 
     return (
         <ImageBackground source={require('../assets/images/gradient.png')} style={styles.backgroundImage}>
         <View style={styles.container}>
-            {/* Основное изображение */}           
+            {/* Основное изображение */}
+
+            
             <Image source={require('../assets/images/capibara.png')} style={styles.image} />
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
@@ -161,50 +80,13 @@ export default function WelcomeScreen({ navigation }) {
                 <View style={styles.modalContainer}>
                     <View style={[styles.modalContent, { maxHeight: '70%' }]}>
                         <ScrollView contentContainerStyle={styles.scrollContent}>
-                            {/* Полное имя */}
                             <Text style={styles.label}>Повне ім'я</Text>
-                            <TextInput
-                                style={[styles.input, errors.name && styles.inputError]}
-                                placeholder=""
-                                value={formData.name}
-                                onChangeText={(value) => handleInputChange('name', value)}
-                            />
-                            {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
-
-                            {/* Email */}
+                            <TextInput style={styles.input} placeholder="" />
                             <Text style={styles.label}>Адреса ел. пошти</Text>
-                            <TextInput
-                                style={[styles.input, errors.email && styles.inputError]}
-                                placeholder="example@gmail.com"
-                                keyboardType="email-address"
-                                value={formData.email}
-                                onChangeText={(value) => handleInputChange('email', value)}
-                            />
-                            {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
-
-                            {/* Пароль */}
+                            <TextInput style={styles.input} placeholder="" keyboardType="email-address" />
                             <Text style={styles.label}>Пароль</Text>
-                            <TextInput
-                                style={[styles.input, errors.password && styles.inputError]}
-                                placeholder=""
-                                secureTextEntry
-                                value={formData.password}
-                                onChangeText={(value) => handleInputChange('password', value)}
-                            />
-                            {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+                            <TextInput style={styles.input} placeholder="" secureTextEntry />
 
-                            {/* Номер телефона */}
-                            <Text style={styles.label}>Номер телефону</Text>
-                            <TextInput
-                                style={[styles.input, errors.phone_number && styles.inputError]}
-                                placeholder=""
-                                keyboardType="phone-pad"
-                                value={formData.phone_number}
-                                onChangeText={(value) => handleInputChange('phone_number', value)}
-                            />
-                            {errors.phone_number && <Text style={styles.errorText}>{errors.phone_number}</Text>}
-
-                            {/* Регистрация как поставщик */}
                             <View style={styles.checkboxContainer}>
                                 <TouchableOpacity onPress={toggleProvider} style={styles.checkbox}>
                                     {isProvider && <View style={styles.checkboxInner} />}
@@ -212,40 +94,29 @@ export default function WelcomeScreen({ navigation }) {
                                 <Text style={styles.checkboxText}>Зареєструватися як постачальник</Text>
                             </View>
 
-                            {/* Для поставщиков */}
                             {isProvider && (
                                 <>
                                     <Text style={styles.label}>Назва підприємства</Text>
-                                    <TextInput
-                                        style={[styles.input, errors.company_name && styles.inputError]}
-                                        placeholder=""
-                                        value={formData.company_name}
-                                        onChangeText={(value) => handleInputChange('company_name', value)}
-                                    />
-                                    {errors.company_name && <Text style={styles.errorText}>{errors.company_name}</Text>}
+                                    <TextInput style={styles.input} placeholder="" />
 
                                     <Text style={styles.label}>Категорія послуг</Text>
-                                    <TouchableOpacity style={styles.input} onPress={() => setIsCategoryModalVisible(true)}>
-                                    <Text style={styles.selectedCategoryText} >
-                                        {selectedCategory || 'Виберіть категорію'}
-                                    </Text>
+                                    <TouchableOpacity style={styles.input} onPress={openCategoryModal}>
+                                        <Text style={styles.selectedCategoryText}>
+                                            {selectedCategory || ''}
+                                        </Text>
                                     </TouchableOpacity>
-                                    {errors.service_category && <Text style={styles.errorText}>{errors.service_category}</Text>}
                                 </>
                             )}
 
-                            {/* Кнопка Зареєструватися */}
-                            <TouchableOpacity style={styles.formButton} onPress={handleSubmit}>
+                            <TouchableOpacity style={styles.formButton} onPress={handleCloseModal}>
                                 <View style={styles.simpleFormButton}>
                                     <Text style={styles.buttonText}>Зареєструватися</Text>
                                 </View>
                             </TouchableOpacity>
 
-                            {/* Общие ошибки */}
-                            {errors.general && <Text style={styles.errorText}>{errors.general}</Text>}
-
                             <Text style={styles.orText}>or</Text>
                             <View style={styles.socialContainer}>
+                                {/* Иконки социальных сетей */}
                                 <Image source={require('../assets/images/google.png')} style={styles.socialIcon} />
                                 <Image source={require('../assets/images/Facebook.png')} style={styles.socialIcon} />
                             </View>
@@ -259,26 +130,19 @@ export default function WelcomeScreen({ navigation }) {
             </Modal>
 
             <Modal visible={isCategoryModalVisible} transparent animationType="slide" onRequestClose={closeCategoryModal}>
-                <TouchableWithoutFeedback onPress={closeCategoryModal}>
-                    <View style={styles.categoryModalContainer}>
-                        <TouchableWithoutFeedback>
-                            <View style={styles.categoryModalContent}>
-                                <FlatList
-                                    data={categories}
-                                    keyExtractor={(item) => item.id.toString()}
-                                    renderItem={({ item }) => (
-                                        <TouchableOpacity
-                                            style={styles.categoryItem}
-                                            onPress={() => selectCategory(item)}
-                                        >
-                                            <Text style={styles.categoryText}>{item.name}</Text>
-                                        </TouchableOpacity>
-                                    )}
-                                />
-                            </View>
-                        </TouchableWithoutFeedback>
+                <View style={styles.categoryModalContainer}>
+                    <View style={styles.categoryModalContent}>
+                        <FlatList
+                            data={categories}
+                            keyExtractor={(item) => item}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity style={styles.categoryItem} onPress={() => selectCategory(item)}>
+                                    <Text style={styles.categoryText}>{item}</Text>
+                                </TouchableOpacity>
+                            )}
+                        />
                     </View>
-                </TouchableWithoutFeedback>
+                </View>
             </Modal>
 
             <Modal visible={isLoginModalVisible} transparent animationType="slide" onRequestClose={closeLoginModal}>
@@ -317,10 +181,10 @@ export default function WelcomeScreen({ navigation }) {
 const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
-        resizeMode: 'cover',
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
+        resizeMode: 'cover', // Покрывает весь экран
+        width: '100%', // Ширина экрана
+        height: '100%', // Высота экрана
+        position: 'absolute', // Фиксирует изображение на заднем плане
     },
     
     container: {
@@ -465,10 +329,6 @@ const styles = StyleSheet.create({
     },
     selectedCategoryText: {
         color: '#333',
-        textAlignVertical: 'center',
-        textAlign: 'center',
-        height: '100%',   
-        fontSize: 16,
     },
     categoryModalContainer: {
         flex: 1,
@@ -492,16 +352,5 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#333',
     },
-    errorText: {
-        color: 'red',
-        fontSize: 12,
-        alignSelf: 'flex-start',
-        marginLeft: 20,
-        marginTop: -5,
-        marginBottom: 10,
-    },
-    inputError: {
-        borderColor: 'red',
-        borderWidth: 1,
-    },
 });
+

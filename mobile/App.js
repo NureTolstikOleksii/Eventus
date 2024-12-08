@@ -5,12 +5,8 @@ import WelcomeScreen from './components/WelcomeScreen';
 import HomeScreen from './components/HomeScreen';
 import PacketiScreen from './components/Packeti';
 import ReviewsScreen from './components/Reviews';
-import CheckList from './components/checklist';
-import ProviderProfile from './components/ProviderProfile';
-import ServicesScreen from './components/ServicesProviderProfile';
-import PacketServices from './components/PacketServices';
-import Orders from './components/Orders';
-import ProfileOrder from './components/ProfileOrder';
+// import ProfileOrder from './components/ProfileOrder';
+// import Wishlist from './components/Wishlist';
 
 const Stack = createStackNavigator();
 
@@ -22,12 +18,8 @@ export default function App() {
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="Packeti" component={PacketiScreen} />
                 <Stack.Screen name="Reviews" component={ReviewsScreen} />
-                <Stack.Screen name="ProviderProfile" component={ProviderProfile} />
-                <Stack.Screen name="CheckList" component={CheckList} />
-                <Stack.Screen name="ServicesScreen" component={ServicesScreen} />
-                <Stack.Screen name="PacketServices" component={PacketServices} />
-                <Stack.Screen name="Orders" component={Orders} />
-                <Stack.Screen name="ProfileOrder" component={ProfileOrder} />
+                {/* <Stack.Screen name="Profile" component={ProfileOrder} />
+                <Stack.Screen name="Wishlist" component={Wishlist} /> */}
             </Stack.Navigator>
         </NavigationContainer>
     );
