@@ -54,14 +54,14 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
             <ScrollView contentContainerStyle={styles.content}>
                 {/* Заголовок */}
                 <View style={styles.header}>
-                <TouchableOpacity
-                onPress={() => navigation.navigate('Home')} // Переход на HomeScreen(добавленая функция, может быть не оч)
-            >
-                <Image
-                    source={require('../assets/images/arrow.png')}
-                    style={styles.backIcon}
-                />
-            </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('Home')} // Переход на HomeScreen(добавленая функция, может быть не оч)
+                    >
+                        <Image
+                            source={require('../assets/images/arrow.png')}
+                            style={styles.backIcon}
+                        />
+                    </TouchableOpacity>
                     <Text style={styles.title}>Профіль</Text>
                     <TouchableOpacity onPress={toggleModal}>
                         <Image source={require('../assets/images/pencil.png')} style={styles.editIcon} />
@@ -102,6 +102,11 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
 
                     <TouchableOpacity onPress={toggleNotificationsModal} style={[styles.menuItem, styles.lastMenuItem]}>
                         <Text style={styles.menuText}>Сповіщення</Text>
+                        <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={toggleNotificationsModal} style={[styles.menuItem, styles.lastMenuItem]}>
+                        <Text style={styles.menuText}>Замовлення</Text>
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
                 </View>
