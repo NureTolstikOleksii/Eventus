@@ -64,11 +64,16 @@ async function main() {
     //Для перевірки існування сесії
     app.get('/session', (req, res) => {
         if (req.session && req.session.userId) {
-          res.status(200).json({ name: req.session.name });
+            res.status(200).json({
+                userId: req.session.userId,
+                name: req.session.name,
+                role: req.session.userRole, // Роль пользователя
+            });
         } else {
-          res.status(401).json({ message: 'User not logged in' });
+            res.status(401).json({ message: 'User not logged in' });
         }
-      });
+    });
+    
       
     /* Не трогаем */
     app.all('*', (req, res) => {

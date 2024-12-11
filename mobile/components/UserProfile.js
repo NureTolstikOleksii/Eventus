@@ -7,41 +7,41 @@ const UserProfile = () => {
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity>
-                    <Image source={require('../../assets/images/arrow.png')} style={styles.backIcon} />
+                    <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Профіль</Text>
                 <TouchableOpacity>
-                    <Image source={require('../../assets/images/pencil.png')} style={styles.editIcon} />
+                    <Image source={require('../assets/images/pencil.png')} style={styles.editIcon} />
                 </TouchableOpacity>
             </View>
             <View style={styles.profileContainer}>
-                <Image source={require('../../assets/images/userphoto.png')} style={styles.profileImage} />
+                <Image source={require('../assets/images/userphoto.png')} style={styles.profileImage} />
                 <Text style={styles.userName}>Валєра</Text>
             </View>
             <View style={styles.menuContainer}>
                 <TouchableOpacity style={styles.menuItem}>
                     <Text style={styles.menuText}>Список бажань</Text>
-                    <Image source={require('../../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.menuItem}>
                     <Text style={styles.menuText}>Чек-лист</Text>
-                    <Image source={require('../../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.menuItem}>
                     <Text style={styles.menuText}>Мої замовлення</Text>
-                    <Image source={require('../../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.menuItem}>
                     <Text style={styles.menuText}>Чат</Text>
-                    <Image source={require('../../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.menuItem, styles.lastMenuItem]}>
                     <Text style={styles.menuText}>Сповіщення</Text>
-                    <Image source={require('../../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                 </TouchableOpacity>
             </View>
         </LinearGradient>

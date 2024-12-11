@@ -1,16 +1,16 @@
 import bcrypt from 'bcrypt';
 
 export class LoginService {
-    // Функция для входа заказчика
-    async loginCustomer(db, email, password) {
-        const customer = await db.get(`SELECT * FROM User WHERE email = ? AND role = 0`, [email]);
-        if (customer && bcrypt.compareSync(password, customer.password)) {
-            return customer;
+    // Функция для входа пользователя (таблица User)
+    async loginUser(db, email, password) {
+        const user = await db.get(`SELECT * FROM User WHERE email = ?`, [email]);
+        if (user && bcrypt.compareSync(password, user.password)) {
+            return user;
         }
         return null;
     }
 
-    // Функция для входа поставщика
+    // Функция для входа поставщика (таблица Provider)
     async loginProvider(db, email, password) {
         const provider = await db.get(`SELECT * FROM Provider WHERE email = ?`, [email]);
         if (provider && bcrypt.compareSync(password, provider.password)) {

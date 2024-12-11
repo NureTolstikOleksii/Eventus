@@ -23,8 +23,46 @@ export default function WelcomeScreen({ navigation }) {
     const [categories, setCategories] = useState([]);
     const [isCategoryModalVisible, setIsCategoryModalVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [loginErrors, setLoginErrors] = useState({});
+    
+    // логін
+    const [loginData, setLoginData] = useState({
+        email: '',
+        password: '',
+    });
 
-   useEffect(() => {
+    const handleLoginInputChange = (field, value) => {
+        setLoginData((prev) => ({ ...prev, [field]: value }));
+        setLoginErrors((prev) => ({ ...prev, [field]: null })); // Очистка ошибок
+    };
+
+    const handleLoginSubmit = async () => {
+        try {
+            setLoginErrors({});
+            const response = await fetch(`${API_KEY}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(loginData),
+            });
+    
+            const result = await response.json();
+            if (!response.ok) {
+                setLoginErrors({ general: result.message || 'Login failed. Please try again.' });
+                if (result.errors) {
+                    setLoginErrors(result.errors);
+                }
+            } else {
+                alert('Login successful!');
+                closeLoginModal();
+                navigation.navigate('Home');
+            }
+        } catch (error) {
+            setLoginErrors({ general: 'Something went wrong. Please try again later.' });
+        }
+    };
+    
+    //категорії
+    useEffect(() => {
         const loadCategories = async () => {
             const fetchedCategories = await fetchCategories();
             setCategories(fetchedCategories);
@@ -46,7 +84,8 @@ export default function WelcomeScreen({ navigation }) {
             return [];
         }
     };
-    
+
+    //реєстрація    
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         name: '',
@@ -121,15 +160,23 @@ export default function WelcomeScreen({ navigation }) {
     };
 
     const openLoginModal = () => {
+        setLoginErrors({}); 
+        setLoginData({
+            email: '',
+            password: '',
+        });
         setIsLoginModalVisible(true);
         setIsModalVisible(false);
     };
 
     const closeLoginModal = () => {
+        setLoginErrors({}); 
+        setLoginData({
+            email: '',
+            password: '',
+        });
         setIsLoginModalVisible(false);
-        navigation.navigate('Home');
     };
-
 
     const closeCategoryModal = () => {
         setIsCategoryModalVisible(false);
@@ -286,17 +333,34 @@ export default function WelcomeScreen({ navigation }) {
                     <View style={[styles.modalContent, { maxHeight: '70%' }]}>
                         <ScrollView contentContainerStyle={styles.scrollContent}>
                             <Text style={styles.label}>Адреса ел. пошти</Text>
-                            <TextInput style={styles.input} placeholder="" keyboardType="email-address" />
+                            <TextInput
+                                style={[styles.input, loginErrors.email && styles.inputError]}
+                                placeholder=""
+                                keyboardType="email-address"
+                                value={loginData.email}
+                                onChangeText={(value) => handleLoginInputChange('email', value)}
+                            />
+                            {loginErrors.email && <Text style={styles.errorText}>{loginErrors.email}</Text>}
+
                             <Text style={styles.label}>Пароль</Text>
-                            <TextInput style={styles.input} placeholder="" secureTextEntry />
-                            <TouchableOpacity style={styles.formButton} onPress={closeLoginModal}>
+                            <TextInput
+                                style={[styles.input, loginErrors.password && styles.inputError]}
+                                placeholder=""
+                                secureTextEntry
+                                value={loginData.password}
+                                onChangeText={(value) => handleLoginInputChange('password', value)}
+                            />
+                            {loginErrors.password && <Text style={styles.errorText}>{loginErrors.password}</Text>}
+                            {loginErrors.general && <Text style={styles.errorText}>{loginErrors.general}</Text>}
+
+                            <TouchableOpacity style={styles.formButton} onPress={handleLoginSubmit}>
                                 <View style={styles.simpleFormButton}>
                                     <Text style={styles.buttonText}>Увійти</Text>
                                 </View>
                             </TouchableOpacity>
+
                             <Text style={styles.orText}>or</Text>
                             <View style={styles.socialContainer}>
-                                {/* Иконки социальных сетей */}
                                 <Image source={require('../assets/images/google.png')} style={styles.socialIcon} />
                                 <Image source={require('../assets/images/Facebook.png')} style={styles.socialIcon} />
                             </View>

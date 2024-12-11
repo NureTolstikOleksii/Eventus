@@ -4,7 +4,7 @@ import { LoginService } from './login.service.js';
 const router = Router();
 const loginService = new LoginService();
 
-router.post('/customer', async (req, res) => {
+router.post('/', async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -12,44 +12,30 @@ router.post('/customer', async (req, res) => {
     }
 
     try {
-        const customer = await loginService.loginCustomer(req.db, email, password);
-        if (!customer) {
-            return res.status(401).json({ message: 'Invalid email or password for customer.' });
+        let user = await loginService.loginUser(req.db, email, password);
+        let role = 'customer';
+
+        if (!user) {
+            // Если в таблице User не найден, проверяем таблицу Provider
+            user = await loginService.loginProvider(req.db, email, password);
+            role = 'provider'; // Роль, если найден в Provider
         }
-        
-        // Сохранение данных сессии
-        req.session.userId = customer.user_id;
-        req.session.name  = customer.name;
-        req.session.userRole = 'customer';
+
+        if (!user) {
+            // Если пользователь не найден ни в одной таблице
+            return res.status(401).json({ message: 'Invalid email or password.' });
+        }
+
+        // Сохранение данных в сессии
+        req.session.userId = user.user_id || user.provider_id;
+        req.session.name = user.name;
+        req.session.userRole = role;
         console.log('Session data:', req.session);
 
-        res.status(200).json({ message: 'Customer logged in successfully', customer });
+        res.status(200).json({ message: 'Login successful', role, user });
     } catch (error) {
-        res.status(500).json({ message: 'Failed to log in customer', error: error.message });
-    }
-});
-
-router.post('/provider', async (req, res) => {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-        return res.status(400).json({ message: 'Please enter both email and password.' });
-    }
-
-    try {
-        const provider = await loginService.loginProvider(req.db, email, password);
-        if (!provider) {
-            return res.status(401).json({ message: 'Invalid email or password for provider.' });
-        }
-        
-        req.session.userId = provider.provider_id;
-        req.session.name  = provider.name;
-        req.session.userRole = 'provider';
-        console.log('Session data:', req.session);
-
-        res.status(200).json({ message: 'Provider logged in successfully', provider });
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to log in provider', error: error.message });
+        console.error('Login error:', error);
+        res.status(500).json({ message: 'Failed to log in', error: error.message });
     }
 });
 
