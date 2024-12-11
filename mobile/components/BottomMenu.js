@@ -30,7 +30,7 @@ const BottomMenu = () => {
     };
 
     useEffect(() => {
-        fetchUserRole(); // Получаем роль при загрузке компонента
+        fetchUserRole();
     }, []);
 
     const handleProfilePress = () => {
@@ -45,9 +45,9 @@ const BottomMenu = () => {
 
     const handleRoleSpecificPress = () => {
         if (userRole === 'customer') {
-            navigation.navigate('Chat'); // добавить страничку чата (типа в разработке)
+            navigation.navigate('CheckList');
         } else if (userRole === 'provider') {
-            navigation.navigate('AddService'); // добавить страничку добавления услуги
+            navigation.navigate('AddService'); //добавить страничку добавления услуги
         } else {
             alert('Неизвестная роль пользователя. Обратитесь в поддержку.');
         }
@@ -55,7 +55,7 @@ const BottomMenu = () => {
 
     const menuItems = [
         { route: 'Home', icon: require('../assets/images/home.png'), label: 'Головна' },
-        { route: 'CheckList', icon: require('../assets/images/book.png'), label: 'Чек-лист' },
+        { route: 'Chat', icon: require('../assets/images/chat.png'), label: 'Чат' }, // добавить страничку чата (типа в разработке)
     ];
 
     return (
@@ -76,13 +76,13 @@ const BottomMenu = () => {
                 <Image
                     source={
                         userRole === 'customer'
-                            ? require('../assets/images/chat.png') // Иконка для клиента
+                            ? require('../assets/images/book.png') // Иконка для клиента
                             : require('../assets/images/add_plus.png') // Иконка для поставщика
                     }
                     style={styles.menuIcon}
                 />
                 <Text style={styles.bottomMenuText}>
-                    {userRole === 'customer' ? 'Чат' : 'Додати'}
+                    {userRole === 'customer' ? 'Чек-лист' : 'Додати'}
                 </Text>
             </TouchableOpacity>
 
