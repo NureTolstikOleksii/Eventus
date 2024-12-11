@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, TextInput, Modal, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, TextInput, Modal, StyleSheet, ScrollView, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Picker } from '@react-native-picker/picker';
 import BottomMenu from '../components/BottomMenu'; // Подключение компонента меню
 import { FontAwesome } from '@expo/vector-icons';
-
+import Constants from 'expo-constants';
+const API_KEY = Constants.expoConfig?.extra?.API_KEY;
 
 const ProviderProfile = ({ navigation }) => { // Добавлено { navigation }
     const [isModalVisible, setModalVisible] = useState(false);
@@ -16,6 +17,32 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
     const [organizationName, setOrganizationName] = useState('Назва організації');
     const [isNotificationsModalVisible, setNotificationsModalVisible] = useState(false); // Для уведомлений
 
+    // Функция выхода из аккаунта
+    const handleLogout = async () => {
+        try {
+            const response = await fetch(`${API_KEY}/profile/logout`, {
+                method: 'POST',
+                credentials: 'include',
+            });
+
+            if (response.ok) {
+                Alert.alert('Успішний вихід', 'Ви вийшли з аккаунту.', [
+                    {
+                        text: 'Ок',
+                        onPress: () => navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Welcome' }],
+                        }),
+                    },
+                ]);
+            } else {
+                const result = await response.json();
+                Alert.alert('Помилка', result.message || 'Не вдалося вийти.');
+            }
+        } catch (error) {
+            Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+        }
+    };
 
     const fields = [
         { label: "Повне ім'я", placeholder: "Нове ім'я" },
@@ -100,13 +127,18 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={toggleNotificationsModal} style={[styles.menuItem, styles.lastMenuItem]}>
+                    <TouchableOpacity onPress={toggleNotificationsModal} style={styles.menuItem}>
                         <Text style={styles.menuText}>Сповіщення</Text>
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={toggleNotificationsModal} style={[styles.menuItem, styles.lastMenuItem]}>
+                    <TouchableOpacity onPress={toggleNotificationsModal} style={styles.menuItem}>
                         <Text style={styles.menuText}>Замовлення</Text>
+                        <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={[styles.menuItem, styles.lastMenuItem]} onPress={handleLogout}>
+                        <Text style={styles.menuText}>Вихід із аккаунту</Text>
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
                 </View>

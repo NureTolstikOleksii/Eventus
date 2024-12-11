@@ -54,7 +54,10 @@ export default function WelcomeScreen({ navigation }) {
             } else {
                 alert('Login successful!');
                 closeLoginModal();
-                navigation.navigate('Home');
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                });
             }
         } catch (error) {
             setLoginErrors({ general: 'Something went wrong. Please try again later.' });

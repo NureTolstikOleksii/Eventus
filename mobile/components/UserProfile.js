@@ -1,8 +1,40 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Constants from 'expo-constants';
+const API_KEY = Constants.expoConfig?.extra?.API_KEY;
+
 
 const UserProfile = () => {
+    const navigation = useNavigation();
+    // Функция выхода из аккаунта
+    const handleLogout = async () => {
+        try {
+            const response = await fetch(`${API_KEY}/profile/logout`, { // Добавлен `/` перед profile
+                method: 'POST',
+                credentials: 'include',
+            });
+
+            if (response.ok) {
+                Alert.alert('Успішний вихід', 'Ви вийшли з аккаунту.', [
+                    {
+                        text: 'Ок',
+                        onPress: () => navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Welcome' }],
+                        }),
+                    },
+                ]);
+            } else {
+                const result = await response.json();
+                Alert.alert('Помилка', result.message || 'Не вдалося вийти.');
+            }
+        } catch (error) {
+            Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+        }
+    };
+
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             <View style={styles.header}>
@@ -39,8 +71,13 @@ const UserProfile = () => {
                     <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={[styles.menuItem, styles.lastMenuItem]}>
+                <TouchableOpacity style={styles.menuItem}>
                     <Text style={styles.menuText}>Сповіщення</Text>
+                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+                </TouchableOpacity>
+               
+                <TouchableOpacity style={[styles.menuItem, styles.lastMenuItem]} onPress={handleLogout}>
+                    <Text style={styles.menuText}>Вихід із аккаунту</Text>
                     <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                 </TouchableOpacity>
             </View>
