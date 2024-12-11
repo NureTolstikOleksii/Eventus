@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-
 import Constants from 'expo-constants';
 const API_KEY = Constants.expoConfig?.extra?.API_KEY;
 
@@ -44,10 +43,19 @@ const BottomMenu = () => {
         }
     };
 
+    const handleRoleSpecificPress = () => {
+        if (userRole === 'customer') {
+            navigation.navigate('Chat'); // добавить страничку чата (типа в разработке)
+        } else if (userRole === 'provider') {
+            navigation.navigate('AddService'); // добавить страничку добавления услуги
+        } else {
+            alert('Неизвестная роль пользователя. Обратитесь в поддержку.');
+        }
+    };
+
     const menuItems = [
         { route: 'Home', icon: require('../assets/images/home.png'), label: 'Головна' },
         { route: 'CheckList', icon: require('../assets/images/book.png'), label: 'Чек-лист' },
-        { route: 'Chat', icon: require('../assets/images/chat.png'), label: 'Чат' },
     ];
 
     return (
@@ -63,6 +71,21 @@ const BottomMenu = () => {
                 </TouchableOpacity>
             ))}
 
+            {/* Пункт меню, зависящий от роли */}
+            <TouchableOpacity style={styles.bottomMenuItem} onPress={handleRoleSpecificPress}>
+                <Image
+                    source={
+                        userRole === 'customer'
+                            ? require('../assets/images/chat.png') // Иконка для клиента
+                            : require('../assets/images/add_plus.png') // Иконка для поставщика
+                    }
+                    style={styles.menuIcon}
+                />
+                <Text style={styles.bottomMenuText}>
+                    {userRole === 'customer' ? 'Чат' : 'Додати'}
+                </Text>
+            </TouchableOpacity>
+
             {/* Пункт "Профіль" */}
             <TouchableOpacity style={styles.bottomMenuItem} onPress={handleProfilePress}>
                 <Image source={require('../assets/images/user.png')} style={styles.menuIcon} />
@@ -73,20 +96,6 @@ const BottomMenu = () => {
 };
 
 const styles = StyleSheet.create({
-    
-    // bottomMenu: {
-    //     position: 'relative',
-    //     bottom: 0,
-    //     left: 0,
-    //     right: 0,
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-around',
-    //     backgroundColor: '#ffffff',
-    //     paddingVertical: 10,
-    //     borderTopWidth: 1,
-    //     borderTopColor: '#e0e0e0',
-    // },
-
     bottomMenu: {
         position: 'absolute',
         bottom: 0,
