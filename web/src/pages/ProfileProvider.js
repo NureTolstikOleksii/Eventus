@@ -4,9 +4,10 @@ import profileFon from "../assets/profile-fon.png";
 import pencil from "../assets/pencil.png";
 import star from "../assets/star.png";
 import user from "../assets/user.png";
-import plus from "../assets/plus.png";
-import checkMark from "../assets/checkMark.png";
-import arrow from "../assets/arrow.png";
+import plus from "../assets/green-plus.png";
+import checkMark from "../assets/green-checkMark.png";
+import arrow from "../assets/green-arrow.png";
+import minus from "../assets/minus.png";
 import serviceImage1 from "../assets/red-roses.jpg";
 import { Link } from "react-router-dom";
 
@@ -14,13 +15,21 @@ function ProfileProvider() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
   const [isAddServiceModalOpen, setIsAddServiceModalOpen] = useState(false);
-
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
   const [profileInfo, setProfileInfo] = useState({
     name: "Валєра Х",
     company: "Назва організації",
     photo: user,
   });
+  const handleRemoveService = (index) => {
+    setServices((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleRemovePackage = (index) => {
+    setServicePackages((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleProfileModalOpen = () => setIsProfileModalOpen(true);
   const handleProfileModalClose = () => setIsProfileModalOpen(false);
@@ -42,20 +51,45 @@ function ProfileProvider() {
       }));
     }
   };
-
-  const services = [
+  const orders = [
+    {
+      orderNumber: "№184567",
+      name: "Іван Петренко",
+      date: "2024-12-15",
+      time: "14:00",
+      service: "Букет для весілля",
+      specialRequests: "Без рожевих квітів",
+    },
+    {
+      orderNumber: "№184567",
+      name: "Іван Петренко",
+      date: "2024-12-15",
+      time: "14:00",
+      service: "Букет для весілля",
+      specialRequests: "Без рожевих квітів",
+    },
+    {
+      orderNumber: "№184567",
+      name: "Іван Петренко",
+      date: "2024-12-15",
+      time: "14:00",
+      service: "Букет для весілля",
+      specialRequests: "Без рожевих квітів",
+    },
+  ];
+  const [services, setServices] = useState([
     "Букет",
     "Прикраса зали",
     "Букет нареченної",
     "Прикраса автомобілю",
-  ];
+  ]);
 
-  const servicePackages = [
+  const [servicePackages, setServicePackages] = useState([
     "Пакет послуг №1",
     "Пакет послуг №2",
     "Пакет послуг №3",
     "Пакет послуг №4",
-  ];
+  ]);
 
   const reviews = [
     {
@@ -81,6 +115,19 @@ function ProfileProvider() {
   const handlePackageModalClose = () => setIsPackageModalOpen(false);
   const handleAddServiceModalOpen = () => setIsAddServiceModalOpen(true);
   const handleAddServiceModalClose = () => setIsAddServiceModalOpen(false);
+
+  const toggleOrders = () => setIsOrdersOpen((prevState) => !prevState);
+  const [isOrdersOpen, setIsOrdersOpen] = useState(false);
+
+  const handleOrderClick = (order) => {
+    setOrderDetails(order);
+    setIsOrderModalOpen(true);
+  };
+
+  const handleOrderModalClose = () => {
+    setIsOrderModalOpen(false);
+    setOrderDetails(null);
+  };
 
   return (
     <div className="profile-provider">
@@ -110,9 +157,6 @@ function ProfileProvider() {
             <img src={star} alt="rating" className="profile-provider-rating" />
           </div>
           <div className="links">
-            <Link to="#notifications" className="reviews">
-              Сповіщення
-            </Link>
             <Link to="#logout" className="logout">
               Вийти з профілю
             </Link>
@@ -127,9 +171,16 @@ function ProfileProvider() {
             {services.map((service, index) => (
               <div key={index} className="my-service-item">
                 {service}
+                <img
+                  src={minus}
+                  alt="Minus"
+                  className="minus-my-services"
+                  onClick={() => handleRemoveService(index)}
+                />
               </div>
             ))}
           </div>
+
           <div className="add-service">
             <img
               src={plus}
@@ -148,9 +199,16 @@ function ProfileProvider() {
             {servicePackages.map((packageName, index) => (
               <div key={index} className="my-services-package-item">
                 {packageName}
+                <img
+                  src={minus}
+                  alt="Minus"
+                  className="minus-my-services-package"
+                  onClick={() => handleRemovePackage(index)}
+                />
               </div>
             ))}
           </div>
+
           <div className="add-service-package">
             <img
               src={plus}
@@ -161,6 +219,61 @@ function ProfileProvider() {
           </div>
         </div>
       </div>
+
+      <div className="profile-provider-orders-section">
+        <div className="orders-section" onClick={toggleOrders}>
+          <h3>Замовлення</h3>
+          {isOrdersOpen && (
+            <div className="orders-content">
+              {orders.map((order, index) => (
+                <div
+                  key={index}
+                  className="order-item"
+                  onClick={() => handleOrderClick(order)}
+                >
+                  {order.orderNumber}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {isOrderModalOpen && orderDetails && (
+        <div className="modal">
+          <div className="modal-content">
+            <div className="form-buttons">
+              <img
+                src={arrow}
+                alt="arrow"
+                className="arrow-my-services-package"
+                onClick={handleOrderModalClose}
+              />
+            </div>
+            <div className="order-detail-number">
+              {orderDetails.orderNumber}
+            </div>
+            <div className="order-details">
+              <div className="order-detail">
+                <strong>Ім'я:</strong> {orderDetails.name}
+              </div>
+              <div className="order-detail">
+                <strong>Дата:</strong> {orderDetails.date}
+              </div>
+              <div className="order-detail">
+                <strong>Час:</strong> {orderDetails.time}
+              </div>
+              <div className="order-detail">
+                <strong>Послуга:</strong> {orderDetails.service}
+              </div>
+              <div className="order-detail">
+                <strong>Особисті побажання:</strong>{" "}
+                {orderDetails.specialRequests}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="profile-provider-reviews-section">
         <h3>Відгуки</h3>
@@ -241,11 +354,6 @@ function ProfileProvider() {
                 <label htmlFor="input-price">Ціна</label>
                 <input type="number" id="input-price" required />
               </div>
-
-              <div className="form-group">
-                <label htmlFor="input-hours">Час роботи</label>
-                <input type="text" id="input-hours" required />
-              </div>
             </form>
           </div>
         </div>
@@ -286,11 +394,6 @@ function ProfileProvider() {
               <div className="form-group">
                 <label htmlFor="input-package-price">Ціна</label>
                 <input type="number" id="input-package-price" required />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="input-package-duration">Тривалість</label>
-                <input type="number" id="input-package-duration" required />
               </div>
 
               <div className="form-group add-service-to-package">
