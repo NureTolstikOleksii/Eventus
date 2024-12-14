@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../css/Login.css";
 import google from "../assets/google.png";
 import { Link, useNavigate } from "react-router-dom";
-import profileFon from "../assets/profile-fon.png";
-
+//import profileFon from "../assets/profile-fon.png";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -43,7 +43,7 @@ function Login() {
     }
   
     try {
-      const loginResponse = await fetch(`http://localhost:4200/login`, {
+      const loginResponse = await fetch(`${apiUrl}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,14 +70,14 @@ function Login() {
 
   const fetchSession = async () => {
     try {
-      const sessionResponse = await fetch('http://localhost:4200/session', {
+      const sessionResponse = await fetch(`${apiUrl}/session`, {
         method: 'GET',
-        credentials: 'include', // Включить cookie
+        credentials: 'include',
       });
 
       if (sessionResponse.ok) {
         const sessionData = await sessionResponse.json();
-        setUserName(sessionData.name || ''); // Устанавливаем имя пользователя
+        setUserName(sessionData.name || '');
       }
     } catch (error) {
       console.error('Failed to fetch session:', error);
