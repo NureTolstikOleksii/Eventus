@@ -144,9 +144,9 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
 
                 {/* Модальное окно */}
                 <Modal visible={isModalVisible} transparent={true} animationType="fade" onRequestClose={toggleModal}>
-                    <View style={styles.modalContainer}>
-                        <View style={styles.modalContent}>
-                            <Text style={styles.modalTitle}>Редагування профілю</Text>
+                    <View style={styles.modalContainerChange}>
+                        <View style={styles.modalContentChange}>
+                            <Text style={styles.modalTitleChange}>Редагування профілю</Text>
 
                             {fields.map((field, index) => (
                                 <View key={index} style={styles.fieldWrapper}>
@@ -187,22 +187,28 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
             <Modal
                 visible={isNotificationsModalVisible}
                 transparent={true}
-                animationType="fade"
+                animationType="slide"
                 onRequestClose={toggleNotificationsModal}
             >
                 <View style={styles.modalContainer}>
-                    <View style={styles.notificationsModal}>
+                    <View style={styles.fullWidthModal}>
                         <Text style={styles.modalTitle}>Сповіщення</Text>
                         <ScrollView>
-                            <View style={styles.notificationItem}>
-                                <Text style={styles.notificationText}>Ви отримали відгук від ...</Text>
-                            </View>
-                            <View style={styles.notificationItem}>
-                                <Text style={styles.notificationText}>Нове замовлення від n...</Text>
-                            </View>
-                            <View style={styles.notificationItem}>
-                                <Text style={styles.notificationText}>Ви отримали відгук від ...</Text>
-                            </View>
+                            {[
+                                { text: 'Відгук від Валєра', number: '№34528745', date: '30.11.2024' },
+                                { text: 'Відгук від Валєра', number: '№34528745', date: '29.11.2024' },
+                                { text: 'Відгук від Валєра', number: '№34528745', date: '28.11.2024' },
+                            ].map((notification, index) => (
+                                <View key={index} style={styles.notificationItem}>
+                                    <View style={styles.notificationContent}>
+                                        <View style={styles.textContainer}>
+                                            <Text style={styles.notificationText}>{notification.text}</Text>
+                                            <Text style={styles.notificationNumber}>{notification.number}</Text>
+                                        </View>
+                                        <Text style={styles.notificationDate}>{notification.date}</Text>
+                                    </View>
+                                </View>
+                            ))}
                         </ScrollView>
                         <TouchableOpacity style={styles.closeButton} onPress={toggleNotificationsModal}>
                             <Text style={styles.closeButtonText}>Закрити</Text>
@@ -210,6 +216,8 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
                     </View>
                 </View>
             </Modal>
+
+
             {/* Фиксированное меню */}
             <BottomMenu />
         </LinearGradient>
@@ -242,22 +250,47 @@ const styles = StyleSheet.create({
     lastMenuItem: { borderBottomWidth: 0 },
     menuText: { fontSize: 20, color: '#6fa32b' },
     arrowIcon: { width: 15, height: 15, tintColor: '#6fa32b' },
+    modalContainerChange: {
+        flex: 1,
+        justifyContent: 'flex-end', // Розташовує модальне вікно внизу екрана
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Напівпрозорий фон для фону
+    },
+    modalContentChange: {
+        width: '100%', // Ширина модального вікна
+        backgroundColor: '#ffffff', // Білий фон для самого модального вікна
+        borderTopLeftRadius: 20, // Закруглення верхнього лівого кута
+        borderTopRightRadius: 20, // Закруглення верхнього правого кута
+        padding: 20, // Відступи всередині модального вікна
+        elevation: 5, // Тінь для Android
+        shadowColor: '#000', // Колір тіні
+        shadowOffset: { width: 0, height: 2 }, // Зміщення тіні
+        shadowOpacity: 0.25, // Прозорість тіні
+        shadowRadius: 4, // Радіус тіні
+        height: '70%',
+    },
+    modalTitleChange: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#6fa32b',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
     modalContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-end',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
-    modalContent: {
-        width: '90%',
-        padding: 20,
-        borderRadius: 20,
-        backgroundColor: '#ffffff',
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
+    fullWidthModal: {
+        width: '100%', // Встановлюємо ширину на 100% екрану
+        height: '70%', // Висота модального вікна
+        backgroundColor: '#ffffff', // Білий фон для модального вікна
+        borderTopLeftRadius: 20, // Закруглення верхнього лівого кута
+        borderTopRightRadius: 20, // Закруглення верхнього правого кута
+        paddingHorizontal: 20, // Внутрішній відступ
+        paddingTop: 20, // Відступ зверху
+        paddingBottom: 20, // Відступ знизу
+        paddingBottom: 80, // Додаємо відступ, щоб контент не заходив на кнопку
+
     },
     modalTitle: {
         fontSize: 24,
@@ -265,6 +298,61 @@ const styles = StyleSheet.create({
         color: '#6fa32b',
         textAlign: 'center',
         marginBottom: 20,
+    },
+    notificationItem: {
+        backgroundColor: '#a6cf4a',
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 10,
+    },
+    notificationContent: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    textContainer: {
+        flex: 3,
+    },
+    notificationText: {
+        fontSize: 16,
+        color: '#ffffff',
+    },
+    notificationNumber: {
+        fontSize: 14,
+        color: '#ffffff',
+        marginTop: 5, // Відступ для нового рядка
+    },
+    notificationDate: {
+        fontSize: 14,
+        color: '#ffffff',
+        flex: 1,
+        textAlign: 'right',
+    },
+    closeButton: {
+        position: 'absolute', // Фіксоване положення
+        bottom: 20, // Відступ від нижнього краю модального вікна
+        left: '25%', // Вирівнювання по центру через 10% від краю
+        width: '50%', // Ширина кнопки 80% від ширини модального вікна
+        backgroundColor: '#6fa32b', // Зелений фон
+        paddingVertical: 12, // Вертикальні відступи всередині кнопки
+        borderRadius: 25, // Округлені кути кнопки
+        alignItems: 'center', // Вирівнювання тексту по центру
+    },
+    closeButtonText: {
+        color: '#ffffff',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    saveButton: {
+        position: 'absolute', // Фіксоване положення
+        bottom: 20, // Відступ від нижнього краю модального вікна
+        left: '25%', // Вирівнювання по центру через 10% від краю
+        width: '50%', // Ширина кнопки 80% від ширини модального вікна
+        backgroundColor: '#6fa32b', // Зелений фон
+        paddingVertical: 12, // Вертикальні відступи всередині кнопки
+        borderRadius: 25, // Округлені кути кнопки
+        alignItems: 'center', // Вирівнювання тексту по центру
     },
     fieldWrapper: {
         borderBottomWidth: 1,
@@ -283,19 +371,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: '#f5f5f5',
     },
-    saveButton: {
-        backgroundColor: '#6fa32b',
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 10,
-        alignSelf: 'center',
-        marginTop: 20,
-    },
+
     saveButtonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-        textAlign: 'center',
+        color: '#ffffff', // Білий колір тексту
+        fontSize: 18, // Розмір шрифту
+        fontWeight: 'bold', // Жирний текст
     },
     inputContainer: {
         marginTop: 10,
@@ -316,28 +396,6 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#ffffff',
     },
-    modalTitle: {
-        fontSize: 24,
-        color: '#6fa32b',
-        textAlign: 'center',
-        marginBottom: 20,
-    },
-    notificationItem: {
-        backgroundColor: '#a6cf4a',
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 10,
-    },
-    notificationText: { fontSize: 16, color: '#fff' },
-    closeButton: {
-        backgroundColor: '#6fa32b',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 10,
-        alignSelf: 'center',
-        marginTop: 10,
-    },
-    closeButtonText: { color: '#fff', fontSize: 18 },
 });
 
 export default ProviderProfile;

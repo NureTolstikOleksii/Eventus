@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"; // Добавлен импо
 import "../css/Registration.css";
 import google from "../assets/google.png";
 import { Link } from "react-router-dom";
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
 
 function Registration() {
   const [isSupplier, setIsSupplier] = useState(false);
@@ -24,7 +26,7 @@ function Registration() {
     // Получаем категории с бэкенда при загрузке компонента
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:4200/register/categories'); 
+        const response = await fetch(`${apiUrl}/register/categories`); 
         if (response.ok) {
           const data = await response.json();
           setCategories(data); // Сохраняем категории в состоянии
@@ -56,7 +58,7 @@ function Registration() {
     setErrors({});  // Сброс ошибок перед отправкой
     try {
       const url = isSupplier ? '/register/provider' : '/register/customer';
-      const response = await fetch(`http://localhost:4200${url}`, {
+      const response = await fetch(`${apiUrl}${url}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -104,7 +106,7 @@ function Registration() {
         <h2 className="registration-main-text">ЗАРЕЄСТРУВАТИСЯ</h2>
 
         <label htmlFor="name">
-          <b>Повне ім'я:</b>
+          <b>Повне ім'я: </b>
         </label>
         <input type="text" name="name" onChange={handleChange} />
         {errors.name && <p className="error-text">{errors.name}</p>}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image, Modal, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
@@ -12,6 +12,10 @@ const HomeScreen = () => {
     const [selectedCategories, setSelectedCategories] = useState({});
     const [selectedRating, setSelectedRating] = useState(null);
     const [priceRange, setPriceRange] = useState([0, 2000]);
+    const [searchText, setSearchText] = useState('');
+    const [selectedOption, setSelectedOption] = useState(null); // Хранит "Послуга" или "Пакет"
+    const [isServiceModalVisible, setServiceModalVisible] = useState(false); // Для модального окна
+
 
     const topPackages = [
         { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 4, price: 500 },
@@ -44,12 +48,66 @@ const HomeScreen = () => {
         'Транспорт',
         'Оренда',
     ];
+    const packageCards = [
+        {
+            title: 'Пакет “Ніжність”',
+            image: require('../assets/images/flowerspackages.png'), // Проверь путь
+            price: 10000,
+            rating: 3,
+        },
+        {
+            title: 'Пакет “Краса”',
+            image: require('../assets/images/flowerspackages.png'),
+            price: 12000,
+            rating: 4,
+        },
+        {
+            title: 'Пакет “Весна”',
+            image: require('../assets/images/flowerspackages.png'),
+            price: 8000,
+            rating: 5,
+        },
+    ];
+    // Пример данных для отображения услуг
+    const services = [
+        {
+            title: 'Букет “Ніжність”',
+            image: require('../assets/images/flowers.png'), // Убедись, что путь правильный
+            price: 10000,
+            rating: 3,
+        },
+        {
+            title: 'Букет “Краса”',
+            image: require('../assets/images/flowers.png'),
+            price: 12000,
+            rating: 4,
+        },
+        {
+            title: 'Букет “Весна”',
+            image: require('../assets/images/flowers.png'),
+            price: 8000,
+            rating: 5,
+        },
+    ];
+
+
+    const toggleServiceModal = () => {
+        setServiceModalVisible(!isServiceModalVisible);
+    };
+
     const toggleCategory = (category) => {
         setSelectedCategories((prevState) => ({
             ...prevState,
             [category]: !prevState[category],
         }));
     };
+
+    const filteredResults =
+        selectedOption === 'Послуга'
+            ? topServices
+            : selectedOption === 'Пакет'
+                ? topPackages
+                : [];
 
     const toggleRating = (rating) => {
         setSelectedRating(rating === selectedRating ? null : rating);
@@ -79,14 +137,103 @@ const HomeScreen = () => {
 
                     {/* Search and Filter */}
                     <View style={styles.searchAndFilterContainer}>
-                        <View style={styles.searchBar}>
-                            <Text style={styles.placeholderText}>Пошук</Text>
-                        </View>
-                        <TouchableOpacity style={styles.filterButton} onPress={() => setFilterVisible(true)}>
-                            <FontAwesome name="bars" size={24} color="#fff" />
-                        </TouchableOpacity>
-                    </View>
+                        {/* Пошуковий рядок */}
+                        <View style={styles.searchBarContainer}>
+                            <TextInput
+                                style={styles.searchBar}
+                                placeholder="Пошук"
+                                value={searchText}
+                                onChangeText={setSearchText}
+                            />
 
+                            <TouchableOpacity style={styles.filterButton} onPress={() => setFilterVisible(true)}>
+                                <FontAwesome name="bars" size={24} color="#fff" />
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* Опции */}
+                        {searchText.length > 0 && (
+                            <View style={styles.optionsContainer}>
+                                <TouchableOpacity
+                                    style={[
+                                        styles.optionButton,
+                                        selectedOption === 'Послуга' && styles.selectedOptionButton,
+                                    ]}
+                                    onPress={() => setSelectedOption('Послуга')}
+                                >
+                                    <Text style={styles.optionButtonText}>Послуга</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[
+                                        styles.optionButton,
+                                        selectedOption === 'Пакет' && styles.selectedOptionButton,
+                                    ]}
+                                    onPress={() => setSelectedOption('Пакет')}
+                                >
+                                    <Text style={styles.optionButtonText}>Пакет</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+
+                        {/* Результаты */}
+                        {selectedOption === 'Послуга' && searchText.length > 0 && (
+                            <ScrollView style={styles.resultsContainer}>
+                                {services
+                                    .filter(service =>
+                                        service.title.toLowerCase().includes(searchText.toLowerCase())
+                                    )
+                                    .map((service, index) => (
+                                        <View key={index} style={styles.cardContainer}>
+                                            <Image
+                                                source={service.image} // Используем путь из объекта `services`
+                                                style={styles.cardImage}
+                                                resizeMode="cover"
+                                            />
+                                            <View style={styles.textContainer}>
+                                                <Text style={styles.cardTitle}>{service.title}</Text>
+                                                <Text style={styles.cardPrice}>{service.price} грн</Text>
+                                                <View style={styles.ratingContainer}>
+                                                    {[...Array(5)].map((_, i) => (
+                                                        <FontAwesome
+                                                            key={i}
+                                                            name="star"
+                                                            size={18}
+                                                            color={i < service.rating ? '#FFD700' : '#BDBDBD'}
+                                                            style={styles.star}
+                                                        />
+                                                    ))}
+                                                </View>
+                                            </View>
+                                        </View>
+                                    ))}
+                            </ScrollView>
+                        )}
+                        {selectedOption === 'Пакет' && searchText && (
+                            <ScrollView style={styles.resultsContainer}>
+                                {packageCards.map((pkg, index) => (
+                                    <View key={index} style={styles.packageCardContainer}>
+                                        <Image source={pkg.image} style={styles.packageCardImage} resizeMode="cover" />
+                                        <View style={styles.packageTextContainer}>
+                                            <Text style={styles.packageCardTitle}>{pkg.title}</Text>
+                                            <Text style={styles.packageCardPrice}>{pkg.price} грн</Text>
+                                            <View style={styles.packageRatingContainer}>
+                                                {[...Array(5)].map((_, i) => (
+                                                    <FontAwesome
+                                                        key={i}
+                                                        name="star"
+                                                        size={18}
+                                                        color={i < pkg.rating ? '#FFD700' : '#BDBDBD'}
+                                                        style={styles.packageStar}
+                                                    />
+                                                ))}
+                                            </View>
+                                        </View>
+                                        <Image source={require('../assets/images/rightarrow.png')} style={styles.packageArrowIcon} />
+                                    </View>
+                                ))}
+                            </ScrollView>
+                        )}
+                    </View>
                     {/* Categories */}
                     <Text style={styles.sectionTitle}>Категорії</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
@@ -253,23 +400,86 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
     },
     searchAndFilterContainer: {
-        flexDirection: 'row',
         paddingHorizontal: 20,
         marginVertical: 10,
+    },
+    selectedOptionButton: {
+        borderWidth: 5, // Толщина рамки
+        borderColor: '#83B620', // Зеленый цвет рамки
+    },
+    searchBarContainer: {
+        flexDirection: 'row',
+        alignItems: 'center', // Иконка и строка поиска на одной линии
+        justifyContent: 'space-between',
+    },
+
+    toggleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 5,
+    },
+    toggleButton: {
+        flex: 1,
+        height: 30, // Устанавливает фиксированную высоту кнопки
+        marginHorizontal: 5,
+        borderWidth: 1,
+        borderColor: '#6fa32b',
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    toggleButtonSelected: {
+        backgroundColor: '#6fa32b',
+    },
+    toggleButtonText: {
+        fontSize: 18,
+        color: '#6fa32b',
+    },
+    toggleButtonTextSelected: {
+        color: '#fff',
     },
     searchBar: {
         flex: 1,
         backgroundColor: '#ffffff80',
         padding: 10,
         borderRadius: 10,
+        fontSize: 16,
+        color: '#000',
+        marginRight: 10, // Отступ для иконки фильтрации
+
+    },
+    optionsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around', // Равномерное распределение кнопок
+        marginTop: 10,
+        marginRight: 50,
+    },
+    optionButton: {
+        borderWidth: 1,
+        borderColor: '#ccc', // Рамка по умолчанию
+        borderRadius: 20,
+        paddingVertical: 1,
+        paddingHorizontal: 30,
+        backgroundColor: '#ffffff80', // Бледный зеленый фон
+        justifyContent: 'center', // Центрирование текста по вертикали
+        alignItems: 'center', // Центрирование текста по горизонтали
     },
     placeholderText: {
         color: '#888',
     },
     filterButton: {
-        marginLeft: 10,
+        width: 40,
+        height: 40,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    searchInput: {
+        fontSize: 16,
+        color: '#000',
+    },
+    optionText: {
+        color: '#83B620',
+        fontSize: 16,
     },
     sectionTitle: {
         fontSize: 24,
@@ -429,4 +639,90 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         marginTop: 20,
     },
+    resultsContainer: {
+        marginTop: 20,
+    },
+    cardContainer: {
+        width: 340,
+        height: 99,
+        backgroundColor: '#A4C644',
+        borderRadius: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10,
+        marginVertical: 10,
+        borderColor: '#78A519',
+        borderWidth: 1,
+    },
+    cardImage: {
+        width: 100,
+        height: 60,
+        borderRadius: 10,
+        marginRight: 10,
+    },
+    textContainer: {
+        flex: 1,
+    },
+    cardTitle: {
+        fontSize: 22,
+        fontFamily: 'Kurale',
+        color: '#fff',
+    },
+    cardPrice: {
+        fontSize: 16,
+        color: '#fff',
+        marginVertical: 5,
+    },
+    ratingContainer: {
+        flexDirection: 'row',
+    },
+    star: {
+        marginHorizontal: 2,
+    },
+
+    packageCardContainer: {
+        width: 340,
+        backgroundColor: '#A4C644',
+        borderRadius: 15,
+        alignItems: 'center',
+        padding: 0,
+        marginVertical: 10,
+        borderColor: '#78A519',
+        borderWidth: 1,
+    },
+    packageCardImage: {
+        width: '100%',
+        height: 100,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+    },
+    packageTextContainer: {
+        width: '100%',
+        padding: 10
+    },
+    packageCardTitle: {
+        fontSize: 22,
+        fontFamily: 'Kurale',
+        color: '#fff',
+    },
+    packageCardPrice: {
+        fontSize: 18,
+        color: '#fff',
+        marginVertical: 5,
+    },
+    packageRatingContainer: {
+        flexDirection: 'row',
+        marginTop: 5,
+    },
+    packageStar: {
+        marginRight: 4
+    },
+    packageArrowIcon: {
+        width: 36,
+        height: 26,
+        position: 'absolute',
+        right: 40,
+        top: 150,
+    },
+
 });
