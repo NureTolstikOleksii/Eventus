@@ -36,33 +36,50 @@ export default function WelcomeScreen({ navigation }) {
         setLoginErrors((prev) => ({ ...prev, [field]: null })); // Очистка ошибок
     };
 
-    const handleLoginSubmit = async () => {
-        try {
-            setLoginErrors({});
-            const response = await fetch(`${API_KEY}/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(loginData),
-            });
+
+
+
+//пропускаем ошибки логина
+
+const handleLoginSubmit = async () => {
+    try {
+        // Временное решение: пропустить проверку логина
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }], // Перенаправление на главную страницу
+        });
+    } catch (error) {
+        setLoginErrors({ general: 'Something went wrong. Please try again later.' });
+    }
+};
+
+    // const handleLoginSubmit = async () => {
+    //     try {
+    //         setLoginErrors({});
+    //         const response = await fetch(`${API_KEY}/login`, {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify(loginData),
+    //         });
     
-            const result = await response.json();
-            if (!response.ok) {
-                setLoginErrors({ general: result.message || 'Login failed. Please try again.' });
-                if (result.errors) {
-                    setLoginErrors(result.errors);
-                }
-            } else {
-                alert('Login successful!');
-                closeLoginModal();
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Home' }],
-                });
-            }
-        } catch (error) {
-            setLoginErrors({ general: 'Something went wrong. Please try again later.' });
-        }
-    };
+    //         const result = await response.json();
+    //         if (!response.ok) {
+    //             setLoginErrors({ general: result.message || 'Login failed. Please try again.' });
+    //             if (result.errors) {
+    //                 setLoginErrors(result.errors);
+    //             }
+    //         } else {
+    //             alert('Login successful!');
+    //             closeLoginModal();
+    //             navigation.reset({
+    //                 index: 0,
+    //                 routes: [{ name: 'Home' }],
+    //             });
+    //         }
+    //     } catch (error) {
+    //         setLoginErrors({ general: 'Something went wrong. Please try again later.' });
+    //     }
+    // };
     
     //категорії
     useEffect(() => {
@@ -88,7 +105,7 @@ export default function WelcomeScreen({ navigation }) {
         }
     };
 
-    //реєстрація    
+   // реєстрація    
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         name: '',
@@ -261,6 +278,26 @@ export default function WelcomeScreen({ navigation }) {
                                 </TouchableOpacity>
                                 <Text style={styles.checkboxText}>Зареєструватися як постачальник</Text>
                             </View>
+
+
+                            <TouchableOpacity style={styles.formButton} onPress={handleLoginSubmit}>
+    <View style={styles.simpleFormButton}>
+        <Text style={styles.buttonText}>Увійти</Text>
+    </View>
+</TouchableOpacity>
+
+
+
+                                        {/* Новая кнопка "Пропустить логин УДАЛИТЬ КАК И СТИЛЬ simpleButton" */}
+                                        <TouchableOpacity
+                                            style={[styles.simpleButton, { marginTop: 20 }]} // Новый стиль
+                                            onPress={() => navigation.navigate('ProviderProfile')} // Переход на Welcome
+                                        >
+                                            <Text style={styles.buttonText}>Пропустить логин</Text>
+                                        </TouchableOpacity>
+
+
+
 
                             {/* Для поставщиков */}
                             {isProvider && (
@@ -570,5 +607,14 @@ const styles = StyleSheet.create({
     inputError: {
         borderColor: 'red',
         borderWidth: 1,
+    },
+
+
+    simpleButton: {
+        borderRadius: 25,
+        paddingVertical: 12,
+        alignItems: 'center',
+        width: '100%',
+        backgroundColor: '#FFD700', // Новый цвет для кнопки "Пропустить"
     },
 });
