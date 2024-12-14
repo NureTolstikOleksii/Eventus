@@ -1,31 +1,32 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import BottomMenu from '../components/BottomMenu';
 
-const WishlistScreen = () => {
+const Wishlist = () => {
     const wishlistItems = [
         {
             title: 'Букет',
             supplier: 'Постачальник Василій',
-            image: require('../../assets/images/roses.png'),
+            image: require('../assets/images/roses.png'),
         },
         {
             title: 'Букет',
             supplier: 'Постачальник Петро',
-            image: require('../../assets/images/roses2.png'),
+            image: require('../assets/images/roses2.png'),
         },
         {
             title: 'Букет',
             supplier: 'Постачальник Іван',
-            image: require('../../assets/images/roses3.png'),
+            image: require('../assets/images/roses3.png'),
         },
     ];
 
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <Image source={require('../../assets/images/arrow.png')} style={styles.backIcon} />
+                <TouchableOpacity onPress={() => navigation.navigate('Home')}>               
+                <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Список бажань</Text>
             </View>
@@ -39,14 +40,19 @@ const WishlistScreen = () => {
                             <Text style={styles.itemSupplier}>{item.supplier}</Text>
                         </View>
                         <TouchableOpacity style={styles.removeButton}>
-                            <Image source={require('../../assets/images/minus.png')} style={styles.removeIcon} />
+                            <Image source={require('../assets/images/minus.png')} style={styles.removeIcon} />
                         </TouchableOpacity>
                     </View>
                 ))}
             </ScrollView>
-            <TouchableOpacity style={styles.addButton}>
-                <Image source={require('../../assets/images/plus.png')} style={styles.addIcon} />
-            </TouchableOpacity>
+            <TouchableOpacity 
+            style={styles.addButton} 
+            onPress={() => navigation.navigate('ItemAddScreen')}
+        >
+            <Image source={require('../assets/images/plus.png')} style={styles.addIcon} />
+        </TouchableOpacity>
+            {/* Нижнее меню */}
+            <BottomMenu />
         </LinearGradient>
     );
 };
@@ -146,4 +152,4 @@ const styles = StyleSheet.create({
     arrowIcon: { width: 15, height: 15, tintColor: '#6fa32b' },
 });
 
-export default WishlistScreen;
+export default Wishlist;

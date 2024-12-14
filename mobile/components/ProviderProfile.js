@@ -83,9 +83,8 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
                 <View style={styles.header}>
                     <TouchableOpacity
                         onPress={() => navigation.navigate('Home')} // Переход на HomeScreen(добавленая функция, может быть не оч)
-                    >
-                        <Image
-                            source={require('../assets/images/arrow.png')}
+                         >
+                        <Image source={require('../assets/images/arrow.png')}
                             style={styles.backIcon}
                         />
                     </TouchableOpacity>

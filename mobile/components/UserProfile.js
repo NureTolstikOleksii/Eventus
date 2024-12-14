@@ -3,7 +3,9 @@ import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Constants from 'expo-constants';
+import BottomMenu from '../components/BottomMenu';
 const API_KEY = Constants.expoConfig?.extra?.API_KEY;
+
 
 
 const UserProfile = () => {
@@ -38,9 +40,10 @@ const UserProfile = () => {
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
-                </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('../')}>
+            <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
+             </TouchableOpacity>
+
                 <Text style={styles.title}>Профіль</Text>
                 <TouchableOpacity>
                     <Image source={require('../assets/images/pencil.png')} style={styles.editIcon} />
@@ -51,36 +54,51 @@ const UserProfile = () => {
                 <Text style={styles.userName}>Валєра</Text>
             </View>
             <View style={styles.menuContainer}>
-                <TouchableOpacity style={styles.menuItem}>
-                    <Text style={styles.menuText}>Список бажань</Text>
-                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
-                </TouchableOpacity>
+             {/* Список бажань */}
+             <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Wishlist')
+}>
+                <Text style={styles.menuText}>Список бажань</Text>
+                <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+            </TouchableOpacity>
 
-                <TouchableOpacity style={styles.menuItem}>
-                    <Text style={styles.menuText}>Чек-лист</Text>
-                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
-                </TouchableOpacity>
+            {/* Чек-лист */}
+            <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('CheckList')}>
+                <Text style={styles.menuText}>Чек-лист</Text>
+                <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+            </TouchableOpacity>
 
-                <TouchableOpacity style={styles.menuItem}>
-                    <Text style={styles.menuText}>Мої замовлення</Text>
-                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
-                </TouchableOpacity>
+            {/* Мої замовлення */}
+            <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('OrdersScreen')}>
+                <Text style={styles.menuText}>Мої замовлення</Text>
+                <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+            </TouchableOpacity>
 
-                <TouchableOpacity style={styles.menuItem}>
-                    <Text style={styles.menuText}>Чат</Text>
-                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
-                </TouchableOpacity>
+            {/* Чат (заглушка) */}
+            <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => Alert.alert('Чат', 'Ця функція поки що у розробці.')}
+            >
+                <Text style={styles.menuText}>Чат</Text>
+                <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+            </TouchableOpacity>
 
-                <TouchableOpacity style={styles.menuItem}>
-                    <Text style={styles.menuText}>Сповіщення</Text>
-                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
-                </TouchableOpacity>
-               
-                <TouchableOpacity style={[styles.menuItem, styles.lastMenuItem]} onPress={handleLogout}>
-                    <Text style={styles.menuText}>Вихід із аккаунту</Text>
-                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
-                </TouchableOpacity>
+            {/* Сповіщення (заглушка) */}
+            <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => Alert.alert('Сповіщення', 'Ця функція поки що у розробці.')}
+            >
+                <Text style={styles.menuText}>Сповіщення</Text>
+                <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+            </TouchableOpacity>
+
+            {/* Вихід із аккаунту */}
+            <TouchableOpacity style={[styles.menuItem, styles.lastMenuItem]} onPress={handleLogout}>
+                <Text style={styles.menuText}>Вихід із аккаунту</Text>
+                <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
+            </TouchableOpacity>
             </View>
+              {/* Нижнее меню */}
+              <BottomMenu />
         </LinearGradient>
     );
 };
