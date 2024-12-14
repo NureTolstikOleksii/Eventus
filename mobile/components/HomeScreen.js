@@ -72,20 +72,18 @@ const HomeScreen = () => {
     const services = [
         {
             title: 'Букет “Ніжність”',
-            image: require('../assets/images/flowers.png'), // Убедись, что путь правильный
-            price: 10000,
-            rating: 3,
+            image: require('../assets/images/flowers.png'),
+            price: 230,
+            description: 'Опис послуги: Букет “Ніжність”...',
+            florist: 'Василія',
+            rating: 4,
         },
         {
             title: 'Букет “Краса”',
             image: require('../assets/images/flowers.png'),
-            price: 12000,
-            rating: 4,
-        },
-        {
-            title: 'Букет “Весна”',
-            image: require('../assets/images/flowers.png'),
-            price: 8000,
+            price: 250,
+            description: 'Опис послуги: Букет “Краса”...',
+            florist: 'Олена',
             rating: 5,
         },
     ];
@@ -176,35 +174,33 @@ const HomeScreen = () => {
                         )}
 
                         {/* Результаты */}
-                        {selectedOption === 'Послуга' && searchText.length > 0 && (
+                        {selectedOption === 'Послуга' && searchText && (
                             <ScrollView style={styles.resultsContainer}>
                                 {services
                                     .filter(service =>
                                         service.title.toLowerCase().includes(searchText.toLowerCase())
                                     )
                                     .map((service, index) => (
-                                        <View key={index} style={styles.cardContainer}>
-                                            <Image
-                                                source={service.image} // Используем путь из объекта `services`
-                                                style={styles.cardImage}
-                                                resizeMode="cover"
-                                            />
+                                        <TouchableOpacity
+                                            key={index}
+                                            style={styles.cardContainer}
+                                            onPress={() =>
+                                                navigation.navigate('OrdersDetailsScreen', {
+                                                    title: service.title,
+                                                    image: service.image,
+                                                    price: service.price,
+                                                    description: service.description || 'Опис цієї послуги недоступний',
+                                                    florist: service.florist || 'Невідомий',
+                                                    rating: service.rating,
+                                                })
+                                            }
+                                        >
+                                            <Image source={service.image} style={styles.cardImage} />
                                             <View style={styles.textContainer}>
                                                 <Text style={styles.cardTitle}>{service.title}</Text>
                                                 <Text style={styles.cardPrice}>{service.price} грн</Text>
-                                                <View style={styles.ratingContainer}>
-                                                    {[...Array(5)].map((_, i) => (
-                                                        <FontAwesome
-                                                            key={i}
-                                                            name="star"
-                                                            size={18}
-                                                            color={i < service.rating ? '#FFD700' : '#BDBDBD'}
-                                                            style={styles.star}
-                                                        />
-                                                    ))}
-                                                </View>
                                             </View>
-                                        </View>
+                                        </TouchableOpacity>
                                     ))}
                             </ScrollView>
                         )}
@@ -306,33 +302,33 @@ const HomeScreen = () => {
                                     ))}
                                 </View>
 
-                                <Text style={styles.filterSectionTitle}>Рейтинг</Text>
-                                <View style={styles.ratingContainer}>
+                                <Text style={styles.ratingFilterTitle}>Рейтинг</Text>
+                                <View style={styles.ratingListContainer}>
                                     {[5, 4, 3, 2, 1].map((rating) => (
-                                        <TouchableOpacity
-                                            key={rating}
-                                            style={styles.ratingItem}
-                                            onPress={() => toggleRating(rating)}
-                                        >
-                                            <FontAwesome
-                                                name={selectedRating === rating ? 'check-square' : 'square-o'}
-                                                size={24}
-                                                color={selectedRating === rating ? '#83B620' : '#ccc'}
-                                            />
-                                            <View style={styles.ratingStars}>
+                                        <View key={rating} style={styles.ratingRow}>
+                                            <TouchableOpacity onPress={() => toggleRating(rating)} style={styles.ratingCheckbox}>
+                                                <FontAwesome
+                                                    name={selectedRating === rating ? 'check-square' : 'square-o'}
+                                                    size={24}
+                                                    color={selectedRating === rating ? '#83B620' : '#ccc'}
+                                                />
+                                            </TouchableOpacity>
+                                            <View style={styles.starsContainer}>
                                                 {[...Array(5)].map((_, i) => (
                                                     <FontAwesome
                                                         key={i}
                                                         name="star"
                                                         size={20}
                                                         color={i < rating ? '#6fa32b' : '#ddd'}
-                                                        style={{ marginRight: 4 }}
+                                                        style={styles.starIcon}
                                                     />
                                                 ))}
                                             </View>
-                                        </TouchableOpacity>
+                                        </View>
                                     ))}
                                 </View>
+
+
 
                                 <Text style={styles.filterSectionTitle}>Ціна</Text>
                                 <View style={styles.priceSliderContainer}>
@@ -724,5 +720,43 @@ const styles = StyleSheet.create({
         right: 40,
         top: 150,
     },
+    ratingFilterTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#83B620',
+        marginVertical: 10,
+        textAlign: 'left', // Выравнивание текста заголовка влево
+        alignSelf: 'flex-start', // Заголовок "Рейтинг" будет выровнен по левому краю контейнера
+        marginLeft: 0, // Отступ слева для заголовка
+    },
+
+    ratingListContainer: {
+        flexDirection: 'column', // Расположение рейтингов вертикально
+        alignItems: 'flex-start', // Выравнивание всего списка рейтингов по левому краю
+        alignSelf: 'flex-start', // Заголовок "Рейтинг" будет выровнен по левому краю контейнера
+        marginLeft: 0, // Отступ слева для заголовка
+    },
+
+    ratingRow: {
+        flexDirection: 'row', // Расположение чекбокса и звёзд в одной строке
+        alignItems: 'center',
+        marginBottom: 10, // Отступ между строками рейтинга
+    },
+
+    ratingCheckbox: {
+        justifyContent: 'center', // Центрирование чекбокса по вертикали
+        alignItems: 'center',
+        marginRight: 10, // Отступ между чекбоксом и звёздами
+    },
+
+    starsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    starIcon: {
+        marginHorizontal: 2, // Отступ между звёздами
+    },
+
 
 });

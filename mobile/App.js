@@ -12,6 +12,8 @@ import PacketServices from './components/PacketServices';
 import Orders from './components/Orders';
 import ProfileOrder from './components/ProfileOrder';
 import UserProfile from './components/UserProfile';
+import OrdersDetailsScreen from './components/OrdersDetailsScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -21,8 +23,8 @@ export default function App() {
             <Stack.Navigator initialRouteName="Welcome">
                 <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-                <Stack.Screen name="Packeti" component={PacketiScreen}  options={{ headerShown: false }} />
-                <Stack.Screen name="Reviews" component={ReviewsScreen}  options={{ headerShown: false }} />
+                <Stack.Screen name="Packeti" component={PacketiScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Reviews" component={ReviewsScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="ProviderProfile" component={ProviderProfile} options={{ headerShown: false }} />
                 <Stack.Screen name="CheckList" component={CheckList} options={{ headerShown: false }} />
                 <Stack.Screen name="ServicesScreen" component={ServicesScreen} options={{ headerShown: false }} />
@@ -30,6 +32,7 @@ export default function App() {
                 <Stack.Screen name="Orders" component={Orders} options={{ headerShown: false }} />
                 <Stack.Screen name="ProfileOrder" component={ProfileOrder} options={{ headerShown: false }} />
                 <Stack.Screen name="UserProfile" component={UserProfile} options={{ headerShown: false }} />
+                <Stack.Screen name="OrdersDetailsScreen" component={OrdersDetailsScreen} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );
