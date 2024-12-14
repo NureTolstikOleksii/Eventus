@@ -5,6 +5,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import BottomMenu from '../components/BottomMenu';
 import { StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 
 const HomeScreen = () => {
     const [selectedTab, setSelectedTab] = useState('home');
@@ -186,11 +188,11 @@ const HomeScreen = () => {
                                             style={styles.cardContainer}
                                             onPress={() =>
                                                 navigation.navigate('OrdersDetailsScreen', {
-                                                    title: service.title,
                                                     image: service.image,
+                                                    title: service.title,
                                                     price: service.price,
-                                                    description: service.description || 'Опис цієї послуги недоступний',
                                                     florist: service.florist || 'Невідомий',
+                                                    description: service.description || 'Опис цієї послуги недоступний',
                                                     rating: service.rating,
                                                 })
                                             }
@@ -364,8 +366,6 @@ const HomeScreen = () => {
         </View>
     );
 };
-
-export default HomeScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -760,3 +760,4 @@ const styles = StyleSheet.create({
 
 
 });
+export default HomeScreen;
