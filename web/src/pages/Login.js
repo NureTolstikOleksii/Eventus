@@ -42,10 +42,8 @@ function Login() {
       return;
     }
   
-    const url = isProvider ? '/login/provider' : '/login/customer';
-  
     try {
-      const loginResponse = await fetch(`http://localhost:4200${url}`, {
+      const loginResponse = await fetch(`http://localhost:4200/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -145,16 +143,6 @@ function Login() {
           </p>
         </div>
 
-        <div className="toggle-user-type">
-          <label>
-            <input
-              type="checkbox"
-              checked={isProvider}
-              onChange={toggleUserType}
-            />
-            Увійти як постачальник
-          </label>
-        </div>
       </form>
     </div>
   );
