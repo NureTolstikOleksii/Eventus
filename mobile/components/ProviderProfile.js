@@ -253,20 +253,21 @@ const styles = StyleSheet.create({
     arrowIcon: { width: 15, height: 15, tintColor: '#6fa32b' },
     modalContainerChange: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'flex-end', // Розташовує модальне вікно внизу екрана
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Напівпрозорий фон для фону
     },
     modalContentChange: {
-        width: '90%',
-        padding: 20,
-        borderRadius: 20,
-        backgroundColor: '#ffffff',
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
+        width: '100%', // Ширина модального вікна
+        backgroundColor: '#ffffff', // Білий фон для самого модального вікна
+        borderTopLeftRadius: 20, // Закруглення верхнього лівого кута
+        borderTopRightRadius: 20, // Закруглення верхнього правого кута
+        padding: 20, // Відступи всередині модального вікна
+        elevation: 5, // Тінь для Android
+        shadowColor: '#000', // Колір тіні
+        shadowOffset: { width: 0, height: 2 }, // Зміщення тіні
+        shadowOpacity: 0.25, // Прозорість тіні
+        shadowRadius: 4, // Радіус тіні
+        height: '70%',
     },
     modalTitleChange: {
         fontSize: 24,
@@ -281,12 +282,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     fullWidthModal: {
-        width: '100%',
-        height: '50%',
-        backgroundColor: '#ffffff',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        padding: 20,
+        width: '100%', // Встановлюємо ширину на 100% екрану
+        height: '70%', // Висота модального вікна
+        backgroundColor: '#ffffff', // Білий фон для модального вікна
+        borderTopLeftRadius: 20, // Закруглення верхнього лівого кута
+        borderTopRightRadius: 20, // Закруглення верхнього правого кута
+        paddingHorizontal: 20, // Внутрішній відступ
+        paddingTop: 20, // Відступ зверху
+        paddingBottom: 20, // Відступ знизу
+        paddingBottom: 80, // Додаємо відступ, щоб контент не заходив на кнопку
+
     },
     modalTitle: {
         fontSize: 24,
@@ -325,12 +330,14 @@ const styles = StyleSheet.create({
         textAlign: 'right',
     },
     closeButton: {
-        backgroundColor: '#6fa32b',
-        paddingVertical: 12,
-        borderRadius: 25,
-        alignSelf: 'center',
-        marginTop: 20,
-        width: '50%',
+        position: 'absolute', // Фіксоване положення
+        bottom: 20, // Відступ від нижнього краю модального вікна
+        left: '25%', // Вирівнювання по центру через 10% від краю
+        width: '50%', // Ширина кнопки 80% від ширини модального вікна
+        backgroundColor: '#6fa32b', // Зелений фон
+        paddingVertical: 12, // Вертикальні відступи всередині кнопки
+        borderRadius: 25, // Округлені кути кнопки
+        alignItems: 'center', // Вирівнювання тексту по центру
     },
     closeButtonText: {
         color: '#ffffff',
@@ -339,12 +346,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     saveButton: {
-        backgroundColor: '#6fa32b',
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 10,
-        alignSelf: 'center',
-        marginTop: 20,
+        position: 'absolute', // Фіксоване положення
+        bottom: 20, // Відступ від нижнього краю модального вікна
+        left: '25%', // Вирівнювання по центру через 10% від краю
+        width: '50%', // Ширина кнопки 80% від ширини модального вікна
+        backgroundColor: '#6fa32b', // Зелений фон
+        paddingVertical: 12, // Вертикальні відступи всередині кнопки
+        borderRadius: 25, // Округлені кути кнопки
+        alignItems: 'center', // Вирівнювання тексту по центру
     },
     fieldWrapper: {
         borderBottomWidth: 1,
@@ -363,19 +372,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: '#f5f5f5',
     },
-    saveButton: {
-        backgroundColor: '#6fa32b',
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 10,
-        alignSelf: 'center',
-        marginTop: 20,
-    },
+
     saveButtonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-        textAlign: 'center',
+        color: '#ffffff', // Білий колір тексту
+        fontSize: 18, // Розмір шрифту
+        fontWeight: 'bold', // Жирний текст
     },
     inputContainer: {
         marginTop: 10,
