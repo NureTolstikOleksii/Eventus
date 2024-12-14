@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import BottomMenu from '../components/BottomMenu';
 
 const OrdersScreen = () => {
     return (
@@ -8,7 +9,7 @@ const OrdersScreen = () => {
             {/* Шапка с заголовком и стрелкой */}
             <View style={styles.header}>
                 <TouchableOpacity>
-                    <Image source={require('../../assets/images/arrow.png')} style={styles.backIcon} />
+                    <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Мої замовлення</Text>
             </View>
@@ -16,9 +17,9 @@ const OrdersScreen = () => {
             {/* Список заказов */}
             <ScrollView contentContainerStyle={[styles.ordersContainer, { paddingBottom: 100 }]}>
                 {[
-                    { title: 'Букет', date: '12/08/2024', price: '1 000 грн', image: require('../../assets/images/bouquet.png') },
-                    { title: 'Банкет', date: '15/04/2024', price: '10 000 грн', image: require('../../assets/images/banquet.png') },
-                    { title: 'День народження', date: '05/10/2024', price: '5 000 грн', image: require('../../assets/images/happy_birthday.png') },
+                    { title: 'Букет', date: '12/08/2024', price: '1 000 грн', image: require('../assets/images/bouquet.png') },
+                    { title: 'Банкет', date: '15/04/2024', price: '10 000 грн', image: require('../assets/images/banquet.png') },
+                    { title: 'День народження', date: '05/10/2024', price: '5 000 грн', image: require('../assets/images/happy_birthday.png') },
                 ].map((order, index) => (
                     <View key={index} style={styles.orderItem}>
                         <Image source={order.image} style={styles.orderImage} />
@@ -36,8 +37,10 @@ const OrdersScreen = () => {
             </ScrollView>
 
             <TouchableOpacity style={styles.addButton}>
-                <Image source={require('../../assets/images/plus.png')} style={styles.addIcon} />
+                <Image source={require('../assets/images/plus.png')} style={styles.addIcon} />
             </TouchableOpacity>
+            {/* Нижнее меню */}
+            <BottomMenu />
         </LinearGradient>
     );
 };

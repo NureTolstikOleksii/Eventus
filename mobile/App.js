@@ -12,6 +12,9 @@ import PacketServices from './components/PacketServices';
 import Orders from './components/Orders';
 import ProfileOrder from './components/ProfileOrder';
 import UserProfile from './components/UserProfile';
+import OrdersScreen from './components/OrdersScreen';
+import Wishlist from './components/Wishlist';
+import ItemAddScreen from './components/ItemAddScreen';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +33,9 @@ export default function App() {
                 <Stack.Screen name="Orders" component={Orders} options={{ headerShown: false }} />
                 <Stack.Screen name="ProfileOrder" component={ProfileOrder} options={{ headerShown: false }} />
                 <Stack.Screen name="UserProfile" component={UserProfile} options={{ headerShown: false }} />
+                <Stack.Screen name="OrdersScreen" component={OrdersScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Wishlist" component={Wishlist} options={{ headerShown: false }} />
+                <Stack.Screen name="ItemAdd" component={ItemAddScreen} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );
