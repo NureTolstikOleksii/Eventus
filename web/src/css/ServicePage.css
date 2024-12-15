@@ -5,7 +5,7 @@
   gap: 20px;
   padding: 20px;
   background-color: #000000;
-  background-image: url('../assets/background-login.png');
+  background-image: url("../assets/background-login.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -23,16 +23,13 @@
 
   /* background-color: rgba(255, 255, 255, 0.1);   белый тенёк */
   border-radius: 10px;
-
 }
 
 /* Левый блок информации */
 .info-service {
-
   /* Для блока info-service — добавим relative */
   /* Для корректного позиционирования дочерних элементов */
   position: relative;
-
 
   display: flex;
   flex-direction: column;
@@ -113,7 +110,6 @@
 .button-order:hover {
   background-color: #3ae342;
 }
-
 
 /* Правый блок для отзывов */
 /* Контейнер отзывов */
@@ -207,8 +203,6 @@
   margin-top: 5px;
 }
 
-
-
 /* Иконка лайка */
 .like-icon {
   position: absolute; /* Абсолютное позиционирование */
@@ -226,4 +220,185 @@
 
 /* Для блока info-service — добавим relative */
 
-  /* Для корректного позиционирования дочерних элементов */
+/* Для корректного позиционирования дочерних элементов */
+
+.provider-service-page-appointment-item {
+  background-color: #2d6a4f;
+  color: white;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  width: 300px;
+}
+
+.plus-button {
+  background-color: #28a745;
+  color: white;
+  font-size: 20px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.plus-button:hover {
+  background-color: #218838;
+}
+
+.provider-service-page-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.provider-service-page-modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  margin: 0 auto;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.provider-service-page-modal-body {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.modal-button:hover {
+  background-color: #0056b3;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 30px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.plus-button {
+  cursor: pointer;
+  width: 40px;
+  margin-top: 10px;
+  z-index: 10;
+  border: none;
+  background: none;
+  padding: 0;
+  display: block;
+  margin: 20px auto 0;
+}
+
+.plus-button:hover {
+  border: none;
+  background: none;
+}
+
+.new-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.new-modal-content {
+  background-color: white;
+  padding: 30px;
+  position: relative;
+  max-width: 250px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.new-modal-body {
+  margin: 20px 0 0 0;
+}
+
+.date-container,
+.time-container {
+  margin-bottom: 25px;
+}
+
+.date-label,
+.time-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2d6a4f;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.date-input,
+.time-input {
+  width: 100%;
+  max-width: 225px;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #2d6a4f;
+  background-color: #f0f8f4;
+}
+
+.date-input:focus,
+.time-input:focus {
+  border-color: #2d6a4f;
+  outline: none;
+  background-color: #e9f5ec;
+}
+
+.provider-service-add-button {
+  background-color: #2d6a4f;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.provider-service-add-button:hover {
+  background-color: #1b4f33;
+}
+
+.back-arrow {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 35px;
+  cursor: pointer;
+  z-index: 10;
+}

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/PackageOfServicesPage.css";
 import serviceImage1 from "../assets/red-roses.jpg"; // Укажите путь к изображению букета
 import serviceImage2 from "../assets/flowers-image.jpg";
-import reviewUser from '../assets/dimon.jpg';
-import reviewUser2 from '../assets/yellow-flower.jpg';
+import reviewUser from "../assets/dimon.jpg";
+import reviewUser2 from "../assets/yellow-flower.jpg";
 import reviewUser3 from "../assets/rewiew-image.jpg";
-import { Link } from 'react-router-dom';
+import arrow from "../assets/green-arrow.png";
+import plus from "../assets/green-plus.png";
+import { Link } from "react-router-dom";
 
 const packageData = {
   name: 'Пакет "Цветы с грядки"',
@@ -60,13 +62,14 @@ const reviews = [
     author: "ДИМОН",
     date: "30.11.2024",
     serviceName: "Квіти з грядки",
-    content: "Спочатку я заржав, коли побачив назву Квіти з грядки. Ну думаю, Валєра, ти серйозно? Що там, моркву з петрушкою підвезеш? Але ні, Валєра не розчаровує. Приніс букет, шо виглядає так, ніби збирав його біля найпрестижнішого під’їзду в місті, де клумби поливають мінералкою і квіти слухають класику. Натуральність зашкалює – навіть бабка з сусіднього під’їзду дивилась з підозрою, чи не з її грядки це все. Валєра підморгнув і каже: Ну шо, шеф, хай заздрять! Наступного разу ще й дощову воду для свіжості підвезу!",
+    content:
+      "Спочатку я заржав, коли побачив назву Квіти з грядки. Ну думаю, Валєра, ти серйозно? Що там, моркву з петрушкою підвезеш? Але ні, Валєра не розчаровує. Приніс букет, шо виглядає так, ніби збирав його біля найпрестижнішого під’їзду в місті, де клумби поливають мінералкою і квіти слухають класику. Натуральність зашкалює – навіть бабка з сусіднього під’їзду дивилась з підозрою, чи не з її грядки це все. Валєра підморгнув і каже: Ну шо, шеф, хай заздрять! Наступного разу ще й дощову воду для свіжості підвезу!",
     rating: 5,
     image: serviceImage2,
     userImage: reviewUser,
   },
   {
-  author: "Анатолій",
+    author: "Анатолій",
     date: "10.11.2024",
     serviceName: "Квіти з грядки",
     content:
@@ -83,113 +86,58 @@ const reviews = [
       "Ну шо сказать, хлопці й дівчата, пишу цей отзив прямо з 2077 року. Світ змінився, літаючі машини, роботи кругом, а Валєра – той самий. Як робив букетіще, так і робить. Квіти з грядки, каже він, – це вам не якісь там синт-квіти чи голограми. Це реальні квіти, вирощені, як у старі добрі часи, на землі, шо ще залишилась після всіх цих технокриз. Приніс мені Валєра букет, і я чуть з крісла не впав. Ромашки, півонії, навіть соняшник якийсь затесався – ну прямо артхаус на стеблі. І аромат такий натуральний, шо сусідський дрон завис у вікна нюхать. Валєра, як завжди, філософствує: Еко-френдлі, шеф, це ж із минулого для вашого майбутнього. Я таке збирав, шо вам навіть голограмна бабця заздрить буде.Словом, Валєра – легенда. Якщо у 2077 році ще існує хоч щось справжнє, то це точно його Квіти з грядки. Не пропустіть шанс підтримати традиції в еру нейроштучності!",
     rating: 5,
     image: serviceImage2,
-    userImage:  reviewUser2,
+    userImage: reviewUser2,
   },
 ];
 
 const ProviderPackageOfServicesPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNewModalOpen, setIsNewModalOpen] = useState(false);
+  const [appointments, setAppointments] = useState([
+    { date: "2024-12-15", time: "14:30" },
+    { date: "2024-12-16", time: "10:00" },
+  ]);
+  const [newDate, setNewDate] = useState("");
+  const [newTime, setNewTime] = useState("");
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const toggleNewModal = () => {
+    setIsNewModalOpen(!isNewModalOpen);
+  };
+
+  const handleAddAppointment = () => {
+    if (newDate && newTime) {
+      setAppointments([...appointments, { date: newDate, time: newTime }]);
+      setNewDate("");
+      setNewTime("");
+      toggleNewModal();
+    }
+  };
+
   return (
-<div className="package-of-services-page">
-  <main className="package-of-services-container">
-    {/* Левый блок: информация о пакете */}
-    <div className="package-of-services-info">
-      <img src={packageData.image} alt={packageData.name} className="package-of-services-image" />
-      <h2 className="package-of-services-title">{packageData.name}</h2>
-      <p className="package-of-services-florist">{packageData.florist}</p>
-      <div className="package-of-services-rating">
-        {[...Array(5)].map((_, i) => (
-          <svg
-            key={i}
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill={i < packageData.rating ? "gold" : "none"}
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 2L14.9264 8.60145L22 9.40402L17 14.1986L18.8528 21.596L12 17.8L5.14722 21.596L7 14.1986L2 9.40402L9.07355 8.60145L12 2Z"
-              stroke="gold"
-              strokeWidth="1.2"
-            />
-          </svg>
-        ))}
-      </div>
-      <p className="package-of-services-price">{packageData.price} грн</p>
-      <p className="package-of-services-description">{packageData.description}</p>
-      <button className="package-of-services-order-button">КАЛЕНДАР</button>
-    </div>
-
- {/* Средний блок: состав пакета */}
-<div className="package-of-services-composition">
-  <div className="package-of-services-page-name-block">
-    <h3>Склад пакету</h3>
-  </div>
-  <div className="package-of-services-composition-grid">
-    {packageData.services.map((service, index) => (
-      <div key={index} className="package-of-services-item">
-        <img src={service.image} alt={service.name} className="package-of-services-item-image" />
-        <div className="package-of-services-item-info">
-          <h4>{service.name}</h4>
-          <div className="package-of-services-item-rating">
-            {[...Array(5)].map((_, i) => (
-              <svg
-                key={i}
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill={i < service.rating ? "gold" : "none"}
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 2L14.9264 8.60145L22 9.40402L17 14.1986L18.8528 21.596L12 17.8L5.14722 21.596L7 14.1986L2 9.40402L9.07355 8.60145L12 2Z"
-                  stroke="gold"
-                  strokeWidth="1.2"
-                />
-              </svg>
-            ))}
-          </div>
-          <Link to="/provider-service-page" style={{ textDecoration: 'none', color: 'inherit' }}>  
-          <button className="package-of-services-item-order-button">Переглянути</button>
-          </Link>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-  </main>
-
-  <div className="package-of-services-reviews-section">
-  <div className="package-of-services-page-name-block">
-  <h3>Відгуки</h3></div>
-  <div className="package-of-services-reviews-container">
-    {reviews.map((review, index) => (
-      <div key={index} className="package-of-services-review-card">
-        <div className="package-of-services-review-header">
-          <div className="package-of-services-review-left">
-            {/* Используем userImage из данных отзыва */}
-            <img
-              src={review.userImage}
-              alt="Author"
-              className="package-of-services-review-author-icon"
-            />
-            <div className="package-of-services-review-info">
-              <h4>{review.author}</h4>
-              <p className="package-of-services-review-date">{review.date}</p>
-              <p className="package-of-services-review-service">Послуга: {review.serviceName}</p>
-            </div>
-          </div>
-          <div className="package-of-services-review-rating">
+    <div className="package-of-services-page">
+      <main className="package-of-services-container">
+        {/* Левый блок: информация о пакете */}
+        <div className="package-of-services-info">
+          <img
+            src={packageData.image}
+            alt={packageData.name}
+            className="package-of-services-image"
+          />
+          <h2 className="package-of-services-title">{packageData.name}</h2>
+          <p className="package-of-services-florist">{packageData.florist}</p>
+          <div className="package-of-services-rating">
             {[...Array(5)].map((_, i) => (
               <svg
                 key={i}
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
-                fill={i < review.rating ? "gold" : "none"}
+                fill={i < packageData.rating ? "gold" : "none"}
                 xmlns="http://www.w3.org/2000/svg"
-                className="package-of-services-star-icon"
               >
                 <path
                   d="M12 2L14.9264 8.60145L22 9.40402L17 14.1986L18.8528 21.596L12 17.8L5.14722 21.596L7 14.1986L2 9.40402L9.07355 8.60145L12 2Z"
@@ -199,24 +147,214 @@ const ProviderPackageOfServicesPage = () => {
               </svg>
             ))}
           </div>
+          <p className="package-of-services-price">{packageData.price} грн</p>
+          <p className="package-of-services-description">
+            {packageData.description}
+          </p>
+          <button
+            className="package-of-services-order-button"
+            onClick={toggleModal}
+          >
+            КАЛЕНДАР
+          </button>
         </div>
-        <p className="package-of-services-review-content">{review.content}</p>
-        <div className="package-of-services-review-image">
-          <img
-            src={review.image}
-            alt="Review Visual"
-            className="package-of-services-review-thumbnail"
-          />
+
+        {/* Средний блок: состав пакета */}
+        <div className="package-of-services-composition">
+          <div className="package-of-services-page-name-block">
+            <h3>Склад пакету</h3>
+          </div>
+          <div className="package-of-services-composition-grid">
+            {packageData.services.map((service, index) => (
+              <div key={index} className="package-of-services-item">
+                <img
+                  src={service.image}
+                  alt={service.name}
+                  className="package-of-services-item-image"
+                />
+                <div className="package-of-services-item-info">
+                  <h4>{service.name}</h4>
+                  <div className="package-of-services-item-rating">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill={i < service.rating ? "gold" : "none"}
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 2L14.9264 8.60145L22 9.40402L17 14.1986L18.8528 21.596L12 17.8L5.14722 21.596L7 14.1986L2 9.40402L9.07355 8.60145L12 2Z"
+                          stroke="gold"
+                          strokeWidth="1.2"
+                        />
+                      </svg>
+                    ))}
+                  </div>
+                  <Link
+                    to="/provider-service-page"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <button className="package-of-services-item-order-button">
+                      Переглянути
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+
+      {isModalOpen && (
+        <div className="provider-service-page-modal">
+          <div className="provider-service-page-modal-content">
+            <img
+              src={arrow}
+              alt="Close"
+              className="modal-close"
+              onClick={toggleModal}
+            />
+            <h2>Календар</h2>
+
+            {/* Modal Body for Appointments */}
+            <div className="provider-service-page-modal-body">
+              {appointments.map((appointment, index) => (
+                <div
+                  key={index}
+                  className="provider-service-page-appointment-item"
+                >
+                  <p>
+                    <strong>Дата:</strong> {appointment.date}
+                  </p>
+                  <p>
+                    <strong>Час:</strong> {appointment.time}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <img
+              src={plus}
+              alt="Add"
+              className="plus-button"
+              onClick={toggleNewModal}
+            />
+          </div>
+        </div>
+      )}
+
+      {isNewModalOpen && (
+        <div className="new-modal">
+          <div className="new-modal-content">
+            <div className="new-modal-body">
+              {/* Date Picker */}
+              <div className="date-container">
+                <label htmlFor="date" className="date-label">
+                  Обрати дату
+                </label>
+                <input
+                  type="date"
+                  id="date"
+                  value={newDate}
+                  onChange={(e) => setNewDate(e.target.value)}
+                  className="date-input"
+                />
+              </div>
+              {/* Time Picker */}
+              <div className="time-container">
+                <label htmlFor="time" className="time-label">
+                  Обрати час
+                </label>
+                <input
+                  type="time"
+                  id="time"
+                  value={newTime}
+                  onChange={(e) => setNewTime(e.target.value)}
+                  className="time-input"
+                />
+              </div>
+
+              <button
+                className="provider-service-add-button"
+                onClick={handleAddAppointment}
+              >
+                Додати
+              </button>
+            </div>
+
+            <img
+              src={arrow}
+              alt="Back"
+              className="back-arrow"
+              onClick={toggleNewModal}
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="package-of-services-reviews-section">
+        <div className="package-of-services-page-name-block">
+          <h3>Відгуки</h3>
+        </div>
+        <div className="package-of-services-reviews-container">
+          {reviews.map((review, index) => (
+            <div key={index} className="package-of-services-review-card">
+              <div className="package-of-services-review-header">
+                <div className="package-of-services-review-left">
+                  {/* Используем userImage из данных отзыва */}
+                  <img
+                    src={review.userImage}
+                    alt="Author"
+                    className="package-of-services-review-author-icon"
+                  />
+                  <div className="package-of-services-review-info">
+                    <h4>{review.author}</h4>
+                    <p className="package-of-services-review-date">
+                      {review.date}
+                    </p>
+                    <p className="package-of-services-review-service">
+                      Послуга: {review.serviceName}
+                    </p>
+                  </div>
+                </div>
+                <div className="package-of-services-review-rating">
+                  {[...Array(5)].map((_, i) => (
+                    <svg
+                      key={i}
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill={i < review.rating ? "gold" : "none"}
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="package-of-services-star-icon"
+                    >
+                      <path
+                        d="M12 2L14.9264 8.60145L22 9.40402L17 14.1986L18.8528 21.596L12 17.8L5.14722 21.596L7 14.1986L2 9.40402L9.07355 8.60145L12 2Z"
+                        stroke="gold"
+                        strokeWidth="1.2"
+                      />
+                    </svg>
+                  ))}
+                </div>
+              </div>
+              <p className="package-of-services-review-content">
+                {review.content}
+              </p>
+              <div className="package-of-services-review-image">
+                <img
+                  src={review.image}
+                  alt="Review Visual"
+                  className="package-of-services-review-thumbnail"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    ))}
-  </div>
-</div>
-
-</div>
-
+    </div>
   );
 };
-
 
 export default ProviderPackageOfServicesPage;

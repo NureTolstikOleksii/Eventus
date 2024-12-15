@@ -170,12 +170,21 @@ function ProfileProvider() {
           <div className="my-services">
             {services.map((service, index) => (
               <div key={index} className="my-service-item">
-                {service}
+                <Link
+                  to={`/provider-service-page`}
+                  className="service-link"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  {service}
+                </Link>
                 <img
                   src={minus}
                   alt="Minus"
                   className="minus-my-services"
-                  onClick={() => handleRemoveService(index)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemoveService(index);
+                  }}
                 />
               </div>
             ))}
@@ -198,7 +207,14 @@ function ProfileProvider() {
           <div className="my-services-package">
             {servicePackages.map((packageName, index) => (
               <div key={index} className="my-services-package-item">
-                {packageName}
+                <Link
+                  to={`/provider-package-of-services-page`}
+                  className="package-link"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  {packageName}
+                </Link>
+
                 <img
                   src={minus}
                   alt="Minus"
@@ -421,7 +437,6 @@ function ProfileProvider() {
                 onClick={handleAddServiceModalClose}
               />
             </div>
-            <h3>Додати послугу</h3>
             <div className="form-group">
               <label>Послуги:</label>
               <select>
