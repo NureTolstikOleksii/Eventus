@@ -14,7 +14,8 @@ import ServicePage from './pages/ServicePage';
 import Services from './pages/Services';
 import PackageOfServicesPage from './pages/PackageOfServicesPage';
 import OrderPage from './pages/OrderPage';
-
+import ProviderServicePage from './pages/ProviderServicePage';
+import ProviderPackageOfServicesPage from './pages/ProviderPackageOfServicesPage';
 
 function App() {
   return (
@@ -34,6 +35,9 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/package-of-services-page" element={<PackageOfServicesPage />} />
             <Route path="/order-page" element={<OrderPage />} />
+            <Route path="/provider-service-page" element={<ProviderServicePage/>} />
+            <Route path="/provider-package-of-services-page" element={<ProviderPackageOfServicesPage/>} />
+
             {/* Добавьте другие маршруты здесь */}
           </Routes>
           <Footer /> {/* Отображаем Footer на всех страницах */}

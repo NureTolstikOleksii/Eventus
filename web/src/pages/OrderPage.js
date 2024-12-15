@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../css/OrderPage.css";
-
+import PaymentModal from "./Payment";
 // Пример массива данных для заказа
 const orderData = {
     name: "Букет червоний",
@@ -10,6 +11,8 @@ const orderData = {
 };
 
 const OrderPage = () => {
+    const [isPaymentOpen, setPaymentOpen] = useState(false);
+
     return (
         <div className="order-page">
             <div className="order-page-content">
@@ -49,10 +52,23 @@ const OrderPage = () => {
                     </div>
                     {/* Кнопка заказа под блоком */}
                     <div className="order-page-footer">
-                        <button className="order-page-submit-button">Замовити</button>
+                        <button
+                            className="order-page-submit-button"
+                            onClick={() => setPaymentOpen(true)}
+                        >
+                            Замовити
+                        </button>
                     </div>
                 </div>
             </div>
+
+            {/* Модальное окно */}
+            <PaymentModal
+                isOpen={isPaymentOpen}
+                onClose={() => setPaymentOpen(false)}
+                orderName={orderData.name}
+                total={orderData.total}
+            />
         </div>
     );
 };

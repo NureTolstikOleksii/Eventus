@@ -28,6 +28,12 @@
 
 /* Левый блок информации */
 .info-service {
+
+  /* Для блока info-service — добавим relative */
+  /* Для корректного позиционирования дочерних элементов */
+  position: relative;
+
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -200,3 +206,24 @@
   color: #ffffff;
   margin-top: 5px;
 }
+
+
+
+/* Иконка лайка */
+.like-icon {
+  position: absolute; /* Абсолютное позиционирование */
+  bottom: 35px; /* Отступ снизу */
+  left: 20px; /* Отступ слева */
+  width: 30px; /* Размер иконки */
+  height: 30px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.like-icon:hover {
+  transform: scale(1.1); /* Анимация увеличения при наведении */
+}
+
+/* Для блока info-service — добавим relative */
+
+  /* Для корректного позиционирования дочерних элементов */

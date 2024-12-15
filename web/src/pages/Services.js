@@ -3,9 +3,12 @@ import "../css/Services.css";
 import serviceImage2 from "../assets/flowers-image.jpg";
 import profileFon from "../assets/profile-fon.png";
 import { Link } from "react-router-dom";
+import Filter from "./Filter";
 
 function Services() {
   const [activeTab, setActiveTab] = useState("services");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const servicesData = [
     {
@@ -65,30 +68,56 @@ function Services() {
     return stars;
   };
 
-  const currentData = activeTab === "services" ? servicesData : packagesData;
+  const currentData =
+    activeTab === "services" ? servicesData : packagesData;
+
+  const filteredData = currentData.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div
       className="services-page"
       style={{ backgroundImage: `url(${profileFon})` }}
     >
-      <h2 className="section-title">Послуги та пакети</h2>
+      {/* Поле поиска и кнопка Фільтр */}
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Пошук..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+         <button className="filter-button" onClick={() => setIsFilterOpen(true)}>
+          Фільтр
+        </button>
+      </div>
+
+         {/* Модальное окно */}
+      <Filter isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} />
+
       <div className="tab-buttons">
         <button
-          className={`tab-button ${activeTab === "services" ? "active" : ""}`}
+          className={`tab-button ${
+            activeTab === "services" ? "active" : ""
+          }`}
           onClick={() => setActiveTab("services")}
         >
           Послуги
         </button>
         <button
-          className={`tab-button ${activeTab === "packages" ? "active" : ""}`}
+          className={`tab-button ${
+            activeTab === "packages" ? "active" : ""
+          }`}
           onClick={() => setActiveTab("packages")}
         >
           Пакети послуг
         </button>
       </div>
+
       <div className="services-container">
-        {currentData.map((item, index) => (
+        {filteredData.map((item, index) => (
           <Link
             to={
               activeTab === "services"

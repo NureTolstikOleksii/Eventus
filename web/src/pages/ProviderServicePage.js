@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "../css/ServicePage.css";
-import serviceImage1 from "../assets/red-roses.jpg";
-import reviewUser from "../assets/dimon.jpg";
-import like from "../assets/like.png";
-import addLike from "../assets/add-like.png";
-import { Link } from "react-router-dom";
+import serviceImage1 from "../assets/red-roses.jpg"; // Укажите путь к изображению букета
+import reviewUser from '../assets/dimon.jpg';
+import { Link } from 'react-router-dom';
 
 const service = {
   id: 1,
@@ -17,6 +15,7 @@ const service = {
   rating: 5,
 };
 
+
 const reviews = [
   {
     author: "ДИМОН",
@@ -25,37 +24,33 @@ const reviews = [
     content: "ИМБА",
     rating: 5,
     image: serviceImage1,
-    userImage: reviewUser,
+    userImage: reviewUser, // Добавлено изображение пользователя
   },
   {
     author: "Дмитро",
     date: "14.11.2024",
     serviceName: "Букет з червоних роз",
     content:
-      "Отримав букет для особливого свята. Загальний вигляд був симпатичним, але квіти не простояли навіть декілька днів. Здається, що використовувались вже не найсвіжіші квіти.",
+      "Отримав букет для особливого свята. Загальний вигляд був симпатичним, але квіти не простояли навіть декілька днів. Здається, що використовувались вже не найсвіжіші квіти. Сервіс непоганий, але є простір для покращення саме у якості квітів.",
     rating: 2,
     image: serviceImage1,
-    userImage: reviewUser,
+    userImage: reviewUser, // Добавлено изображение пользователя
   },
   {
     author: "димончик лимончик",
     date: "14.11.2024",
     serviceName: "Букет з червоних роз",
     content:
-      "Спочатку я був растроєн сервісом. Квіти доставили в жахливому стані – зів’ялі й зламані...",
+      "Спочатку я був растроєн сервісом. Квіти доставили в жахливому стані – зів’ялі й зламані. Від такого подарунка не оставиться ніяких позитивних емоцій! – подумав я. Але оказалось, шо казати бабло на ветер – це ваще нє про Валєру. Валєра, продавец, спокойно сказав: Та це ж не букет, це віник для бані, шеф! Ща все буде як надо. І правда, через час я вже держал у руках свіжий, розкішний букет, як будто його щас собрали в райському саду.",
     rating: 5,
     image: serviceImage1,
-    userImage: reviewUser,
+    userImage: reviewUser, // Добавлено изображение пользователя
   },
 ];
 
-const ServicePage = () => {
-  const [isLiked, setIsLiked] = useState(false); // Состояние для отслеживания клика на иконку лайка
 
-  const toggleLike = () => {
-    setIsLiked((prev) => !prev); // Переключаем состояние между true и false
-  };
 
+const ProviderServicePage = () => {
   return (
     <div className="page-service">
       <main className="container-service">
@@ -84,20 +79,14 @@ const ServicePage = () => {
           </div>
           <p className="price-service">{service.price} грн</p>
           <p className="description-service">{service.description}</p>
-
-          {/* Иконка лайка */}
-          <img
-            src={isLiked ? addLike : like}
-            alt="Like"
-            className="like-icon"
-            onClick={toggleLike}
-          />
-
-          <Link to="/order-page" style={{ textDecoration: "none", color: "inherit" }}>
-            <button className="button-order">Замовити</button>
-          </Link>
+          <button className="button-order">
+            <Link to="/order-page" style={{ textDecoration: 'none', color: 'inherit' }}>
+              КАЛЕНДАР
+            </Link>
+          </button>
         </div>
 
+        {/* Блок отзывов */}
         {/* Блок отзывов */}
         <div className="reviews-container">
           <div className="reviews-content">
@@ -105,6 +94,7 @@ const ServicePage = () => {
               <div className="review-card" key={index}>
                 <div className="review-header">
                   <div className="review-author">
+                    {/* Используем userImage из массива */}
                     <img src={review.userImage} alt="Author" className="review-author-avatar" />
                     <div className="review-author-info">
                       <h4>{review.author}</h4>
@@ -140,9 +130,10 @@ const ServicePage = () => {
             ))}
           </div>
         </div>
+
       </main>
     </div>
   );
 };
 
-export default ServicePage;
+export default ProviderServicePage;

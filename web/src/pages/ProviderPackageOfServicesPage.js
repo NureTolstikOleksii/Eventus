@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import "../css/PackageOfServicesPage.css";
 import serviceImage1 from "../assets/red-roses.jpg"; // Укажите путь к изображению букета
 import serviceImage2 from "../assets/flowers-image.jpg";
 import reviewUser from '../assets/dimon.jpg';
 import reviewUser2 from '../assets/yellow-flower.jpg';
 import reviewUser3 from "../assets/rewiew-image.jpg";
-import like from "../assets/like.png";
-import addLike from "../assets/add-like.png";
 import { Link } from 'react-router-dom';
 
 const packageData = {
@@ -89,13 +87,7 @@ const reviews = [
   },
 ];
 
-const PackageOfServicesPage = () => {
-    const [isLiked, setIsLiked] = useState(false); // Состояние для переключения лайка
-  
-    const toggleLike = () => {
-      setIsLiked((prev) => !prev); // Переключение состояния
-    };
-
+const ProviderPackageOfServicesPage = () => {
   return (
 <div className="package-of-services-page">
   <main className="package-of-services-container">
@@ -124,19 +116,7 @@ const PackageOfServicesPage = () => {
       </div>
       <p className="package-of-services-price">{packageData.price} грн</p>
       <p className="package-of-services-description">{packageData.description}</p>
-      
-{/* Иконка лайка */}
-<img
-            src={isLiked ? addLike : like}
-            alt="Like"
-            className="like-icon"
-            onClick={toggleLike}
-          />
-      <Link to="/order-page" style={{ textDecoration: 'none', color: 'inherit' }}>
-      <button className="package-of-services-order-button">
-              Замовити
-      </button>
-      </Link>
+      <button className="package-of-services-order-button">КАЛЕНДАР</button>
     </div>
 
  {/* Средний блок: состав пакета */}
@@ -168,11 +148,9 @@ const PackageOfServicesPage = () => {
               </svg>
             ))}
           </div>
-
-          <Link to="/service-page" style={{ textDecoration: 'none', color: 'inherit' }}>  
+          <Link to="/provider-service-page" style={{ textDecoration: 'none', color: 'inherit' }}>  
           <button className="package-of-services-item-order-button">Переглянути</button>
           </Link>
-
         </div>
       </div>
     ))}
@@ -241,4 +219,4 @@ const PackageOfServicesPage = () => {
 };
 
 
-export default PackageOfServicesPage;
+export default ProviderPackageOfServicesPage;
