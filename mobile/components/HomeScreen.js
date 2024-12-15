@@ -17,7 +17,7 @@ const HomeScreen = () => {
     const [searchText, setSearchText] = useState('');
     const [selectedOption, setSelectedOption] = useState(null); // Хранит "Послуга" или "Пакет"
     const [isServiceModalVisible, setServiceModalVisible] = useState(false); // Для модального окна
-
+    const navigation = useNavigation(); // Инициализация навигации
 
     const topPackages = [
         { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 4, price: 500 },
@@ -175,6 +175,7 @@ const HomeScreen = () => {
                             </View>
                         )}
 
+
                         {/* Результаты */}
                         {selectedOption === 'Послуга' && searchText && (
                             <ScrollView style={styles.resultsContainer}>
@@ -183,6 +184,7 @@ const HomeScreen = () => {
                                         service.title.toLowerCase().includes(searchText.toLowerCase())
                                     )
                             .map((service, index) => (
+    
     <TouchableOpacity
         key={index}
         style={styles.cardContainer}
