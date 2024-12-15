@@ -182,39 +182,62 @@ const HomeScreen = () => {
                                     .filter(service =>
                                         service.title.toLowerCase().includes(searchText.toLowerCase())
                                     )
-                                    .map((service, index) => (
-                    <TouchableOpacity
-                        key={index}
-                        style={styles.cardContainer}
-                        onPress={() => {
-                            navigation.navigate('OrdersDetailsScreen', {
-                                image: service.image,
-                                title: service.title,
-                                price: service.price,
-                                florist: service.florist || 'Невідомий',
-                                description: service.description || 'Опис цієї послуги недоступний',
-                                rating: service.rating,
-                            });
-                        }}
+                            .map((service, index) => (
+    <TouchableOpacity
+        key={index}
+        style={styles.cardContainer}
+        onPress={() => {
+            navigation.navigate('OrdersDetailsScreen', {
+                image: service.image,
+                title: service.title,
+                price: service.price,
+                florist: service.florist || 'Невідомий',
+                description: service.description || 'Опис цієї послуги недоступний',
+                rating: service.rating,
+            });
+        }}
     >
-                        {/* Обертка вокруг картинки с событием onPress */}
-                        <View style={styles.imageWrapper}>
-                            <Image source={service.image} style={styles.cardImage} />
-                        </View>
+        {/* Обертка вокруг картинки с событием onPress */}
+        <View style={styles.imageWrapper}>
+            <Image source={service.image} style={styles.cardImage} />
+        </View>
+        {/* Текстовая информация */}
+        <View style={styles.textContainer}>
+            <Text style={styles.cardTitle} onPress={() => navigation.navigate('OrdersDetailsScreen', {
+                image: service.image,
+                title: service.title,
+                price: service.price,
+                florist: service.florist || 'Невідомий',
+                description: service.description || 'Опис цієї послуги недоступний',
+                rating: service.rating,
+            })}>{service.title}</Text>
+            <Text style={styles.cardPrice}>{service.price} грн</Text>
+        </View>
+    </TouchableOpacity>
 
-                        {/* Текстовая информация */}
-                        <View style={styles.textContainer}>
-                            <Text style={styles.cardTitle} onPress={() => navigation.navigate('OrdersDetailsScreen', {
-                                image: service.image,
-                                title: service.title,
-                                price: service.price,
-                                florist: service.florist || 'Невідомий',
-                                description: service.description || 'Опис цієї послуги недоступний',
-                                rating: service.rating,
-                            })}>{service.title}</Text>
-                            <Text style={styles.cardPrice}>{service.price} грн</Text>
-                        </View>
-                    </TouchableOpacity>
+
+
+
+//это твой код, разкоментируй если не хочешь с новым работать, ну он ничего не меняет(пофиксим эту проблему)
+// <TouchableOpacity
+//     key={index}
+//     style={styles.cardContainer}
+//     onPress={() => useNavigation.navigate('OrdersDetailsScreen', {
+//             image: service.image,
+//             title: service.title,
+//             price: service.price,
+//             florist: service.florist || 'Невідомий',
+//             description: service.description || 'Опис цієї послуги недоступний',
+//             rating: service.rating,
+//         })
+//     }
+// >
+//     <Image source={service.image} style={styles.cardImage} />
+//     <View style={styles.textContainer}>
+//         <Text style={styles.cardTitle}>{service.title}</Text>
+//         <Text style={styles.cardPrice}>{service.price} грн</Text>
+//     </View>
+// </TouchableOpacity>
                                     ))}
                             </ScrollView>
                         )}
