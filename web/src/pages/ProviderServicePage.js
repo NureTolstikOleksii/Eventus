@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/ServicePage.css";
-import serviceImage1 from "../assets/red-roses.jpg"; // Укажите путь к изображению букета
-import reviewUser from '../assets/dimon.jpg';
-import { Link } from 'react-router-dom';
+import serviceImage1 from "../assets/red-roses.jpg";
+import reviewUser from "../assets/dimon.jpg";
+import arrow from "../assets/green-arrow.png";
+import plus from "../assets/green-plus.png";
+import { Link } from "react-router-dom";
 
 const service = {
   id: 1,
@@ -15,7 +17,6 @@ const service = {
   rating: 5,
 };
 
-
 const reviews = [
   {
     author: "ДИМОН",
@@ -24,7 +25,7 @@ const reviews = [
     content: "ИМБА",
     rating: 5,
     image: serviceImage1,
-    userImage: reviewUser, // Добавлено изображение пользователя
+    userImage: reviewUser,
   },
   {
     author: "Дмитро",
@@ -34,7 +35,7 @@ const reviews = [
       "Отримав букет для особливого свята. Загальний вигляд був симпатичним, але квіти не простояли навіть декілька днів. Здається, що використовувались вже не найсвіжіші квіти. Сервіс непоганий, але є простір для покращення саме у якості квітів.",
     rating: 2,
     image: serviceImage1,
-    userImage: reviewUser, // Добавлено изображение пользователя
+    userImage: reviewUser,
   },
   {
     author: "димончик лимончик",
@@ -44,18 +45,46 @@ const reviews = [
       "Спочатку я був растроєн сервісом. Квіти доставили в жахливому стані – зів’ялі й зламані. Від такого подарунка не оставиться ніяких позитивних емоцій! – подумав я. Але оказалось, шо казати бабло на ветер – це ваще нє про Валєру. Валєра, продавец, спокойно сказав: Та це ж не букет, це віник для бані, шеф! Ща все буде як надо. І правда, через час я вже держал у руках свіжий, розкішний букет, як будто його щас собрали в райському саду.",
     rating: 5,
     image: serviceImage1,
-    userImage: reviewUser, // Добавлено изображение пользователя
+    userImage: reviewUser,
   },
 ];
 
-
-
 const ProviderServicePage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNewModalOpen, setIsNewModalOpen] = useState(false);
+  const [appointments, setAppointments] = useState([
+    { date: "2024-12-15", time: "14:30" },
+    { date: "2024-12-16", time: "10:00" },
+  ]);
+  const [newDate, setNewDate] = useState("");
+  const [newTime, setNewTime] = useState("");
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const toggleNewModal = () => {
+    setIsNewModalOpen(!isNewModalOpen);
+  };
+
+  const handleAddAppointment = () => {
+    if (newDate && newTime) {
+      setAppointments([...appointments, { date: newDate, time: newTime }]);
+      setNewDate("");
+      setNewTime("");
+      toggleNewModal();
+    }
+  };
+
   return (
     <div className="page-service">
       <main className="container-service">
         <div className="info-service" key={service.id}>
-          <img src={service.image} alt={service.name} className="image-service" />
+          <img
+            src={service.image}
+            alt={service.name}
+            className="image-service"
+          />
           <h2 className="title-service">{service.name}</h2>
           <p className="florist-service">{service.florist}</p>
           <div className="rating-service">
@@ -79,27 +108,30 @@ const ProviderServicePage = () => {
           </div>
           <p className="price-service">{service.price} грн</p>
           <p className="description-service">{service.description}</p>
-          <button className="button-order">
-            <Link to="/order-page" style={{ textDecoration: 'none', color: 'inherit' }}>
-              КАЛЕНДАР
-            </Link>
+          <button className="button-order" onClick={toggleModal}>
+            КАЛЕНДАР
           </button>
         </div>
 
-        {/* Блок отзывов */}
-        {/* Блок отзывов */}
+        {/* Reviews Section */}
         <div className="reviews-container">
           <div className="reviews-content">
             {reviews.map((review, index) => (
               <div className="review-card" key={index}>
                 <div className="review-header">
                   <div className="review-author">
-                    {/* Используем userImage из массива */}
-                    <img src={review.userImage} alt="Author" className="review-author-avatar" />
+                    {/* Using userImage from the array */}
+                    <img
+                      src={review.userImage}
+                      alt="Author"
+                      className="review-author-avatar"
+                    />
                     <div className="review-author-info">
                       <h4>{review.author}</h4>
                       <p>{review.date}</p>
-                      <p className="review-service">Послуга: {review.serviceName}</p>
+                      <p className="review-service">
+                        Послуга: {review.serviceName}
+                      </p>
                     </div>
                   </div>
                   <div className="review-rating">
@@ -124,14 +156,104 @@ const ProviderServicePage = () => {
                 </div>
                 <p className="review-text">{review.content}</p>
                 <div className="review-image">
-                  <img src={review.image} alt="Review Visual" className="review-thumbnail" />
+                  <img
+                    src={review.image}
+                    alt="Review Visual"
+                    className="review-thumbnail"
+                  />
                 </div>
               </div>
             ))}
           </div>
         </div>
-
       </main>
+
+      {isModalOpen && (
+        <div className="provider-service-page-modal">
+          <div className="provider-service-page-modal-content">
+            <img
+              src={arrow}
+              alt="Close"
+              className="modal-close"
+              onClick={toggleModal}
+            />
+            <h2>Календар</h2>
+
+            {/* Modal Body for Appointments */}
+            <div className="provider-service-page-modal-body">
+              {appointments.map((appointment, index) => (
+                <div
+                  key={index}
+                  className="provider-service-page-appointment-item"
+                >
+                  <p>
+                    <strong>Дата:</strong> {appointment.date}
+                  </p>
+                  <p>
+                    <strong>Час:</strong> {appointment.time}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <img
+              src={plus}
+              alt="Add"
+              className="plus-button"
+              onClick={toggleNewModal}
+            />
+          </div>
+        </div>
+      )}
+
+      {isNewModalOpen && (
+        <div className="new-modal">
+          <div className="new-modal-content">
+            <div className="new-modal-body">
+              {/* Date Picker */}
+              <div className="date-container">
+                <label htmlFor="date" className="date-label">
+                  Обрати дату
+                </label>
+                <input
+                  type="date"
+                  id="date"
+                  value={newDate}
+                  onChange={(e) => setNewDate(e.target.value)}
+                  className="date-input"
+                />
+              </div>
+              {/* Time Picker */}
+              <div className="time-container">
+                <label htmlFor="time" className="time-label">
+                  Обрати час
+                </label>
+                <input
+                  type="time"
+                  id="time"
+                  value={newTime}
+                  onChange={(e) => setNewTime(e.target.value)}
+                  className="time-input"
+                />
+              </div>
+
+              <button
+                className="provider-service-add-button"
+                onClick={handleAddAppointment}
+              >
+                Додати
+              </button>
+            </div>
+
+            <img
+              src={arrow}
+              alt="Back"
+              className="back-arrow"
+              onClick={toggleNewModal}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
