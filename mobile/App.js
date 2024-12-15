@@ -35,9 +35,8 @@ export default function App() {
                 <Stack.Screen name="UserProfile" component={UserProfile} options={{ headerShown: false }} />
                 <Stack.Screen name="OrdersScreen" component={OrdersScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="Wishlist" component={Wishlist} options={{ headerShown: false }} />
-                <Stack.Screen name="ItemAdd" component={ItemAddScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="ItemAddScreen" component={ItemAddScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="OrdersDetailsScreen" component={OrdersDetailsScreen} options={{ headerShown: false }} />
-
             </Stack.Navigator>
         </NavigationContainer>
     );

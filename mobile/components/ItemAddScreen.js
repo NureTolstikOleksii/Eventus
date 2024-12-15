@@ -7,6 +7,7 @@ import {
     Image,
     StyleSheet,
     Alert,
+    Picker,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomMenu from './BottomMenu';
@@ -18,13 +19,14 @@ const ItemAddScreen = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
+    const [service, setService] = useState(''); // Для выпадающего списка услуг
 
     const handleSave = () => {
-        if (!name || !description || !price) {
+        if (!name || !description || !price || !service) {
             Alert.alert('Помилка', 'Будь ласка, заповніть усі поля.');
             return;
         }
-        Alert.alert('Успіх', 'Дані успішно збережено!');
+        Alert.alert('Успіх', `Назва: ${name}, Опис: ${description}, Ціна: ${price} €, Послуга: ${service}`);
     };
 
     return (
@@ -40,17 +42,12 @@ const ItemAddScreen = () => {
                 </TouchableOpacity>
             </View>
 
-
-            {/* ДОДАВАННЯ ПОСЛУГИ */}
+            {/* Content */}
             <View style={styles.content}>
-            <TouchableOpacity 
-    style={styles.addButton} 
-    onPress={() => navigation.navigate('Додати послугу')}
-><Text style={styles.addText}>+</Text>
-
-
-</TouchableOpacity>
-
+                                <TouchableOpacity style={styles.addPhotoButton}>
+                                <Text style={styles.addPhotoText}>Додати фото</Text>
+                                <Text style={styles.addServiceIcon}>+</Text>
+                                </TouchableOpacity>
                 {/* Photo Preview */}
                 <Image source={require('../assets/images/flowers.png')} style={styles.flowerImage} />
 
@@ -73,18 +70,37 @@ const ItemAddScreen = () => {
                 <View style={styles.priceContainer}>
                     <TextInput
                         style={[styles.input, styles.priceInput]}
-                        placeholder="Ціна"
+                        placeholder="Ціна €"
                         placeholderTextColor="#333"
                         keyboardType="numeric"
                         value={price}
                         onChangeText={setPrice}
+                        
                     />
-                    <Text style={styles.currency}>€</Text>
+                    
+                    </View>
+                    
+                    {/* Выпадающее меню Послуги + */}
+               
+                    <View style={styles.dropdownContainer}>
+                    <Picker
+                    selectedValue={service}
+                    onValueChange={(itemValue) => setService(itemValue)}
+                    style={styles.dropdown}
+                    dropdownIconColor="#A4C644" // Цвет стрелки в iOS/Android
+                            >
+                              <Picker.Item label="Оберіть послугу" value="" />
+                                    <Picker.Item label="Кейтеринг" value="Кейтеринг" />
+                                 <Picker.Item label="Квіти" value="Квіти" />
+                              <Picker.Item label="Декор" value="Декор" />
+                            <Picker.Item label="Музика" value="Музика" />
+                        </Picker>
+                    <Image source={require('../assets/images/plus.png')} style={styles.dropdownIcon} />
                 </View>
-            </View>
 
             {/* Bottom Menu */}
             <BottomMenu />
+            </View>
         </LinearGradient>
     );
 };
@@ -92,79 +108,161 @@ const ItemAddScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#f2f2f2',
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 15,
+        paddingHorizontal: 20,
         paddingTop: 50,
-        paddingBottom: 10,
+        paddingBottom: 15,
+        backgroundColor: '#a6cf4a',
     },
     backIcon: {
         width: 20,
         height: 20,
+        tintColor: '#ffffff',
     },
     title: {
-        fontSize: 20,
-        color: '#333',
+        fontSize: 22,
+        color: '#ffffff',
         fontWeight: 'bold',
+        textAlign: 'center',
+        flex: 1,
     },
     saveIcon: {
-        width: 20,
-        height: 20,
-        tintColor: '#6fa32b',
+        width: 20, // Ширина галочки
+        height: 20, // Высота галочки
+        tintColor: '#ffffff', // Белый цвет, чтобы соответствовать дизайну
+        position: 'absolute', // Абсолютная позиция для корректного слоя
+        opacity: 1, // Убедитесь, что галочка видима
+        top: 15, // Расстояние от верхнего края
+        right: 10, // Расстояние от правого края
+    
     },
     content: {
         flex: 1,
-        paddingHorizontal: 20,
         alignItems: 'center',
+        paddingHorizontal: 20,
     },
     addPhotoButton: {
-        backgroundColor: '#d4e7af',
-        borderRadius: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#A4C644',
+        borderRadius: 29,
         paddingVertical: 10,
-        paddingHorizontal: 20,
-        marginTop: 10,
-        marginBottom: 20,
+        paddingHorizontal: 15,
+        marginBottom: 10,
+        width: 310, // Ширина згідно з дизайном
+        height: 47, // Висота згідно з дизайном
     },
     addPhotoText: {
-        color: '#333',
         fontSize: 16,
         fontWeight: 'bold',
+        color: '#ffffff',
     },
     flowerImage: {
-        width: 200,
-        height: 150,
+        width: 250,
+        height: 180,
         borderRadius: 15,
         marginBottom: 20,
     },
     input: {
-        backgroundColor: '#d4e7af',
-        borderRadius: 15,
-        width: '100%',
-        padding: 10,
+        backgroundColor: '#A4C644',
+        borderRadius: 29,
+        paddingVertical: 12,
+        paddingHorizontal: 15,
+        width: '90%',
         fontSize: 16,
         marginBottom: 15,
-        color: '#333',
+        color: '#ffffff',
     },
     textArea: {
-        height: 80,
+        height: 100,
         textAlignVertical: 'top',
     },
     priceContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: '100%',
+        justifyContent: 'space-between',
+        width: '90%',
+        marginBottom: 15,
     },
     priceInput: {
         flex: 1,
+        backgroundColor: '#A4C644',
+        borderRadius: 29,
+        paddingVertical: 12,
+        paddingHorizontal: 15,
+        fontSize: 16,
+        color: '#ffffff',
     },
     currency: {
         fontSize: 16,
-        color: '#333',
+        color: '#ffffff',
         marginLeft: 10,
     },
+    addServiceButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#A4C644',
+        borderRadius: 29,
+        paddingVertical: 12,
+        paddingHorizontal: 15,
+        width: '90%',
+        marginTop: 15,
+    },
+    addServiceText: {
+        fontSize: 16,
+        color: '#ffffff',
+    },
+    addServiceIcon: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#ffffff',
+    },
+
+    dropdownContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#A4C644',
+        borderRadius: 29,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        marginTop: 15,
+        width: '90%',
+        height: 50,
+        borderWidth: 0, // Убираем границы
+        alignSelf: 'center',
+    },
+    dropdown: {
+        flex: 1,
+        color: '#000000', // Цвет текста в списке
+        fontSize: 16,
+        borderWidth: 0, // Убираем границы
+        backgroundColor: '#A4C644', // Фон списка
+    },
+    dropdownItem: {
+        backgroundColor: '#A4C644', // Фон для каждого элемента списка
+        color: '#000000', // Белый текст
+        fontSize: 16,
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        borderWidth: 0, // Убираем границы
+        paddingVertical: 5,
+    },
+    dropdownIcon: {
+        width: 20,
+        height: 20,
+        marginLeft: 10,
+        borderWidth: 0, // Убираем границы
+        tintColor: '#A4C644',
+    },
+
 });
 
 export default ItemAddScreen;

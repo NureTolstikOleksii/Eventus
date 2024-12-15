@@ -52,6 +52,12 @@ const handleLoginSubmit = async () => {
         setLoginErrors({ general: 'Something went wrong. Please try again later.' });
     }
 };
+//закоменченный бекенд
+//закоменченный бекенд
+//закоменченный бекенд
+//закоменченный бекенд
+//закоменченный бекенд
+//закоменченный бекенд
 
     // const handleLoginSubmit = async () => {
     //     try {
@@ -82,29 +88,34 @@ const handleLoginSubmit = async () => {
     // };
     
     //категорії
-    useEffect(() => {
-        const loadCategories = async () => {
-            const fetchedCategories = await fetchCategories();
-            setCategories(fetchedCategories);
-        };
-        loadCategories();
-    }, []);
+    // useEffect(() => {
+    //     const loadCategories = async () => {
+    //         const fetchedCategories = await fetchCategories();
+    //         setCategories(fetchedCategories);
+    //     };
+    //     loadCategories();
+    // }, []);
 
-    const fetchCategories = async () => {
-        try {
-            const response = await fetch(`${API_KEY}/register/categories`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch categories');
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error fetching categories:', error);
-            alert('Не вдалося завантажити категорії. Перевірте зʼєднання з інтернетом.');
-            return [];
-        }
-    };
+    // const fetchCategories = async () => {
+    //     try {
+    //         const response = await fetch(`${API_KEY}/register/categories`);
+    //         if (!response.ok) {
+    //             throw new Error('Failed to fetch categories');
+    //         }
+    //         const data = await response.json();
+    //         return data;
+    //     } catch (error) {
+    //         console.error('Error fetching categories:', error);
+    //         alert('Не вдалося завантажити категорії. Перевірте зʼєднання з інтернетом.');
+    //         return [];
+    //     }
+    // };
 
+    //закоменченный бекенд
+    //закоменченный бекенд
+    //закоменченный бекенд
+    //закоменченный бекенд
+    
    // реєстрація    
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
@@ -615,6 +626,6 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         alignItems: 'center',
         width: '100%',
-        backgroundColor: '#FFD700', // Новый цвет для кнопки "Пропустить"
+        backgroundColor: '#83B620', //  И нужный цвет который был - #83B620  '#FFD700',
     },
 });

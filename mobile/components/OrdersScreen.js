@@ -2,8 +2,11 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomMenu from '../components/BottomMenu';
+import { useNavigation } from '@react-navigation/native';
 
 const OrdersScreen = () => {
+    const navigation = useNavigation(); // Подключаем навигацию
+    
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             {/* Шапка с заголовком и стрелкой */}
@@ -36,9 +39,16 @@ const OrdersScreen = () => {
                 ))}
             </ScrollView>
 
-            <TouchableOpacity style={styles.addButton}>
+        {/* Кнопка с переходом */}
+        <TouchableOpacity 
+                style={styles.addButton} 
+                onPress={() => navigation.navigate('ItemAddScreen')} // Переход на ItemAddScreen
+            >
                 <Image source={require('../assets/images/plus.png')} style={styles.addIcon} />
             </TouchableOpacity>
+
+
+
             {/* Нижнее меню */}
             <BottomMenu />
         </LinearGradient>
