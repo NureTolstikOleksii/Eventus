@@ -62,7 +62,7 @@ async function main() {
     app.use('/wishlist', wishlistRouter);
   
     app.use('/', (req, res) => {
-        res.send('WELLCOME TO EVENTUS');
+        res.send('WELLCOME TO EVENTUS!');
     });
 
     //Для перевірки існування сесії
