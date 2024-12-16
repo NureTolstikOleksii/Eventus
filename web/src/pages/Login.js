@@ -48,7 +48,7 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Включить cookie
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
   

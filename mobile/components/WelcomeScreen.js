@@ -37,84 +37,70 @@ export default function WelcomeScreen({ navigation }) {
     };
 
 
-
-
-//пропускаем ошибки логина
-
-const handleLoginSubmit = async () => {
-    try {
-        // Временное решение: пропустить проверку логина
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'Home' }], // Перенаправление на главную страницу
-        });
-    } catch (error) {
-        setLoginErrors({ general: 'Something went wrong. Please try again later.' });
-    }
-};
-//закоменченный бекенд
-//закоменченный бекенд
-//закоменченный бекенд
-//закоменченный бекенд
-//закоменченный бекенд
-//закоменченный бекенд
-
+    //пропускаем ошибки логина
     // const handleLoginSubmit = async () => {
     //     try {
-    //         setLoginErrors({});
-    //         const response = await fetch(`${API_KEY}/login`, {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify(loginData),
+    //         // Временное решение: пропустить проверку логина
+    //         navigation.reset({
+    //             index: 0,
+    //             routes: [{ name: 'Home' }], // Перенаправление на главную страницу
     //         });
-    
-    //         const result = await response.json();
-    //         if (!response.ok) {
-    //             setLoginErrors({ general: result.message || 'Login failed. Please try again.' });
-    //             if (result.errors) {
-    //                 setLoginErrors(result.errors);
-    //             }
-    //         } else {
-    //             alert('Login successful!');
-    //             closeLoginModal();
-    //             navigation.reset({
-    //                 index: 0,
-    //                 routes: [{ name: 'Home' }],
-    //             });
-    //         }
     //     } catch (error) {
     //         setLoginErrors({ general: 'Something went wrong. Please try again later.' });
     //     }
     // };
     
+    const handleLoginSubmit = async () => {
+        try {
+            setLoginErrors({});
+            const response = await fetch(`${API_KEY}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(loginData),
+            });
+    
+            const result = await response.json();
+            if (!response.ok) {
+                setLoginErrors({ general: result.message || 'Login failed. Please try again.' });
+                if (result.errors) {
+                    setLoginErrors(result.errors);
+                }
+            } else {
+                alert('Login successful!');
+                closeLoginModal();
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                });
+            }
+        } catch (error) {
+            setLoginErrors({ general: 'Something went wrong. Please try again later.' });
+        }
+    };
+    
     //категорії
-    // useEffect(() => {
-    //     const loadCategories = async () => {
-    //         const fetchedCategories = await fetchCategories();
-    //         setCategories(fetchedCategories);
-    //     };
-    //     loadCategories();
-    // }, []);
+    useEffect(() => {
+        const loadCategories = async () => {
+            const fetchedCategories = await fetchCategories();
+            setCategories(fetchedCategories);
+        };
+        loadCategories();
+    }, []);
 
-    // const fetchCategories = async () => {
-    //     try {
-    //         const response = await fetch(`${API_KEY}/register/categories`);
-    //         if (!response.ok) {
-    //             throw new Error('Failed to fetch categories');
-    //         }
-    //         const data = await response.json();
-    //         return data;
-    //     } catch (error) {
-    //         console.error('Error fetching categories:', error);
-    //         alert('Не вдалося завантажити категорії. Перевірте зʼєднання з інтернетом.');
-    //         return [];
-    //     }
-    // };
-
-    //закоменченный бекенд
-    //закоменченный бекенд
-    //закоменченный бекенд
-    //закоменченный бекенд
+    const fetchCategories = async () => {
+        try {
+            const response = await fetch(`${API_KEY}/register/categories`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch categories');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            alert('Не вдалося завантажити категорії. Перевірте зʼєднання з інтернетом.');
+            return [];
+        }
+    };
     
    // реєстрація    
     const [errors, setErrors] = useState({});
@@ -291,24 +277,6 @@ const handleLoginSubmit = async () => {
                             </View>
 
 
-                            <TouchableOpacity style={styles.formButton} onPress={handleLoginSubmit}>
-    <View style={styles.simpleFormButton}>
-        <Text style={styles.buttonText}>Увійти</Text>
-    </View>
-</TouchableOpacity>
-
-
-
-                                        {/* Новая кнопка "Пропустить логин УДАЛИТЬ КАК И СТИЛЬ simpleButton" */}
-                                        <TouchableOpacity
-                                            style={[styles.simpleButton, { marginTop: 20 }]} // Новый стиль
-                                            onPress={() => navigation.navigate('ProviderProfile')} // Переход на Welcome
-                                        >
-                                            <Text style={styles.buttonText}>Пропустить логин</Text>
-                                        </TouchableOpacity>
-
-
-
 
                             {/* Для поставщиков */}
                             {isProvider && (
@@ -338,6 +306,22 @@ const handleLoginSubmit = async () => {
                                     <Text style={styles.buttonText}>Зареєструватися</Text>
                                 </View>
                             </TouchableOpacity>
+
+                                    {/* Новая кнопка "Пропустить логин УДАЛИТЬ КАК И СТИЛЬ simpleButton" */}
+                                    <TouchableOpacity
+                                        style={[styles.simpleButton, { marginTop: 20 }]} // Новый стиль
+                                        onPress={() => navigation.navigate('ProviderProfile')} // Переход на Welcome
+                                    >
+                                        <Text style={styles.buttonText}>Пропустить Provider</Text>
+                                    </TouchableOpacity>
+
+                                    {/* Новая кнопка "Пропустить логин УДАЛИТЬ КАК И СТИЛЬ simpleButton" */}
+                                    <TouchableOpacity
+                                        style={[styles.simpleButton, { marginTop: 20 }]} // Новый стиль
+                                        onPress={() => navigation.navigate('UserProfile')} // Переход на Welcome
+                                    >
+                                        <Text style={styles.buttonText}>Пропустить User</Text>
+                                    </TouchableOpacity>
 
                             {/* Общие ошибки */}
                             {errors.general && <Text style={styles.errorText}>{errors.general}</Text>}

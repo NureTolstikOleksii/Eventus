@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import { useUser } from '../../context/UserContext'; // Используем контекст
 import './header.css';
 import logo from '../../assets/logo.png';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const Header = () => {
   const { userName, setUserName } = useUser();
 
   const fetchUserName = async () => {
     try {
-      const response = await fetch('http://localhost:4200/session', {
+      const response = await fetch(`${apiUrl}/session`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -27,7 +28,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:4200/profile/logout', {
+      const response = await fetch(`${apiUrl}/profile/logout`, {
         method: 'POST',
         credentials: 'include',
       });
