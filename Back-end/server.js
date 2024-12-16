@@ -21,7 +21,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:8081'],
+    origin: '*',
     credentials: true 
 }));
 
@@ -31,7 +31,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000, // 24 часа
+        maxAge: 24 * 60 * 60 * 1000,
         secure: false,
         httpOnly: true,
         sameSite: 'lax'
@@ -61,6 +61,10 @@ async function main() {
     app.use('/reviews', reviewsRouter);
     app.use('/wishlist', wishlistRouter);
   
+    app.use('/', (req, res) => {
+        res.send('WELLCOME TO EVENTUS');
+    });
+
     //Для перевірки існування сесії
     app.get('/session', (req, res) => {
         if (req.session && req.session.userId) {
