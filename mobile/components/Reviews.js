@@ -1,53 +1,102 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 
-const ReviewsScreen = () => {
+const BASE_URL = 'https://eventus-deployment-c4551676d56a.herokuapp.com';
+
+const ReviewsScreen = ({ route }) => {
+    const { serviceId } = route.params; // Отримуємо serviceId з параметрів навігації
+    const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/reviews?serviceId=${serviceId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    const responseBody = await response.text();
+                    console.error(`Помилка: ${response.status} - ${response.statusText}, Тіло: ${responseBody}`);
+                    throw new Error(`Помилка: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                setReviews(data);
+            } catch (error) {
+                console.error('Помилка завантаження відгуків:', error);
+                setError('Не вдалося завантажити відгуки. Спробуйте пізніше.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (serviceId) {
+            fetchReviews();
+        } else {
+            setError('Service ID is missing.');
+            setLoading(false);
+        }
+    }, [serviceId]);
+
+    if (loading) {
+        return (
+            <LinearGradient colors={['#78A519', '#a6cf4a']} style={styles.container}>
+                <ActivityIndicator size="large" color="#fff" />
+            </LinearGradient>
+        );
+    }
+
+    if (error) {
+        return (
+            <LinearGradient colors={['#78A519', '#a6cf4a']} style={styles.container}>
+                <Text style={styles.errorText}>{error}</Text>
+            </LinearGradient>
+        );
+    }
+
     return (
         <LinearGradient colors={['#78A519', '#a6cf4a']} style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
                     <TouchableOpacity style={styles.backButton}>
-                        <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
+                        <Text style={styles.backIcon}>←</Text>
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Відгуки</Text>
                 </View>
 
-                {[1, 2, 3].map((_, index) => (
-                    <View key={index}>
+                {reviews.map((review) => (
+                    <View key={review.review_id}>
                         <View style={styles.reviewCard}>
-                            <Image source={require('../assets/images/navalny.png')} style={styles.avatar} />
+                            <Image source={{ uri: review.avatar || 'default_avatar_url' }} style={styles.avatar} />
                             <View style={styles.reviewContent}>
                                 <View style={styles.userInfo}>
-                                    <Text style={styles.userName}>Дмитро</Text>
+                                    <Text style={styles.userName}>{review.user_id}</Text>
                                     <View style={styles.ratingContainer}>
                                         {[...Array(5)].map((_, i) => (
                                             <FontAwesome
                                                 key={i}
                                                 name="star"
                                                 size={18}
-                                                color={i < (index === 2 ? 1 : 3) ? "#FFD700" : "#BDBDBD"}
+                                                color={i < review.rating ? "#FFD700" : "#BDBDBD"}
                                                 style={styles.star}
                                             />
                                         ))}
                                     </View>
                                 </View>
-                                <Text style={styles.reviewDate}>14.11.2024</Text>
-                                <Text style={styles.reviewText}>
-                                    {index === 0
-                                        ? "Отримав букет для особливого свята. Загальний вигляд був симпатичним, але квіти не простояли навіть декілька днів. Здається, що використовувались вже не найсвіжіші квіти."
-                                        : index === 1
-                                            ? "Прекрасний букет! Квіти свіжі, ароматні, оформлення стильне. Дуже задоволена, обов’язково замовлятиму ще!"
-                                            : "Я розчарована сервісом. Квіти доставили в жахливому стані – зв'ялі й зламані. Від такого подарунка не залишилось жодних позитивних емоцій."
-                                    }
-                                </Text>
+                                <Text style={styles.reviewDate}>{review.review_date}</Text>
+                                <Text style={styles.reviewText}>{review.comment}</Text>
                             </View>
                         </View>
-                        {index < 2 && <View style={styles.separator} />}
+                        <View style={styles.separator} />
                     </View>
                 ))}
-                <View style={styles.separator} />
             </ScrollView>
         </LinearGradient>
     );
@@ -67,9 +116,8 @@ const styles = StyleSheet.create({
     },
     backButton: { padding: 5 },
     backIcon: {
-        width: 18,
-        height: 18,
-        tintColor: '#ffffff',
+        fontSize: 18,
+        color: '#ffffff',
     },
     headerText: {
         fontSize: 26,
@@ -121,4 +169,5 @@ const styles = StyleSheet.create({
         marginHorizontal: 0,
     },
     star: { marginHorizontal: 2 },
+    errorText: { color: 'red', fontSize: 16, textAlign: 'center', marginTop: 20 },
 });
