@@ -1,15 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Constants from 'expo-constants';
 import BottomMenu from '../components/BottomMenu';
+
+
 const API_KEY = Constants.expoConfig?.extra?.API_KEY;
-
-
 
 const UserProfile = () => {
     const navigation = useNavigation();
+
+ // Стан для імені та фото користувача
+        const [userName, setUserName] = useState(''); // Назва функції має бути `setUserName`
+        const [userPhoto, setUserPhoto] = useState(null);
+
+         // Функція для отримання даних профілю
+    const fetchProfileData = async () => {
+        try {
+            const response = await fetch(`${API_KEY}/profile/customer/profile`, {
+                method: 'GET',
+                credentials: 'include', // Передача сесії
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Fetched profile data:', data); // Логування отриманих даних
+                setUserName(data.name); // Оновлюємо ім'я користувача
+                setUserPhoto(data.photo); // Оновлюємо фото користувача
+            } else {
+                const result = await response.json();
+                Alert.alert('Помилка', result.message || 'Не вдалося завантажити дані профілю.');
+            }
+        } catch (error) {
+            console.error('Fetch profile error:', error.message);
+            Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+        }
+    };
+
+   // Викликаємо fetchProfileData при завантаженні компоненту
+   useEffect(() => {
+    fetchProfileData();
+}, []);
+
     // Функция выхода из аккаунта
     const handleLogout = async () => {
         try {
@@ -50,8 +83,13 @@ const UserProfile = () => {
                 </TouchableOpacity>
             </View>
             <View style={styles.profileContainer}>
-                <Image source={require('../assets/images/userphoto.png')} style={styles.profileImage} />
-                <Text style={styles.userName}>Валєра</Text>
+                {/* Відображення фото */}
+                <Image
+                    source={userPhoto ? { uri: userPhoto } : require('../assets/images/userphoto.png')}
+                    style={styles.profileImage}
+                />
+                {/* Відображення імені */}
+                <Text style={styles.userName}>{userName || 'Ім\'я не завантажено'}</Text>
             </View>
             <View style={styles.menuContainer}>
              {/* Список бажань */}
