@@ -11,11 +11,48 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedField, setSelectedField] = useState('');
     const [inputValue, setInputValue] = useState('');
+
     const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
     const [selectedCategory, setSelectedCategory] = useState('');
     const [userName, setUserName] = useState('Lee Know');
     const [organizationName, setOrganizationName] = useState('Назва організації');
     const [isNotificationsModalVisible, setNotificationsModalVisible] = useState(false); // Для уведомлений
+
+     // Функція для зміни пароля
+     const handlePasswordChange = async () => {
+        try {
+            const response = await fetch(`${API_KEY}/change_data/update_provider_password`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    oldPassword,
+                    newPassword,
+                    confirmPassword,
+                }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                Alert.alert('Успіх', 'Пароль успішно змінено.');
+                setModalVisible(false);
+                setOldPassword('');
+                setNewPassword('');
+                setConfirmPassword('');
+            } else {
+                Alert.alert('Помилка', result.message || 'Не вдалося змінити пароль.');
+            }
+        } catch (error) {
+            console.error('Error changing password:', error.message);
+            Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+        }
+    };
 
     // Функция выхода из аккаунта
     const handleLogout = async () => {
@@ -154,23 +191,41 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
                                         <Text style={styles.fieldText}>{field.label}</Text>
                                     </TouchableOpacity>
                                     {selectedField === field.label && (
-                                        <View style={styles.inputContainer}>
-                                            <TextInput
-                                                style={styles.inputPassword}
-                                                placeholder={field.placeholder}
-                                                value={inputValue}
-                                                onChangeText={setInputValue}
-                                            />
-                                            {field.label === 'Пароль' && (
-                                                <TextInput
-                                                    style={styles.inputPassword}
-                                                    placeholder="Старий пароль"
-                                                    secureTextEntry
-                                                    value={oldPassword}
-                                                    onChangeText={setOldPassword}
-                                                />
-                                            )}
-                                        </View>
+                                  <View style={styles.inputContainer}>
+                                  {/* Если выбрано редактирование пароля */}
+                                  {field.label === 'Пароль' ? (
+                                      <>
+                                          <TextInput
+                                              style={styles.inputPassword}
+                                              placeholder="Старий пароль"
+                                              secureTextEntry
+                                              value={oldPassword}
+                                              onChangeText={setOldPassword}
+                                          />
+                                          <TextInput
+                                              style={styles.inputPassword}
+                                              placeholder="Новий пароль"
+                                              secureTextEntry
+                                              value={newPassword}
+                                              onChangeText={setNewPassword}
+                                          />
+                                          <TextInput
+                                              style={styles.inputPassword}
+                                              placeholder="Підтвердження нового паролю"
+                                              secureTextEntry
+                                              value={confirmPassword}
+                                              onChangeText={setConfirmPassword}
+                                          />
+                                      </>
+                                  ) : (
+                                      <TextInput
+                                          style={styles.inputPassword}
+                                          placeholder={field.placeholder}
+                                          value={inputValue}
+                                          onChangeText={setInputValue}
+                                      />
+                                  )}
+                              </View>
                                     )}
                                 </View>
                             ))}
