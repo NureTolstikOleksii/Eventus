@@ -5,50 +5,73 @@ import { FontAwesome } from '@expo/vector-icons';
 import BottomMenu from '../components/BottomMenu'; // Подключаем компонент нижнего меню
 
 const Orders = ({ navigation }) => {
+    const handleBackPress = () => {
+        if (navigation.canGoBack()) {
+            navigation.goBack(); // Возвращаемся на предыдущий экран
+        } else {
+            navigation.navigate('ProfileOrder'); // Если нет предыдущего экрана, переходим на ProfileOrder
+        }
+    };
+
+    // Данные о букете (можно заменить на динамические данные или получать из API)
+    const bouquet = {
+        title: 'Букет “Ніжність”',
+        price: '10 000 грн',
+        rating: 4, // Количество заполненных звезд
+        image: require('../assets/images/flowers.png'),
+        description: 'Цей букет створений з найкращих квітів для вираження ніжності та любові.',
+        florist: 'Василь', // Имя флориста
+    };
+
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
-                    <TouchableOpacity 
-                        style={styles.backButton} 
-                        onPress={() => navigation.goBack()}
+                    <TouchableOpacity
+                        style={styles.backButton}
+                        onPress={handleBackPress} // Обработчик для кнопки "Назад"
                     >
-                        <Image 
-                            source={require('../assets/images/arrow.png')} 
-                            style={styles.icon} 
+                        <Image
+                            source={require('../assets/images/backarrow.png')}
+                            style={styles.icon}
                         />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Послуги</Text>
                 </View>
 
-                <View style={styles.cardContainer}>
-                    <Image 
-                        source={require('../assets/images/flowers.png')} 
-                        style={styles.cardImage} 
-                        resizeMode="cover" 
+                {/* Карточка букета с обработчиком нажатия */}
+                <TouchableOpacity
+                    style={styles.cardContainer}
+                    onPress={() => navigation.navigate('OrdersDetailsScreen', bouquet)} // Передаем все параметры
+                >
+                    <Image
+                        source={bouquet.image}
+                        style={styles.cardImage}
+                        resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.cardTitle}>Букет “Ніжність”</Text>
-                        <Text style={styles.cardPrice}>10 000 грн</Text>
+                        <Text style={styles.cardTitle}>{bouquet.title}</Text>
+                        <Text style={styles.cardPrice}>{bouquet.price}</Text>
                         <View style={styles.ratingContainer}>
-                            <FontAwesome name="star" size={18} color="#FFD700" style={styles.star} />
-                            <FontAwesome name="star" size={18} color="#FFD700" style={styles.star} />
-                            <FontAwesome name="star" size={18} color="#BDBDBD" style={styles.star} />
-                            <FontAwesome name="star" size={18} color="#BDBDBD" style={styles.star} />
-                            <FontAwesome name="star" size={18} color="#BDBDBD" style={styles.star} />
+                            {[...Array(5)].map((_, index) => (
+                                <FontAwesome
+                                    key={index}
+                                    name="star"
+                                    size={18}
+                                    color={index < bouquet.rating ? '#FFD700' : '#BDBDBD'}
+                                    style={styles.star}
+                                />
+                            ))}
                         </View>
                     </View>
-                </View>
+                </TouchableOpacity>
             </ScrollView>
-
 
             {/* Нижнее меню */}
             <BottomMenu />
         </LinearGradient>
     );
 };
-
-
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
@@ -58,21 +81,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         paddingHorizontal: 20,
-        paddingTop: 60,
+        paddingTop: 40,
     },
-    backButton: { padding: 5 },
+    backButton: {
+        position: 'absolute',
+        left: 10,
+        zIndex: 10,
+        padding: 10,
+    },
     icon: { width: 24, height: 24 },
     headerText: {
         fontSize: 26,
         fontFamily: 'Kurale',
         color: '#fff',
-        marginLeft: -35,
         textAlign: 'center',
         flex: 1,
     },
     cardContainer: {
         width: 340,
-        height: 99,
         backgroundColor: '#A4C644',
         borderRadius: 15,
         flexDirection: 'row',
@@ -108,5 +134,5 @@ const styles = StyleSheet.create({
         marginHorizontal: 2,
     },
 });
-// New screen was added
+
 export default Orders;

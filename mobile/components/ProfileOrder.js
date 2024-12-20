@@ -34,10 +34,17 @@ const ProfileOrder = ({ route, navigation }) => {
                 </View>
 
                 <View style={styles.menuContainer}>
-                    {['Послуги', 'Пакети послуг', 'Відгуки'].map((item, index) => (
+                    {[
+                        { label: 'Послуги', screen: 'Orders' }, // Имя экрана 'Services'
+                        { label: 'Пакети послуг', screen: 'Packeti' }, // Имя экрана 'ServicePackages'
+                        { label: 'Відгуки', screen: 'Reviews' }, // Имя экрана 'Reviews'
+                    ].map((item, index) => (
                         <View key={index}>
-                            <TouchableOpacity style={styles.menuItem}>
-                                <Text style={styles.menuText}>{item}</Text>
+                            <TouchableOpacity
+                                style={styles.menuItem}
+                                onPress={() => navigation.navigate(item.screen)} // Навигация на соответствующий экран
+                            >
+                                <Text style={styles.menuText}>{item.label}</Text>
                                 <FontAwesome name="chevron-right" size={18} color="#6fa32b" />
                             </TouchableOpacity>
                             {/* Линия-разделитель */}
@@ -136,7 +143,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingBottom: 20,
         marginBottom: 10,
-        marginTop: 180, // Отступ сверху
+        marginTop: 100, // Отступ сверху
     },
     contactItem: {
         marginBottom: 15, // Отступ между строками

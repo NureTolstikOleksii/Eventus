@@ -3,12 +3,20 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'rea
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 
-const PacketiScreen = () => {
+const PacketiScreen = ({ navigation }) => {
+    const handleBackPress = () => {
+        if (navigation.canGoBack()) {
+            navigation.goBack(); // Возвращаемся на предыдущий экран
+        } else {
+            navigation.navigate('Home'); // Укажи экран, на который нужно перейти, если нет стека назад
+        }
+    };
+
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.backButton}>
+                    <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
                         <Image source={require('../assets/images/backarrow.png')} style={styles.icon} />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Пакети послуг</Text>
@@ -51,7 +59,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 60,
     },
-    backButton: { padding: 5 },
+    backButton: {
+        position: 'absolute',
+        left: 10,
+        zIndex: 10,
+        padding: 10
+    },
     icon: { width: 24, height: 24 },
     headerText: {
         fontSize: 26,

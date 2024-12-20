@@ -32,7 +32,7 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                 <Image source={image} style={styles.image} resizeMode="contain" />
 
                 {/* Цена и рейтинг */}
-                <Text style={styles.price}>{price}€</Text>
+                <Text style={styles.price}>{price}</Text>
                 <View style={styles.ratingContainer}>
                     {[...Array(5)].map((_, i) => (
                         <FontAwesome
