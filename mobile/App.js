@@ -16,6 +16,7 @@ import OrdersScreen from './components/OrdersScreen';
 import Wishlist from './components/Wishlist';
 import ItemAddScreen from './components/ItemAddScreen';
 import OrdersDetailsScreen from './components/OrdersDetailsScreen';
+import PecketiDetailsScreen from './components/PecketiDetailsScreen';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
                 <Stack.Screen name="Wishlist" component={Wishlist} options={{ headerShown: false }} />
                 <Stack.Screen name="ItemAddScreen" component={ItemAddScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="OrdersDetailsScreen" component={OrdersDetailsScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="PecketiDetailsScreen" component={PecketiDetailsScreen} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );

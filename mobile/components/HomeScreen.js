@@ -183,46 +183,62 @@ const HomeScreen = () => {
                                     .filter(service =>
                                         service.title.toLowerCase().includes(searchText.toLowerCase())
                                     )
-                            .map((service, index) => (
-    
-    <TouchableOpacity
-        key={index}
-        style={styles.cardContainer}
-        onPress={() => {
-            navigation.navigate('OrdersDetailsScreen', {
-                image: service.image,
-                title: service.title,
-                price: service.price,
-                florist: service.florist || 'Невідомий',
-                description: service.description || 'Опис цієї послуги недоступний',
-                rating: service.rating,
-            });
-        }}
-    >
-        {/* Обертка вокруг картинки с событием onPress */}
-        <View style={styles.imageWrapper}>
-            <Image source={service.image} style={styles.cardImage} />
-        </View>
-        {/* Текстовая информация */}
-        <View style={styles.textContainer}>
-            <Text style={styles.cardTitle} onPress={() => navigation.navigate('OrdersDetailsScreen', {
-                image: service.image,
-                title: service.title,
-                price: service.price,
-                florist: service.florist || 'Невідомий',
-                description: service.description || 'Опис цієї послуги недоступний',
-                rating: service.rating,
-            })}>{service.title}</Text>
-            <Text style={styles.cardPrice}>{service.price} грн</Text>
-        </View>
-    </TouchableOpacity>
+                                    .map((service, index) => (
+
+                                        <TouchableOpacity
+                                            key={index}
+                                            style={styles.cardContainer}
+                                            onPress={() => {
+                                                navigation.navigate('OrdersDetailsScreen', {
+                                                    image: service.image,
+                                                    title: service.title,
+                                                    price: service.price,
+                                                    florist: service.florist || 'Невідомий',
+                                                    description: service.description || 'Опис цієї послуги недоступний',
+                                                    rating: service.rating,
+                                                });
+                                            }}
+                                        >
+                                            {/* Обертка вокруг картинки с событием onPress */}
+                                            <View style={styles.imageWrapper}>
+                                                <Image source={service.image} style={styles.cardImage} />
+                                            </View>
+                                            {/* Текстовая информация */}
+                                            <View style={styles.textContainer}>
+                                                <Text style={styles.cardTitle} onPress={() => navigation.navigate('OrdersDetailsScreen', {
+                                                    image: service.image,
+                                                    title: service.title,
+                                                    price: service.price,
+                                                    florist: service.florist || 'Невідомий',
+                                                    description: service.description || 'Опис цієї послуги недоступний',
+                                                    rating: service.rating,
+                                                })}>{service.title}</Text>
+                                                <Text style={styles.cardPrice}>{service.price} грн</Text>
+                                            </View>
+                                        </TouchableOpacity>
                                     ))}
                             </ScrollView>
                         )}
                         {selectedOption === 'Пакет' && searchText && (
                             <ScrollView style={styles.resultsContainer}>
                                 {packageCards.map((pkg, index) => (
-                                    <View key={index} style={styles.packageCardContainer}>
+                                    <TouchableOpacity
+                                        key={index}
+                                        style={styles.packageCardContainer}
+                                        onPress={() => {
+                                            // Переход на экран PecketiDetailsScreen 
+                                            navigation.navigate('PecketiDetailsScreen', {
+                                                image: pkg.image,
+                                                title: pkg.title,
+                                                price: pkg.price,
+                                                rating: pkg.rating,
+                                                florist: 'Василій', // или pkg.florist, если он есть
+                                                numberOfServices: 5, // или pkg.numberOfServices, если есть
+                                                description: 'Ваше описание пакета...',
+                                            });
+
+                                        }}
+                                    >
                                         <Image source={pkg.image} style={styles.packageCardImage} resizeMode="cover" />
                                         <View style={styles.packageTextContainer}>
                                             <Text style={styles.packageCardTitle}>{pkg.title}</Text>
@@ -240,7 +256,7 @@ const HomeScreen = () => {
                                             </View>
                                         </View>
                                         <Image source={require('../assets/images/rightarrow.png')} style={styles.packageArrowIcon} />
-                                    </View>
+                                    </TouchableOpacity>
                                 ))}
                             </ScrollView>
                         )}
