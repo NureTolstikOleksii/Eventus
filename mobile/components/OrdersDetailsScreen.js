@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import BottomMenu from '../components/BottomMenu';
 
 const OrdersDetailsScreen = ({ route, navigation }) => {
     const { title, image, price, description, florist, rating } = route.params;
@@ -11,12 +12,21 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
             <ScrollView>
                 {/* Кнопка назад */}
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                    <FontAwesome name="arrow-left" size={24} color="#fff" />
+                    <Image
+                        source={require('../assets/images/backarrow.png')} // Вкажи шлях до свого зображення
+                        style={styles.backImage}
+                    />
                 </TouchableOpacity>
-
+                {/* Сердце в правом верхнем углу */}
+                <View style={styles.heartContainer}>
+                    <FontAwesome name="heart-o" size={24} color="#fff" />
+                </View>
                 {/* Заголовок */}
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.florist}>Флорист: {florist}</Text>
+                {/* Флорист */}
+                <TouchableOpacity onPress={() => navigation.navigate('ProfileOrder', { florist })}>
+                    <Text style={styles.florist}>Флорист: {florist}</Text>
+                </TouchableOpacity>
 
                 {/* Картинка */}
                 <Image source={image} style={styles.image} resizeMode="contain" />
@@ -44,6 +54,7 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                         <Text style={styles.linkText}>Календар</Text>
                         <FontAwesome name="angle-right" size={24} color="#83B620" />
                     </TouchableOpacity>
+                    <View style={styles.separator} /> {/* Линия-разделитель */}
                     <TouchableOpacity style={styles.linkItem}>
                         <Text style={styles.linkText}>Відгуки</Text>
                         <FontAwesome name="angle-right" size={24} color="#83B620" />
@@ -55,7 +66,10 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                     <Text style={styles.orderButtonText}>Замовити</Text>
                 </TouchableOpacity>
             </ScrollView>
-        </LinearGradient>
+
+            {/* Нижнее меню */}
+            <BottomMenu />
+        </LinearGradient >
     );
 };
 
@@ -70,6 +84,16 @@ const styles = StyleSheet.create({
         top: 40,
         left: 20,
         zIndex: 10,
+    },
+    heartContainer: {
+        position: 'absolute',
+        top: 30,
+        right: 20,
+        zIndex: 10,
+        padding: 10,
+        borderRadius: 20, // Круглая форма
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     title: {
         marginTop: 80,
@@ -94,27 +118,28 @@ const styles = StyleSheet.create({
         fontSize: 22,
         color: '#83B620',
         textAlign: 'center',
-        marginVertical: 10,
+        marginVertical: 5,
     },
     ratingContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginVertical: 10,
+        marginVertical: 5,
     },
     star: {
         marginHorizontal: 2,
     },
     description: {
-        textAlign: 'center',
+        textAlign: 'center', // Выравнивание текста по центру
         fontSize: 16,
         color: '#333',
         marginHorizontal: 20,
-        marginVertical: 20,
+        marginVertical: 10,
+        lineHeight: 22,
+        flexShrink: 1, // Уменьшает размер текста, чтобы уместить его в пределах
+        flexWrap: 'wrap', // Перенос текста на новую строку
     },
     linkContainer: {
         marginTop: 20,
-        borderTopWidth: 1,
-        borderTopColor: '#ddd',
     },
     linkItem: {
         flexDirection: 'row',
@@ -122,8 +147,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 15,
         paddingHorizontal: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
+    },
+    separator: {
+        height: 1,
+        backgroundColor: '#83B620',
+        marginHorizontal: 0,
     },
     linkText: {
         fontSize: 18,
@@ -131,14 +159,16 @@ const styles = StyleSheet.create({
     },
     orderButton: {
         backgroundColor: '#83B620',
-        margin: 20,
-        paddingVertical: 15,
-        borderRadius: 25,
+        margin: 15,
+        height: 50, // Фиксированная высота
+        justifyContent: 'center', // Центрируем текст по вертикали
+        borderRadius: 30, // Округляем края
+        width: 250, // Увеличиваем ширину кнопки
+        alignSelf: 'center', // Центрируем кнопку
     },
     orderButtonText: {
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: 24,
         color: '#fff',
-        fontWeight: 'bold',
     },
 });

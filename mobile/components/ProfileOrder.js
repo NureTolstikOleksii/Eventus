@@ -4,12 +4,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import BottomMenu from '../components/BottomMenu'; // Подключение компонента меню
 
-const ProfileOrder = () => {
+const ProfileOrder = ({ route, navigation }) => {
+    // Получаем параметр florist из route.params
+    const { florist } = route.params;
+
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#fff']} style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.backButton}>
+                    <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                         <Image source={require('../assets/images/backarrow.png')} style={styles.icon} />
                     </TouchableOpacity>
                     <Image source={require('../assets/images/chatwhite.png')} style={styles.icon} />
@@ -19,7 +22,8 @@ const ProfileOrder = () => {
                     <View style={styles.avatarWrapper}>
                         <Image source={require('../assets/images/china.png')} style={styles.avatar} />
                     </View>
-                    <Text style={styles.nameText}>Lee Know</Text>
+                    {/* Отображаем переданное имя флориста */}
+                    <Text style={styles.nameText}>{florist}</Text>
                     <Text style={styles.organizationText}>Назва організації</Text>
                     <View style={styles.ratingContainer}>
                         {[...Array(4)].map((_, index) => (
@@ -30,30 +34,35 @@ const ProfileOrder = () => {
                 </View>
 
                 <View style={styles.menuContainer}>
-                    {['Послуги', 'Пакети послуг', 'Відгуки', 'Адреса'].map((item, index) => (
-                        <TouchableOpacity key={index} style={styles.menuItem}>
-                            <Text style={styles.menuText}>{item}</Text>
-                            <FontAwesome name="chevron-right" size={18} color="#6fa32b" />
-                        </TouchableOpacity>
+                    {['Послуги', 'Пакети послуг', 'Відгуки'].map((item, index) => (
+                        <View key={index}>
+                            <TouchableOpacity style={styles.menuItem}>
+                                <Text style={styles.menuText}>{item}</Text>
+                                <FontAwesome name="chevron-right" size={18} color="#6fa32b" />
+                            </TouchableOpacity>
+                            {/* Линия-разделитель */}
+                            {index < 2 && <View style={styles.separator} />}
+                        </View>
                     ))}
                 </View>
 
                 <View style={styles.contactContainer}>
-                    <Text style={styles.contactLabel}>Телефон:</Text>
-                    <Text style={styles.contactText}>+380 97 123 4567</Text>
-                    <Text style={styles.contactLabel}>Електронна пошта:</Text>
-                    <Text style={styles.contactText}>florist.vasiliy@example.com</Text>
+                    <View style={styles.contactItem}>
+                        <Text style={styles.contactLabel}>Телефон:</Text>
+                        <Text style={styles.contactText}>+380 97 123 4567</Text>
+                    </View>
+                    <View style={styles.contactItem}>
+                        <Text style={styles.contactLabel}>Електронна пошта:</Text>
+                        <Text style={styles.contactText}>florist.vasiliy@example.com</Text>
+                    </View>
                 </View>
             </ScrollView>
 
-
-             {/* Нижнее меню */}
-             <BottomMenu />
+            {/* Нижнее меню */}
+            <BottomMenu />
         </LinearGradient>
     );
 };
-
-
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
@@ -101,7 +110,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 3,
     },
     menuContainer: {
-        width: '90%',
+        width: '100%', // Увеличиваем ширину контейнера
         backgroundColor: 'transparent',
         borderRadius: 10,
         marginVertical: 20,
@@ -111,8 +120,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingVertical: 15,
         paddingHorizontal: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: '#999',
+    },
+    separator: {
+        height: 1,
+        backgroundColor: '#999', // Цвет линии
+        width: '100%', // Линия на всю ширину
     },
     menuText: {
         fontFamily: 'Kurale',
@@ -120,23 +132,28 @@ const styles = StyleSheet.create({
         color: '#6fa32b',
     },
     contactContainer: {
-        alignItems: 'flex-start',
+        width: '100%', // Контейнер на всю ширину
         paddingHorizontal: 20,
         paddingBottom: 20,
         marginBottom: 10,
+        marginTop: 180, // Отступ сверху
+    },
+    contactItem: {
+        marginBottom: 15, // Отступ между строками
     },
     contactLabel: {
         fontFamily: 'Kurale',
         fontSize: 13,
         color: '#6fa32b',
-        marginBottom: 5,
+        marginBottom: 5, // Отступ между лейблом и текстом
+        textAlign: 'left', // Выравнивание по левому краю
     },
     contactText: {
         fontFamily: 'Kurale',
         fontSize: 13,
         color: '#6fa32b',
-        marginBottom: 10,
         textDecorationLine: 'underline',
+        textAlign: 'left', // Выравнивание по левому краю
     },
 });
 
