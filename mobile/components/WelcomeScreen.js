@@ -309,28 +309,33 @@ export default function WelcomeScreen({ navigation }) {
                 </Modal>
 
                 {/* Категории */}
-                <Modal visible={isCategoryModalVisible} transparent animationType="fade" onRequestClose={closeCategoryModal}>
+                <Modal
+                    visible={isCategoryModalVisible}
+                    transparent
+                    animationType="fade"
+                    onRequestClose={closeCategoryModal}
+                >
                     <TouchableWithoutFeedback onPress={closeCategoryModal}>
                         <View style={styles.categoryModalContainer}>
-                            <TouchableWithoutFeedback>
-                                <View style={styles.categoryModalContent}>
-                                    <FlatList
-                                        data={categories}
-                                        keyExtractor={(item) => item.id.toString()}
-                                        renderItem={({ item }) => (
-                                            <TouchableOpacity
-                                                style={styles.categoryItem}
-                                                onPress={() => selectCategory(item)}
-                                            >
-                                                <Text style={styles.categoryText}>{item.name}</Text>
-                                            </TouchableOpacity>
-                                        )}
-                                    />
-                                </View>
-                            </TouchableWithoutFeedback>
+                            <View style={styles.categoryModalContent}>
+                                <FlatList
+                                    data={categories}
+                                    keyExtractor={(item) => item.id.toString()}
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity
+                                            style={styles.categoryItem}
+                                            onPress={() => selectCategory(item)}
+                                        >
+                                            <Text style={styles.categoryText}>{item.name}</Text>
+                                        </TouchableOpacity>
+                                    )}
+                                    keyboardShouldPersistTaps="handled" // Позволяет кликам на пустые области работать
+                                />
+                            </View>
                         </View>
                     </TouchableWithoutFeedback>
                 </Modal>
+
 
                 {/* Вход */}
                 <Modal visible={isLoginModalVisible} transparent animationType="slide" onRequestClose={closeLoginModal}>
@@ -546,9 +551,9 @@ const styles = StyleSheet.create({
     },
     categoryModalContainer: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'center', // Центрирует содержимое
+        alignItems: 'center', // Центрирует содержимое
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Затемнённый фон
     },
     categoryModalContent: {
         width: '80%',
