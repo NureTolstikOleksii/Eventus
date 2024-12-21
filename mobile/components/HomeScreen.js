@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Убедитесь, что axios установлен
 import { View, Text, ScrollView, TouchableOpacity, Image, Modal, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
@@ -6,7 +7,8 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import BottomMenu from '../components/BottomMenu';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import Constants from 'expo-constants';
+const API_KEY = Constants.expoConfig?.extra?.API_KEY;
 
 const HomeScreen = () => {
     const [selectedTab, setSelectedTab] = useState('home');
@@ -17,7 +19,30 @@ const HomeScreen = () => {
     const [searchText, setSearchText] = useState('');
     const [selectedOption, setSelectedOption] = useState(null); // Хранит "Послуга" или "Пакет"
     const [isServiceModalVisible, setServiceModalVisible] = useState(false); // Для модального окна
-    const navigation = useNavigation(); // Инициализация навигации
+    const navigation = useNavigation(); // Инициализация навигации{
+    const [topServices, setTopServices] = useState([]);
+    
+    useEffect(() => {
+        const loadTopServices = async () => {
+            const services = await fetchTopServices();
+            setTopServices(services); // Сохраняем данные в состояние
+        };
+
+        loadTopServices();
+    }, []);
+    // Получение топ-услуг
+    const fetchTopServices = async () => {
+        try {
+            const response = await axios.get(`${API_KEY}/main_screen/top_services`); // Замените на ваш маршрут
+            return response.data; // Ожидается массив объектов услуг
+        } catch (error) {
+            console.error('Ошибка при получении топ-услуг:', error);
+            return [];
+        }
+    };
+
+
+
 
     const topPackages = [
         { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 4, price: 500 },
@@ -26,11 +51,6 @@ const HomeScreen = () => {
 
     ];
 
-    const topServices = [
-        { title: 'День народження', image: require('../assets/images/birthday.png') },
-        { title: 'День народження', image: require('../assets/images/birthday.png') },
-        { title: 'День народження', image: require('../assets/images/birthday.png') },
-    ];
 
     const categoryIcons = [
         { key: 'flower', image: require('../assets/images/flower.png') },
@@ -273,16 +293,31 @@ const HomeScreen = () => {
 
                     {/* Top Services */}
                     <Text style={styles.sectionTitle}>Топ послуг</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.topServices}>
-                        {topServices.map((service, index) => (
-                            <View key={index} style={styles.serviceItem}>
-                                <Image source={service.image} style={styles.serviceImage} />
-                                <View style={styles.serviceLabel}>
-                                    <Text style={styles.serviceLabelText}>{service.title}</Text>
-                                </View>
-                            </View>
-                        ))}
-                    </ScrollView>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.topServices}>
+                            {topServices.map((service, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={styles.serviceItem}
+                                    onPress={() => {
+                                        // Переход на экран с подробностями услуги
+                                        navigation.navigate('ServiceDetailsScreen', {
+                                            serviceId: service.service_id,
+                                            title: service.name,
+                                            description: service.description,
+                                            photoUrl: service.photo_url,
+                                            price: service.price,
+                                            rating: service.rating,
+                                        });
+                                    }}
+                                >
+                                    <Image source={{ uri: service.photo_url }} style={styles.serviceImage} />
+                                    <View style={styles.serviceLabel}>
+                                        <Text style={styles.serviceLabelText}>{service.name}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+
 
                     {/* Top Packages */}
                     <Text style={styles.greenSectionTitle}>Топ пакетів:</Text>
@@ -403,6 +438,7 @@ const styles = StyleSheet.create({
     },
     gradient: {
         flex: 1,
+        paddingTop: 30, 
     },
     topBar: {
         flexDirection: 'row',
