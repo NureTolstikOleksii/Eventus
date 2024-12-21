@@ -1,18 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import BottomMenu from '../components/BottomMenu';
+import Constants from 'expo-constants';
 
+const API_URL = Constants.expoConfig?.extra?.API_KEY; // URL из .env
 
 const CheckList = () => {
-    const [wishlistItems, setWishlistItems] = useState([
-        { id: 1, title: 'Замовити букет', completed: true },
-        { id: 2, title: 'Зарезервувати місце для дня народження', completed: false },
-        { id: 3, title: 'Зарезервувати місце для весілля', completed: false },
-    ]);
+    const [wishlistItems, setWishlistItems] = useState([]);
     const [isModalVisible, setModalVisible] = useState(false);
     const [newItem, setNewItem] = useState('');
+
+    const fetchNotes = async () => {
+        try {
+            const response = await fetch(`${API_URL}/api/getNotes`, {
+                method: 'GET',
+                credentials: 'include', // Для отправки cookies (если требуется)
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                setWishlistItems(
+                    data.notes.map((note) => ({
+                        id: note.checklist_id,
+                        title: note.note,
+                        completed: false, // Обновите, если нужно передавать статус completed
+                    }))
+                );
+            } else {
+                console.error('Error fetching notes:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching notes:', error.message);
+        }
+    };
+    
+    const addItem = async () => {
+        if (!newItem.trim()) return;
+        try {
+            const response = await fetch(`${API_URL}/api/createNote`, {
+                method: 'POST',
+                credentials: 'include', // Для отправки cookies (если требуется)
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ note: newItem }),
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                setWishlistItems([
+                    ...wishlistItems,
+                    {
+                        id: data.checklist.checklist_id,
+                        title: newItem,
+                        completed: false,
+                    },
+                ]);
+                setNewItem('');
+                setModalVisible(false);
+            } else {
+                console.error('Error adding note:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error adding note:', error.message);
+        }
+    };
+    
+    const removeItem = async (id) => {
+        try {
+            const response = await fetch(`${API_URL}/api/deleteNote/${id}`, {
+                method: 'DELETE',
+                credentials: 'include', // Для отправки cookies (если требуется)
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (response.ok) {
+                setWishlistItems((items) => items.filter((item) => item.id !== id));
+            } else {
+                console.error('Error deleting note:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error deleting note:', error.message);
+        }
+    };
+    
+
+    useEffect(() => {
+        fetchNotes();
+    }, []);
 
     const toggleComplete = (id) => {
         setWishlistItems((items) =>
@@ -20,21 +103,6 @@ const CheckList = () => {
                 item.id === id ? { ...item, completed: !item.completed } : item
             )
         );
-    };
-
-    const addItem = () => {
-        if (newItem.trim()) {
-            setWishlistItems([
-                ...wishlistItems,
-                { id: wishlistItems.length + 1, title: newItem, completed: false },
-            ]);
-            setNewItem('');
-            setModalVisible(false);
-        }
-    };
-
-    const removeItem = (id) => {
-        setWishlistItems((items) => items.filter((item) => item.id !== id));
     };
 
     return (
@@ -125,6 +193,8 @@ const CheckList = () => {
 };
 
 export default CheckList;
+
+
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff' },
