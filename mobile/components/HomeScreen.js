@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios'; // Убедитесь, что axios установлен
 import { View, Text, ScrollView, TouchableOpacity, Image, Modal, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -16,47 +17,84 @@ const HomeScreen = () => {
     const [selectedCategories, setSelectedCategories] = useState({});
     const [selectedRating, setSelectedRating] = useState(null);
     const [priceRange, setPriceRange] = useState([0, 2000]);
-    const [searchText, setSearchText] = useState('');
     const [selectedOption, setSelectedOption] = useState(null); // Хранит "Послуга" или "Пакет"
     const [isServiceModalVisible, setServiceModalVisible] = useState(false); // Для модального окна
     const navigation = useNavigation(); // Инициализация навигации{
     const [topServices, setTopServices] = useState([]);
+    const [topPackages, setTopPackages] = useState([]); // Добавляем состояние для топ-пакетов
+    const [searchText, setSearchText] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [isSearching, setIsSearching] = useState(false); // Для отображения статуса поиска
+
+    useEffect(() => {
+        const loadTopPackages = async () => {
+            const packages = await fetchTopPackages();
+            setTopPackages(packages || []); // Устанавливаем пустой массив, если данные отсутствуют
+        };
+
+        loadTopPackages();
+    }, []);
+    
+    useEffect(() => {
+        if (searchText.length > 0) { // Начать поиск после ввода первой буквы
+            performSearch(searchText);
+        } else {
+            setSearchResults([]); // Очистить результаты поиска, если текст пустой
+        }
+    }, [searchText]);
+
+    const performSearch = async (keyword) => {
+        try {
+            setIsSearching(true);
+            const response = await axios.get(`${API_KEY}/search`, { params: { keyword } });
+            console.log('Результаты поиска:', response.data);
+            setSearchResults(response.data || []);
+        } catch (error) {
+            console.error('Ошибка при поиске услуг:', error);
+            setSearchResults([]);
+        } finally {
+            setIsSearching(false);
+        }
+    };
+    
+
+    const fetchTopPackages = async () => {
+        try {
+            const response = await axios.get(`${API_KEY}/main_screen/top-packages`);
+            return response.data.data || []; // Берём массив из поля data
+        } catch (error) {
+            console.error('Ошибка при получении топ-пакетов:', error);
+            return [];
+        }
+    };
+
     
     useEffect(() => {
         const loadTopServices = async () => {
             const services = await fetchTopServices();
-            setTopServices(services); // Сохраняем данные в состояние
+            setTopServices(services || []); // Устанавливаем пустой массив, если данные отсутствуют
         };
-
+    
         loadTopServices();
     }, []);
     // Получение топ-услуг
     const fetchTopServices = async () => {
         try {
-            const response = await axios.get(`${API_KEY}/main_screen/top_services`); // Замените на ваш маршрут
-            return response.data; // Ожидается массив объектов услуг
+            const response = await axios.get(`${API_KEY}/main_screen/top_services`);
+            return response.data.data || []; // Берём массив из поля data
         } catch (error) {
             console.error('Ошибка при получении топ-услуг:', error);
             return [];
         }
     };
-
-
-
-
-    const topPackages = [
-        { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 4, price: 500 },
-        { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 4, price: 500 },
-        { title: 'День народження', image: require('../assets/images/birthday.png'), rating: 4, price: 500 },
-
-    ];
-
+    
 
     const categoryIcons = [
         { key: 'flower', image: require('../assets/images/flower.png') },
         { key: 'house', image: require('../assets/images/house.png') },
         { key: 'eat', image: require('../assets/images/eat.png') },
         { key: 'hb', image: require('../assets/images/hb.png') },
+        { key: 'velo', image: require('../assets/images/velo.png') },
     ];
     const categories = [
         'Флористика',
@@ -141,8 +179,7 @@ const HomeScreen = () => {
     return (
         <View style={{ flex: 1 }}>
             {/* Основной контент */}
-            <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={[styles.gradient, { flex: 1, position: 'relative' }]}
-            >
+            <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={[styles.gradient, { flex: 1, position: 'relative' }]}>
                 <ScrollView
                     showsVerticalScrollIndicator={true}
                     nestedScrollEnabled={true}
@@ -153,195 +190,6 @@ const HomeScreen = () => {
                         <Text style={styles.cityText}>Харків</Text>
                         <Image source={require('../assets/images/location.png')} style={styles.locationIcon} />
                         <Image source={require('../assets/images/bell.png')} style={styles.bellIcon} />
-                    </View>
-
-                    {/* Search and Filter */}
-                    <View style={styles.searchAndFilterContainer}>
-                        {/* Пошуковий рядок */}
-                        <View style={styles.searchBarContainer}>
-                            <TextInput
-                                style={styles.searchBar}
-                                placeholder="Пошук"
-                                value={searchText}
-                                onChangeText={setSearchText}
-                            />
-
-                            <TouchableOpacity style={styles.filterButton} onPress={() => setFilterVisible(true)}>
-                                <FontAwesome name="bars" size={24} color="#fff" />
-                            </TouchableOpacity>
-                        </View>
-
-                        {/* Опции */}
-                        {searchText.length > 0 && (
-                            <View style={styles.optionsContainer}>
-                                <TouchableOpacity
-                                    style={[
-                                        styles.optionButton,
-                                        selectedOption === 'Послуга' && styles.selectedOptionButton,
-                                    ]}
-                                    onPress={() => setSelectedOption('Послуга')}
-                                >
-                                    <Text style={styles.optionButtonText}>Послуга</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={[
-                                        styles.optionButton,
-                                        selectedOption === 'Пакет' && styles.selectedOptionButton,
-                                    ]}
-                                    onPress={() => setSelectedOption('Пакет')}
-                                >
-                                    <Text style={styles.optionButtonText}>Пакет</Text>
-                                </TouchableOpacity>
-                            </View>
-                        )}
-
-
-                        {/* Результаты */}
-                        {selectedOption === 'Послуга' && searchText && (
-                            <ScrollView style={styles.resultsContainer}>
-                                {services
-                                    .filter(service =>
-                                        service.title.toLowerCase().includes(searchText.toLowerCase())
-                                    )
-                                    .map((service, index) => (
-
-                                        <TouchableOpacity
-                                            key={index}
-                                            style={styles.cardContainer}
-                                            onPress={() => {
-                                                navigation.navigate('OrdersDetailsScreen', {
-                                                    image: service.image,
-                                                    title: service.title,
-                                                    price: service.price,
-                                                    florist: service.florist || 'Невідомий',
-                                                    description: service.description || 'Опис цієї послуги недоступний',
-                                                    rating: service.rating,
-                                                });
-                                            }}
-                                        >
-                                            {/* Обертка вокруг картинки с событием onPress */}
-                                            <View style={styles.imageWrapper}>
-                                                <Image source={service.image} style={styles.cardImage} />
-                                            </View>
-                                            {/* Текстовая информация */}
-                                            <View style={styles.textContainer}>
-                                                <Text style={styles.cardTitle} onPress={() => navigation.navigate('OrdersDetailsScreen', {
-                                                    image: service.image,
-                                                    title: service.title,
-                                                    price: service.price,
-                                                    florist: service.florist || 'Невідомий',
-                                                    description: service.description || 'Опис цієї послуги недоступний',
-                                                    rating: service.rating,
-                                                })}>{service.title}</Text>
-                                                <Text style={styles.cardPrice}>{service.price} грн</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    ))}
-                            </ScrollView>
-                        )}
-                        {selectedOption === 'Пакет' && searchText && (
-                            <ScrollView style={styles.resultsContainer}>
-                                {packageCards.map((pkg, index) => (
-                                    <TouchableOpacity
-                                        key={index}
-                                        style={styles.packageCardContainer}
-                                        onPress={() => {
-                                            // Переход на экран PecketiDetailsScreen 
-                                            navigation.navigate('PecketiDetailsScreen', {
-                                                image: pkg.image,
-                                                title: pkg.title,
-                                                price: pkg.price,
-                                                rating: pkg.rating,
-                                                florist: 'Василій', // или pkg.florist, если он есть
-                                                numberOfServices: 5, // или pkg.numberOfServices, если есть
-                                                description: 'Ваше описание пакета...',
-                                            });
-
-                                        }}
-                                    >
-                                        <Image source={pkg.image} style={styles.packageCardImage} resizeMode="cover" />
-                                        <View style={styles.packageTextContainer}>
-                                            <Text style={styles.packageCardTitle}>{pkg.title}</Text>
-                                            <Text style={styles.packageCardPrice}>{pkg.price} грн</Text>
-                                            <View style={styles.packageRatingContainer}>
-                                                {[...Array(5)].map((_, i) => (
-                                                    <FontAwesome
-                                                        key={i}
-                                                        name="star"
-                                                        size={18}
-                                                        color={i < pkg.rating ? '#FFD700' : '#BDBDBD'}
-                                                        style={styles.packageStar}
-                                                    />
-                                                ))}
-                                            </View>
-                                        </View>
-                                        <Image source={require('../assets/images/rightarrow.png')} style={styles.packageArrowIcon} />
-                                    </TouchableOpacity>
-                                ))}
-                            </ScrollView>
-                        )}
-                    </View>
-                    {/* Categories */}
-                    <Text style={styles.sectionTitle}>Категорії</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
-                        {categoryIcons.map((icon) => (
-                            <TouchableOpacity key={icon.key} style={styles.categoryItem}>
-                                <Image source={icon.image} style={styles.icon} />
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-
-                    {/* Top Services */}
-                    <Text style={styles.sectionTitle}>Топ послуг</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.topServices}>
-                            {topServices.map((service, index) => (
-                                <TouchableOpacity
-                                    key={index}
-                                    style={styles.serviceItem}
-                                    onPress={() => {
-                                        // Переход на экран с подробностями услуги
-                                        navigation.navigate('ServiceDetailsScreen', {
-                                            serviceId: service.service_id,
-                                            title: service.name,
-                                            description: service.description,
-                                            photoUrl: service.photo_url,
-                                            price: service.price,
-                                            rating: service.rating,
-                                        });
-                                    }}
-                                >
-                                    <Image source={{ uri: service.photo_url }} style={styles.serviceImage} />
-                                    <View style={styles.serviceLabel}>
-                                        <Text style={styles.serviceLabelText}>{service.name}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-
-
-                    {/* Top Packages */}
-                    <Text style={styles.greenSectionTitle}>Топ пакетів:</Text>
-                    <View style={{ height: 300 }}> {/* Установите желаемую высоту */}
-                        {topPackages.map((pkg, index) => (
-                            <View key={index} style={styles.topPackageCard}>
-                                <Image source={pkg.image} style={styles.topPackageImage} />
-                                <View style={styles.topPackageDetails}>
-                                    <Text style={styles.topPackageTitle}>{pkg.title}</Text>
-                                    <Text style={styles.topPackagePrice}>{pkg.price} грн</Text>
-                                    <View style={styles.topPackageRating}>
-                                        {[...Array(5)].map((_, i) => (
-                                            <FontAwesome
-                                                key={i}
-                                                name="star"
-                                                size={16}
-                                                color={i < pkg.rating ? '#FFD700' : '#ccc'}
-                                                style={{ marginRight: 4 }}
-                                            />
-                                        ))}
-                                    </View>
-                                </View>
-                            </View>
-                        ))}
                     </View>
 
                     {/* Modal for Filters */}
@@ -421,17 +269,173 @@ const HomeScreen = () => {
                             </View>
                         </View>
                     </Modal>
+
+    
+                    {/* Search Bar */}
+                    <View style={styles.searchAndFilterContainer}>
+                        <View style={styles.searchBarContainer}>
+                            <TextInput
+                                style={styles.searchBar}
+                                placeholder="Пошук"
+                                value={searchText}
+                                onChangeText={setSearchText}
+                            />
+                            <TouchableOpacity style={styles.filterButton} onPress={() => setFilterVisible(true)}>
+                                <FontAwesome name="bars" size={24} color="#fff" />
+                            </TouchableOpacity>
+                        </View>
+    
+                        {/* Результаты поиска */}
+                        {searchText.length > 0 ? (
+                            <View style={styles.resultsContainer}>
+                            {isSearching ? (
+                                <Text style={{ textAlign: 'center', marginTop: 20 }}>Пошук...</Text>
+                            ) : searchResults.length > 0 ? (
+                                searchResults.map((result, index) => (
+                                    <TouchableOpacity
+                                        key={index}
+                                        style={styles.cardContainer}
+                                        onPress={() => {
+                                            navigation.navigate('ServiceDetailsScreen', {
+                                                serviceId: result.service_id,
+                                                title: result.name,
+                                                description: result.description,
+                                                price: result.price,
+                                                rating: result.rating,
+                                            });
+                                        }}
+                                    >
+                                        {/* Проверка наличия photo_url */}
+                                        <Image
+                                            source={
+                                                result.photo_url
+                                                    ? { uri: result.photo_url } // URL фото из результата
+                                                    : require('../assets/images/placeholder.jpg') // Плейсхолдер, если фото отсутствует
+                                            }
+                                            style={styles.serviceSearchImage}
+                                        />
+                                        <View style={styles.textContainer}>
+                                            <Text style={styles.cardTitle}>{result.name}</Text>
+                                            <Text style={styles.cardPrice}>{result.price} грн</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                ))
+                            ) : (
+                                <Text style={{ textAlign: 'center', marginTop: 20 }}>Нічого не знайдено</Text>
+                            )}
+                        </View>
+                        ) : (
+                            <>
+                                {/* Categories */}
+                                <Text style={styles.sectionTitle}>Категорії</Text>
+                                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
+                                    {categoryIcons.map((icon) => (
+                                        <TouchableOpacity key={icon.key} style={styles.categoryItem}>
+                                            <Image source={icon.image} style={styles.icon} />
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+    
+
+
+    
+                                {/* Top Services */}
+                                <Text style={styles.sectionTitle}>Топ послуг</Text>
+                                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.topServices}>
+                                    {Array.isArray(topServices) && topServices.length > 0 ? (
+                                        topServices.map((service, index) => (
+                                            <TouchableOpacity
+                                                key={index}
+                                                style={styles.serviceItem}
+                                                onPress={() => {
+                                                    navigation.navigate('ServiceDetailsScreen', {
+                                                        serviceId: service.service_id,
+                                                        title: service.name,
+                                                        description: service.description,
+                                                        photoUrl: service.photo_url,
+                                                        price: service.price,
+                                                        rating: service.rating,
+                                                    });
+                                                }}
+                                            >
+                                                <Image
+                                                    source={
+                                                        service.photo_url
+                                                            ? { uri: service.photo_url }
+                                                            : require('../assets/images/placeholder.jpg')
+                                                    }
+                                                    style={styles.serviceImage}
+                                                />
+                                                <View style={styles.serviceLabel}>
+                                                    <Text style={styles.serviceLabelText}>{service.name}</Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        ))
+                                    ) : (
+                                        <Text style={{ textAlign: 'center', marginTop: 20 }}>Завантаження послуг...</Text>
+                                    )}
+                                </ScrollView>
+    
+                                {/* Top Packages */}
+                                <Text style={styles.greenSectionTitle}>Топ пакетів:</Text>
+                                <ScrollView style={{ flex: 1 }}>
+                                    <View style={{ flex: 1 }}>
+                                        {topPackages.map((pkg, index) => (
+                                            <TouchableOpacity
+                                                key={index}
+                                                style={styles.topPackageCard}
+                                                onPress={() => {
+                                                    navigation.navigate('PackageDetailsScreen', {
+                                                        packageId: pkg.package_id,
+                                                        title: pkg.name,
+                                                        description: pkg.description,
+                                                        photoUrl: pkg.photo_url,
+                                                        price: pkg.price,
+                                                        duration: pkg.duration,
+                                                        services: pkg.services,
+                                                    });
+                                                }}
+                                            >
+                                                <Image
+                                                    source={
+                                                        pkg.photo_url
+                                                            ? { uri: pkg.photo_url }
+                                                            : require('../assets/images/placeholder.jpg')
+                                                    }
+                                                    style={styles.topPackageImage}
+                                                />
+                                                <View style={styles.topPackageDetails}>
+                                                    <Text style={styles.topPackageTitle}>{pkg.name}</Text>
+                                                    <Text style={styles.topPackagePrice}>{pkg.price} грн</Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>
+                                </ScrollView>
+                            </>
+
+                            
+                        )}
+                    </View>
                 </ScrollView>
-                {/* Нижнее меню */}
-                <BottomMenu />
+                <View style={styles.bottomMenu}>
+                    <BottomMenu />
+                </View>
             </LinearGradient>
-
-
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    bottomMenu: {
+        position: 'absolute', // Фиксированное позиционирование
+        bottom: 0,           // Привязываем к нижнему краю
+        left: 0,
+        right: 0,
+        height: 60,          // Высота меню (измените по необходимости)
+        backgroundColor: '#fff', // Цвет фона для видимости (опционально)
+        zIndex: 10,          // Убедиться, что меню выше остальных компонентов
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -549,7 +553,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     categoryContainer: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 0,
+        marginHorizontal: 0,
         marginBottom: 10,
     },
     categoryItem: {
@@ -557,12 +562,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
     },
     icon: {
-        width: 40,
-        height: 40,
+        width: 53,
+        height: 53,
     },
     topServices: {
-        paddingHorizontal: 20,
         marginBottom: 20,
+        paddingHorizontal: 0,
+        marginHorizontal: 0,
     },
     serviceItem: {
         width: 150,
@@ -575,6 +581,17 @@ const styles = StyleSheet.create({
         width: 150,
         height: 150,
     },
+
+    serviceSearchImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 10,
+        marginRight: 10,
+        marginLeftt: 0,
+        margin: 0, // Убираем отступы
+        padding: 0,
+    },
+
     serviceLabel: {
         position: 'absolute',
         bottom: 0,
@@ -596,11 +613,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     topPackageCard: {
+        width: '100%', // Ширина 90% от экрана, чтобы учесть отступы
+        marginHorizontal: '5%', // Отступы по бокам
         borderRadius: 15,
         overflow: 'hidden',
         backgroundColor: '#83B620',
         marginBottom: 10,
-        marginHorizontal: 20,
+        paddingHorizontal: 0,
+        marginHorizontal: 0,
     },
     topPackageImage: {
         width: '100%',
@@ -714,6 +734,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderColor: '#78A519',
         borderWidth: 1,
+        padding: 0, 
     },
     cardImage: {
         width: 100,
@@ -742,7 +763,7 @@ const styles = StyleSheet.create({
     },
 
     packageCardContainer: {
-        width: 340,
+        width: '100%', // Занимает всю ширину экрана
         backgroundColor: '#A4C644',
         borderRadius: 15,
         alignItems: 'center',
@@ -750,6 +771,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderColor: '#78A519',
         borderWidth: 1,
+        
     },
     packageCardImage: {
         width: '100%',
@@ -822,7 +844,11 @@ const styles = StyleSheet.create({
     starIcon: {
         marginHorizontal: 2, // Отступ между звёздами
     },
-
-
+    topPackages: {
+        width: '100%',
+        paddingHorizontal: 0,
+        marginHorizontal: 0,
+    },
 });
+
 export default HomeScreen;
