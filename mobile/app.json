@@ -12,6 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "extra": {
+      "API_KEY": "https://eventus-deployment-c4551676d56a.herokuapp.com/api"
+    },
     "ios": {
       "supportsTablet": true
     },
