@@ -1,19 +1,20 @@
 import Constants from 'expo-constants';
-import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
-    TextInput,
     Image,
+    TextInput,
     TouchableOpacity,
-    StyleSheet,
     Modal,
     ScrollView,
-    FlatList,
     ImageBackground,
+    KeyboardAvoidingView,
+    Platform,
     TouchableWithoutFeedback,
+    FlatList,
+    StyleSheet
 } from 'react-native';
-
+import React, { useState, useEffect } from 'react';
 const API_KEY = Constants.expoConfig?.extra?.API_KEY;
 
 export default function WelcomeScreen({ navigation }) {
@@ -33,23 +34,9 @@ export default function WelcomeScreen({ navigation }) {
 
     const handleLoginInputChange = (field, value) => {
         setLoginData((prev) => ({ ...prev, [field]: value }));
-        setLoginErrors((prev) => ({ ...prev, [field]: null })); // Очистка ошибок
+        setLoginErrors((prev) => ({ ...prev, [field]: null }));
     };
 
-
-    //пропускаем ошибки логина
-    // const handleLoginSubmit = async () => {
-    //     try {
-    //         // Временное решение: пропустить проверку логина
-    //         navigation.reset({
-    //             index: 0,
-    //             routes: [{ name: 'Home' }], // Перенаправление на главную страницу
-    //         });
-    //     } catch (error) {
-    //         setLoginErrors({ general: 'Something went wrong. Please try again later.' });
-    //     }
-    // };
-    
     const handleLoginSubmit = async () => {
         try {
             setLoginErrors({});
@@ -207,211 +194,199 @@ export default function WelcomeScreen({ navigation }) {
 
     return (
         <ImageBackground source={require('../assets/images/gradient.png')} style={styles.backgroundImage}>
-        <View style={styles.container}>
-            {/* Основное изображение */}           
-            <Image source={require('../assets/images/capibara.png')} style={styles.image} />
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
-                    <View style={styles.simpleButton}>
-                        <Text style={styles.buttonText}>Зареєструватися</Text>
-                    </View>
-                </TouchableOpacity>
-                <Text style={styles.loginText}>
-                    Якщо ви вже зареєстровані <Text style={styles.loginLink} onPress={openLoginModal}>Увійдіть</Text>
-                </Text>
-            </View>
-
-            <Modal visible={isModalVisible} transparent animationType="slide" onRequestClose={handleCloseModal}>
-                <View style={styles.modalContainer}>
-                    <View style={[styles.modalContent, { maxHeight: '70%' }]}>
-                        <ScrollView contentContainerStyle={styles.scrollContent}>
-                            {/* Полное имя */}
-                            <Text style={styles.label}>Повне ім'я</Text>
-                            <TextInput
-                                style={[styles.input, errors.name && styles.inputError]}
-                                placeholder=""
-                                value={formData.name}
-                                onChangeText={(value) => handleInputChange('name', value)}
-                            />
-                            {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
-
-                            {/* Email */}
-                            <Text style={styles.label}>Адреса ел. пошти</Text>
-                            <TextInput
-                                style={[styles.input, errors.email && styles.inputError]}
-                                placeholder="example@gmail.com"
-                                keyboardType="email-address"
-                                value={formData.email}
-                                onChangeText={(value) => handleInputChange('email', value)}
-                            />
-                            {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
-
-                            {/* Пароль */}
-                            <Text style={styles.label}>Пароль</Text>
-                            <TextInput
-                                style={[styles.input, errors.password && styles.inputError]}
-                                placeholder=""
-                                secureTextEntry
-                                value={formData.password}
-                                onChangeText={(value) => handleInputChange('password', value)}
-                            />
-                            {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
-
-                            {/* Номер телефона */}
-                            <Text style={styles.label}>Номер телефону</Text>
-                            <TextInput
-                                style={[styles.input, errors.phone_number && styles.inputError]}
-                                placeholder=""
-                                keyboardType="phone-pad"
-                                value={formData.phone_number}
-                                onChangeText={(value) => handleInputChange('phone_number', value)}
-                            />
-                            {errors.phone_number && <Text style={styles.errorText}>{errors.phone_number}</Text>}
-
-                            {/* Регистрация как поставщик */}
-                            <View style={styles.checkboxContainer}>
-                                <TouchableOpacity onPress={toggleProvider} style={styles.checkbox}>
-                                    {isProvider && <View style={styles.checkboxInner} />}
-                                </TouchableOpacity>
-                                <Text style={styles.checkboxText}>Зареєструватися як постачальник</Text>
-                            </View>
-
-
-
-                            {/* Для поставщиков */}
-                            {isProvider && (
-                                <>
-                                    <Text style={styles.label}>Назва підприємства</Text>
-                                    <TextInput
-                                        style={[styles.input, errors.company_name && styles.inputError]}
-                                        placeholder=""
-                                        value={formData.company_name}
-                                        onChangeText={(value) => handleInputChange('company_name', value)}
-                                    />
-                                    {errors.company_name && <Text style={styles.errorText}>{errors.company_name}</Text>}
-
-                                    <Text style={styles.label}>Категорія послуг</Text>
-                                    <TouchableOpacity style={styles.input} onPress={() => setIsCategoryModalVisible(true)}>
-                                    <Text style={styles.selectedCategoryText} >
-                                        {selectedCategory || 'Виберіть категорію'}
-                                    </Text>
-                                    </TouchableOpacity>
-                                    {errors.service_category && <Text style={styles.errorText}>{errors.service_category}</Text>}
-                                </>
-                            )}
-
-                            {/* Кнопка Зареєструватися */}
-                            <TouchableOpacity style={styles.formButton} onPress={handleSubmit}>
-                                <View style={styles.simpleFormButton}>
-                                    <Text style={styles.buttonText}>Зареєструватися</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                                    {/* Новая кнопка "Пропустить логин УДАЛИТЬ КАК И СТИЛЬ simpleButton" */}
-                                    <TouchableOpacity
-                                        style={[styles.simpleButton, { marginTop: 20 }]} // Новый стиль
-                                        onPress={() => navigation.navigate('ProviderProfile')} // Переход на Welcome
-                                    >
-                                        <Text style={styles.buttonText}>Пропустить Provider</Text>
-                                    </TouchableOpacity>
-
-                                    {/* Новая кнопка "Пропустить логин УДАЛИТЬ КАК И СТИЛЬ simpleButton" */}
-                                    <TouchableOpacity
-                                        style={[styles.simpleButton, { marginTop: 20 }]} // Новый стиль
-                                        onPress={() => navigation.navigate('UserProfile')} // Переход на Welcome
-                                    >
-                                        <Text style={styles.buttonText}>Пропустить User</Text>
-                                    </TouchableOpacity>
-
-                            {/* Общие ошибки */}
-                            {errors.general && <Text style={styles.errorText}>{errors.general}</Text>}
-
-                            <Text style={styles.orText}>or</Text>
-                            <View style={styles.socialContainer}>
-                                <Image source={require('../assets/images/google.png')} style={styles.socialIcon} />
-                                <Image source={require('../assets/images/Facebook.png')} style={styles.socialIcon} />
-                            </View>
-
-                            <Text style={styles.linkText}>
-                                Вже маєте акаунт? <Text style={styles.registerText} onPress={openLoginModal}>Увійдіть</Text>
-                            </Text>
-                        </ScrollView>
-                    </View>
+            <View style={styles.container}>
+                {/* Основное изображение */}
+                <Image source={require('../assets/images/capibara.png')} style={styles.image} />
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
+                        <View style={styles.simpleButton}>
+                            <Text style={styles.buttonText}>Зареєструватися</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text style={styles.loginText}>
+                        Якщо ви вже зареєстровані <Text style={styles.loginLink} onPress={openLoginModal}>Увійдіть</Text>
+                    </Text>
                 </View>
-            </Modal>
 
-            <Modal visible={isCategoryModalVisible} transparent animationType="slide" onRequestClose={closeCategoryModal}>
-                <TouchableWithoutFeedback onPress={closeCategoryModal}>
-                    <View style={styles.categoryModalContainer}>
-                        <TouchableWithoutFeedback>
-                            <View style={styles.categoryModalContent}>
-                                <FlatList
-                                    data={categories}
-                                    keyExtractor={(item) => item.id.toString()}
-                                    renderItem={({ item }) => (
-                                        <TouchableOpacity
-                                            style={styles.categoryItem}
-                                            onPress={() => selectCategory(item)}
-                                        >
-                                            <Text style={styles.categoryText}>{item.name}</Text>
+                {/* Регистрация */}
+                <Modal visible={isModalVisible} transparent animationType="slide" onRequestClose={handleCloseModal}>
+                    <TouchableWithoutFeedback onPress={handleCloseModal}>
+                        <KeyboardAvoidingView
+                            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                            style={styles.modalContainer}
+                        >
+                            <TouchableWithoutFeedback>
+                                <View style={[styles.modalContent, { maxHeight: '70%' }]}>
+                                    <ScrollView contentContainerStyle={styles.scrollContent}>
+                                        {/* Полное имя */}
+                                        <Text style={styles.label}>Повне ім'я</Text>
+                                        <TextInput
+                                            style={[styles.input, errors.name && styles.inputError]}
+                                            value={formData.name}
+                                            onChangeText={(value) => handleInputChange('name', value)}
+                                        />
+                                        {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
+
+                                        {/* Email */}
+                                        <Text style={styles.label}>Адреса ел. пошти</Text>
+                                        <TextInput
+                                            style={[styles.input, errors.email && styles.inputError]}
+                                            keyboardType="email-address"
+                                            value={formData.email}
+                                            onChangeText={(value) => handleInputChange('email', value)}
+                                        />
+                                        {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+
+                                        {/* Пароль */}
+                                        <Text style={styles.label}>Пароль</Text>
+                                        <TextInput
+                                            style={[styles.input, errors.password && styles.inputError]}
+                                            secureTextEntry
+                                            value={formData.password}
+                                            onChangeText={(value) => handleInputChange('password', value)}
+                                        />
+                                        {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+
+                                        {/* Номер телефона */}
+                                        <Text style={styles.label}>Номер телефону</Text>
+                                        <TextInput
+                                            style={[styles.input, errors.phone_number && styles.inputError]}
+                                            keyboardType="phone-pad"
+                                            value={formData.phone_number}
+                                            onChangeText={(value) => handleInputChange('phone_number', value)}
+                                        />
+                                        {errors.phone_number && <Text style={styles.errorText}>{errors.phone_number}</Text>}
+
+                                        {/* Регистрация как поставщик */}
+                                        <View style={styles.checkboxContainer}>
+                                            <TouchableOpacity onPress={toggleProvider} style={styles.checkbox}>
+                                                {isProvider && <View style={styles.checkboxInner} />}
+                                            </TouchableOpacity>
+                                            <Text style={styles.checkboxText}>Зареєструватися як постачальник</Text>
+                                        </View>
+
+                                        {isProvider && (
+                                            <>
+                                                <Text style={styles.label}>Назва підприємства</Text>
+                                                <TextInput
+                                                    style={[styles.input, errors.company_name && styles.inputError]}
+                                                    value={formData.company_name}
+                                                    onChangeText={(value) => handleInputChange('company_name', value)}
+                                                />
+                                                {errors.company_name && <Text style={styles.errorText}>{errors.company_name}</Text>}
+
+                                                <Text style={styles.label}>Категорія послуг</Text>
+                                                <TouchableOpacity style={styles.input} onPress={() => setIsCategoryModalVisible(true)}>
+                                                    <Text style={styles.selectedCategoryText}>
+                                                        {selectedCategory || 'Виберіть категорію'}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                {errors.service_category && <Text style={styles.errorText}>{errors.service_category}</Text>}
+                                            </>
+                                        )}
+
+                                        <TouchableOpacity style={styles.formButton} onPress={handleSubmit}>
+                                            <View style={styles.simpleFormButton}>
+                                                <Text style={styles.buttonText}>Зареєструватися</Text>
+                                            </View>
                                         </TouchableOpacity>
-                                    )}
-                                />
-                            </View>
-                        </TouchableWithoutFeedback>
-                    </View>
-                </TouchableWithoutFeedback>
-            </Modal>
 
-            <Modal visible={isLoginModalVisible} transparent animationType="slide" onRequestClose={closeLoginModal}>
-                <View style={styles.modalContainer}>
-                    <View style={[styles.modalContent, { maxHeight: '70%' }]}>
-                        <ScrollView contentContainerStyle={styles.scrollContent}>
-                            <Text style={styles.label}>Адреса ел. пошти</Text>
-                            <TextInput
-                                style={[styles.input, loginErrors.email && styles.inputError]}
-                                placeholder=""
-                                keyboardType="email-address"
-                                value={loginData.email}
-                                onChangeText={(value) => handleLoginInputChange('email', value)}
-                            />
-                            {loginErrors.email && <Text style={styles.errorText}>{loginErrors.email}</Text>}
+                                        {/* Кнопки Google и Facebook */}
+                                        <Text style={styles.orText}>or</Text>
+                                        <View style={styles.socialContainer}>
+                                            <Image source={require('../assets/images/google.png')} style={styles.socialIcon} />
+                                            <Image source={require('../assets/images/Facebook.png')} style={styles.socialIcon} />
+                                        </View>
 
-                            <Text style={styles.label}>Пароль</Text>
-                            <TextInput
-                                style={[styles.input, loginErrors.password && styles.inputError]}
-                                placeholder=""
-                                secureTextEntry
-                                value={loginData.password}
-                                onChangeText={(value) => handleLoginInputChange('password', value)}
-                            />
-                            {loginErrors.password && <Text style={styles.errorText}>{loginErrors.password}</Text>}
-                            {loginErrors.general && <Text style={styles.errorText}>{loginErrors.general}</Text>}
-
-                            <TouchableOpacity style={styles.formButton} onPress={handleLoginSubmit}>
-                                <View style={styles.simpleFormButton}>
-                                    <Text style={styles.buttonText}>Увійти</Text>
+                                        <Text style={styles.linkText}>
+                                            Вже маєте акаунт? <Text style={styles.registerText} onPress={openLoginModal}>Увійдіть</Text>
+                                        </Text>
+                                    </ScrollView>
                                 </View>
-                            </TouchableOpacity>
+                            </TouchableWithoutFeedback>
+                        </KeyboardAvoidingView>
+                    </TouchableWithoutFeedback>
+                </Modal>
 
-                            <Text style={styles.orText}>or</Text>
-                            <View style={styles.socialContainer}>
-                                <Image source={require('../assets/images/google.png')} style={styles.socialIcon} />
-                                <Image source={require('../assets/images/Facebook.png')} style={styles.socialIcon} />
-                            </View>
+                {/* Категории */}
+                <Modal visible={isCategoryModalVisible} transparent animationType="fade" onRequestClose={closeCategoryModal}>
+                    <TouchableWithoutFeedback onPress={closeCategoryModal}>
+                        <View style={styles.categoryModalContainer}>
+                            <TouchableWithoutFeedback>
+                                <View style={styles.categoryModalContent}>
+                                    <FlatList
+                                        data={categories}
+                                        keyExtractor={(item) => item.id.toString()}
+                                        renderItem={({ item }) => (
+                                            <TouchableOpacity
+                                                style={styles.categoryItem}
+                                                onPress={() => selectCategory(item)}
+                                            >
+                                                <Text style={styles.categoryText}>{item.name}</Text>
+                                            </TouchableOpacity>
+                                        )}
+                                    />
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </View>
+                    </TouchableWithoutFeedback>
+                </Modal>
 
-                            <Text style={styles.linkText}>
-                                Не маєте акаунту? <Text style={styles.registerText} onPress={handleOpenModal}>Зареєструйтесь</Text>
-                            </Text>
-                        </ScrollView>
-                    </View>
-                </View>
-            </Modal>
-        </View> 
-        
+                {/* Вход */}
+                <Modal visible={isLoginModalVisible} transparent animationType="slide" onRequestClose={closeLoginModal}>
+                    <TouchableWithoutFeedback onPress={closeLoginModal}>
+                        <KeyboardAvoidingView
+                            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                            style={styles.modalContainer}
+                        >
+                            <TouchableWithoutFeedback>
+                                <View style={[styles.modalContent, { maxHeight: '70%' }]}>
+                                    <ScrollView contentContainerStyle={styles.scrollContent}>
+                                        <Text style={styles.label}>Адреса ел. пошти</Text>
+                                        <TextInput
+                                            style={[styles.input, loginErrors.email && styles.inputError]}
+                                            keyboardType="email-address"
+                                            value={loginData.email}
+                                            onChangeText={(value) => handleLoginInputChange('email', value)}
+                                        />
+                                        {loginErrors.email && <Text style={styles.errorText}>{loginErrors.email}</Text>}
+
+                                        <Text style={styles.label}>Пароль</Text>
+                                        <TextInput
+                                            style={[styles.input, loginErrors.password && styles.inputError]}
+                                            secureTextEntry
+                                            value={loginData.password}
+                                            onChangeText={(value) => handleLoginInputChange('password', value)}
+                                        />
+                                        {loginErrors.password && <Text style={styles.errorText}>{loginErrors.password}</Text>}
+                                        {loginErrors.general && <Text style={styles.errorText}>{loginErrors.general}</Text>}
+
+                                        <TouchableOpacity style={styles.formButton} onPress={handleLoginSubmit}>
+                                            <View style={styles.simpleFormButton}>
+                                                <Text style={styles.buttonText}>Увійти</Text>
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        {/* Кнопки Google и Facebook */}
+                                        <Text style={styles.orText}>or</Text>
+                                        <View style={styles.socialContainer}>
+                                            <Image source={require('../assets/images/google.png')} style={styles.socialIcon} />
+                                            <Image source={require('../assets/images/Facebook.png')} style={styles.socialIcon} />
+                                        </View>
+
+                                        <Text style={styles.linkText}>
+                                            Не маєте акаунту? <Text style={styles.registerText} onPress={handleOpenModal}>Зареєструйтесь</Text>
+                                        </Text>
+                                    </ScrollView>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </KeyboardAvoidingView>
+                    </TouchableWithoutFeedback>
+                </Modal>
+            </View>
         </ImageBackground>
     );
-}
+}    
 
 const styles = StyleSheet.create({
     backgroundImage: {
