@@ -22,7 +22,7 @@ const CheckList = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (response.ok) {
                 const data = await response.json();
                 setWishlistItems(
@@ -39,7 +39,7 @@ const CheckList = () => {
             console.error('Error fetching notes:', error.message);
         }
     };
-    
+
     const addItem = async () => {
         if (!newItem.trim()) return;
         try {
@@ -51,7 +51,7 @@ const CheckList = () => {
                 },
                 body: JSON.stringify({ note: newItem }),
             });
-    
+
             if (response.ok) {
                 const data = await response.json();
                 setWishlistItems([
@@ -71,7 +71,7 @@ const CheckList = () => {
             console.error('Error adding note:', error.message);
         }
     };
-    
+
     const removeItem = async (id) => {
         try {
             const response = await fetch(`${API_URL}/api/deleteNote/${id}`, {
@@ -81,7 +81,7 @@ const CheckList = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (response.ok) {
                 setWishlistItems((items) => items.filter((item) => item.id !== id));
             } else {
@@ -91,7 +91,7 @@ const CheckList = () => {
             console.error('Error deleting note:', error.message);
         }
     };
-    
+
 
     useEffect(() => {
         fetchNotes();
@@ -149,7 +149,7 @@ const CheckList = () => {
                         style={styles.addButton}
                         onPress={() => setModalVisible(true)}
                     >
-                        <FontAwesome name="plus" size={30} color="#83B620" />
+                        <FontAwesome name="plus" size={30} color="#fff" />
                     </TouchableOpacity>
                 </ScrollView>
             </LinearGradient>
@@ -194,11 +194,9 @@ const CheckList = () => {
 
 export default CheckList;
 
-
-
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff' },
-    contentContainer: { flex: 1, paddingBottom: 80 },
+    contentContainer: { flex: 1, paddingBottom: 80, paddingTop: 30 },
     header: {
         alignItems: 'center',
         paddingVertical: 20,
@@ -223,14 +221,16 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     addButton: {
-        alignSelf: 'center', // Выравнивание по центру
-        marginTop: 20, // Отступ сверху
-        width: 60,
-        height: 60,
-        borderRadius: 30,
+        alignSelf: 'center', // Вирівнюємо по центру
+        marginTop: 20, // Відступ зверху
+        width: 50,
+        height: 50,
+        borderRadius: 30, // Робимо круглу форму
+        backgroundColor: '#6fa32b', // Салатовий фон
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 5,
+        borderWidth: 2, // Білий контур
+        borderColor: '#fff',
     },
     modalContainer: {
         flex: 1,
