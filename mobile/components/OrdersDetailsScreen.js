@@ -1,11 +1,118 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomMenu from '../components/BottomMenu';
+import Constants from 'expo-constants';
+
+
+const API_KEY = Constants.expoConfig?.extra?.API_KEY;
 
 const OrdersDetailsScreen = ({ route, navigation }) => {
-    const { title, image, price, description, florist, rating } = route.params;
+    const { serviceId, title, price, photoUrl, description, florist, rating } = route.params;
+    const [isInWishlist, setIsInWishlist] = useState(false);
+    const [sessionData, setSessionData] = useState(null); 
+    const [wishlistItemId, setWishlistItemId] = useState(null); // ID для удаления
+
+    useEffect(() => {
+        fetchSessionData();
+    }, []);
+    
+    useEffect(() => {
+        if (sessionData?.userId) {
+            console.log('Calling checkWishlist with userId:', sessionData.userId);
+            checkWishlist(sessionData.userId);
+        }
+    }, [sessionData]);
+    
+    const fetchSessionData = async () => {
+        try {
+            const sessionResponse = await fetch(`${API_KEY}/session`, {
+                method: 'GET',
+                credentials: 'include',
+            });
+    
+            if (sessionResponse.ok) {
+                const data = await sessionResponse.json();
+                setSessionData(data); // Сохраняем данные сессии
+                console.log('Session data:', data);
+            } else {
+                console.error('Error fetching session data:', sessionResponse.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching session data:', error.message);
+        }
+    };
+    
+    const checkWishlist = async (userId) => {
+        try {
+            const response = await fetch(`${API_KEY}/wishlist/get?user_id=${userId}`, {
+                method: 'GET',
+                credentials: 'include',
+            });
+    
+            if (response.ok) {
+                const wishlist = await response.json();
+                console.log('Wishlist:', wishlist);
+    
+                const item = wishlist.find((item) => item.service_id === serviceId);
+                if (item) {
+                    setIsInWishlist(true);
+                    setWishlistItemId(item.wishlist_id);
+                } else {
+                    setIsInWishlist(false);
+                    setWishlistItemId(null);
+                }
+            } else {
+                console.error('Error fetching wishlist:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching wishlist:', error.message);
+        }
+    };
+    
+
+    const handleToggleWishlist = async () => {
+        try {
+            if (!isInWishlist) {
+                // Додаємо до списку бажань
+                const response = await fetch(`${API_KEY}/wishlist`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_id: sessionData.userId, service_id: serviceId }),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    setIsInWishlist(true);
+                    setWishlistItemId(result.id); // Зберігаємо ID для видалення
+                    Alert.alert('Успіх', 'Додано до списку бажань!');
+                } else {
+                    const errorData = await response.json();
+                    Alert.alert('Помилка', errorData.error || 'Не вдалося додати до списку бажань.');
+                }
+            } else {
+                // Видаляємо зі списку бажань
+                const response = await fetch(`${API_KEY}/wishlist/${wishlistItemId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    setIsInWishlist(false);
+                    setWishlistItemId(null);
+                    Alert.alert('Успіх', 'Видалено зі списку бажань!');
+                } else {
+                    const errorData = await response.json();
+                    Alert.alert('Помилка', errorData.error || 'Не вдалося видалити зі списку бажань.');
+                }
+            }
+        } catch (error) {
+            console.error('Wishlist error:', error);
+            Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+        }
+    };
 
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
@@ -18,9 +125,16 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                     />
                 </TouchableOpacity>
                 {/* Сердце в правом верхнем углу */}
-                <View style={styles.heartContainer}>
-                    <FontAwesome name="heart-o" size={24} color="#fff" />
-                </View>
+                <TouchableOpacity
+                    style={styles.heartContainer}
+                    onPress={handleToggleWishlist}
+                >
+                    <FontAwesome
+                        name={isInWishlist ? 'heart' : 'heart-o'} // Встановлюється на основі isInWishlist
+                        size={24}
+                        color={isInWishlist ? 'red' : '#fff'}
+                    />
+                </TouchableOpacity>
                 {/* Заголовок */}
                 <Text style={styles.title}>{title}</Text>
                 {/* Флорист */}
@@ -29,20 +143,37 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                 </TouchableOpacity>
 
                 {/* Картинка */}
-                <Image source={image} style={styles.image} resizeMode="contain" />
+                <Image
+                    source={photoUrl ? { uri: photoUrl } : require('../assets/images/placeholder.jpg')}
+                    style={styles.image}
+                    resizeMode="cover"
+                />
 
                 {/* Цена и рейтинг */}
-                <Text style={styles.price}>{price}</Text>
+                <Text style={styles.price}>Ціна: {price} грн</Text>
                 <View style={styles.ratingContainer}>
-                    {[...Array(5)].map((_, i) => (
-                        <FontAwesome
-                            key={i}
-                            name="star"
-                            size={20}
-                            color={i < rating ? '#FFD700' : '#BDBDBD'}
-                            style={styles.star}
-                        />
-                    ))}
+                    {[...Array(5)].map((_, i) => {
+                        const fullStar = Math.floor(rating); // Ціла частина рейтингу
+                        const hasHalfStar = rating - fullStar >= 0.5; // Чи є половина зірки
+
+                        // Визначаємо тип зірки (заповнена, половина, порожня)
+                        const starType =
+                            i < fullStar
+                                ? 'star' // Заповнена
+                                : i === fullStar && hasHalfStar
+                                ? 'star-half-full' // Наполовину заповнена
+                                : 'star-o'; // Порожня
+
+                        return (
+                            <FontAwesome
+                                key={i}
+                                name={starType}
+                                size={20}
+                                color={starType !== 'star-o' ? '#FFD700' : '#BDBDBD'} // Золотий для заповнених зірок
+                                style={styles.star}
+                            />
+                        );
+                    })}
                 </View>
 
                 {/* Описание */}
@@ -78,6 +209,7 @@ export default OrdersDetailsScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingTop: 20,
     },
     backButton: {
         position: 'absolute',
@@ -96,7 +228,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        marginTop: 80,
+        marginTop: 60,
         textAlign: 'center',
         fontSize: 24,
         fontWeight: 'bold',
@@ -109,10 +241,18 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     image: {
-        width: '100%',
-        height: 200,
+        width: '85%', // Сделать ширину чуть меньше, чтобы добавить отступы
+        height: 200, // Увеличить высоту для большего масштаба
         alignSelf: 'center',
-        borderRadius: 15,
+        borderRadius: 20, // Закругленные углы
+        marginVertical: 20, // Отступы сверху и снизу
+        borderWidth: 2, // Толщина рамки
+        borderColor: '#83B620', // Цвет рамки
+        shadowColor: '#000', // Цвет тени
+        shadowOffset: { width: 0, height: 2 }, // Смещение тени
+        shadowOpacity: 0.3, // Прозрачность тени
+        shadowRadius: 5, // Радиус тени
+        elevation: 5, // Тень для Android
     },
     price: {
         fontSize: 22,

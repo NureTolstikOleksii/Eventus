@@ -323,6 +323,7 @@ const HomeScreen = () => {
                                                     description: result.description,
                                                     price: result.price,
                                                     rating: result.rating,
+                                                    florist: result.provider_name,
                                                 });
                                             }}
                                         >
@@ -365,13 +366,14 @@ const HomeScreen = () => {
                                                 key={index}
                                                 style={styles.serviceItem}
                                                 onPress={() => {
-                                                    navigation.navigate('ServiceDetailsScreen', {
+                                                    navigation.navigate('OrdersDetailsScreen', {
                                                         serviceId: service.service_id,
                                                         title: service.name,
                                                         description: service.description,
-                                                        photoUrl: service.photo_url,
+                                                        photoUrl: service.photo_url || '../assets/images/placeholder.jpg',
                                                         price: service.price,
                                                         rating: service.rating,
+                                                        florist: service.provider_name
                                                     });
                                                 }}
                                             >
@@ -486,7 +488,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 30,
-        paddingTop: 20,
+        paddingTop: 30,
     },
     cityText: {
         color: '#fff', // Зелений колір
