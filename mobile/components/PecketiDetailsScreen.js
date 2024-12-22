@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRoute, useNavigation } from '@react-navigation/native';
@@ -8,7 +8,11 @@ import BottomMenu from '../components/BottomMenu';
 const PecketiDetailsScreen = () => {
     const route = useRoute();
     const navigation = useNavigation();
-
+    const [isReviewsModalVisible, setReviewsModalVisible] = useState(false);
+    const toggleReviewsModal = () => {
+        setReviewsModalVisible(!isReviewsModalVisible);
+        
+    };
     const {
         image,
         title = 'Пакет “Ніжність”',
@@ -33,6 +37,15 @@ const PecketiDetailsScreen = () => {
                     </TouchableOpacity>
                 </View>
 
+                {/* Изображение */}
+                <View style={styles.imageContainer}>
+                <Image 
+                source={require('../assets/images/flowerspackages.png')} 
+                style={styles.mainImage} 
+                resizeMode="cover" 
+                />
+                </View>
+
                 {/* Подзаголовки */}
                 <View style={styles.subheaderContainer}>
                     <TouchableOpacity onPress={() => navigation.navigate('ProfileOrder', { florist })}>
@@ -54,32 +67,33 @@ const PecketiDetailsScreen = () => {
                     ))}
                 </View>
 
-                {/* Изображение */}
-                <View style={styles.imageContainer}>
-                    {image && <Image source={image} style={styles.mainImage} resizeMode="cover" />}
-                </View>
-
                 {/* Цена и описание */}
                 <Text style={styles.priceText}>{price} грн</Text>
                 <Text style={styles.descriptionText}>{description}</Text>
 
-                {/* Меню пунктов */}
+                {/* Меню пунктов
                 <TouchableOpacity style={styles.menuItem}>
                     <Text style={styles.menuItemText}>Переглянути послуги</Text>
                     <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} resizeMode="contain" />
                 </TouchableOpacity>
-                <View style={styles.separator} />
+                <View style={styles.separator} /> */}
 
-                <TouchableOpacity style={styles.menuItem}>
+                    <TouchableOpacity 
+                    style={styles.menuItem} 
+                    onPress={() => navigation.navigate('Calendar')} // Добавлен переход на Calendar.js
+                    >
                     <Text style={styles.menuItemText}>Календар</Text>
                     <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} resizeMode="contain" />
-                </TouchableOpacity>
-                <View style={styles.separator} />
+                    </TouchableOpacity>
+                    <View style={styles.separator} />
 
-                <TouchableOpacity style={styles.menuItem}>
+                    <TouchableOpacity 
+                    style={styles.menuItem} 
+                    onPress={() => navigation.navigate('Reviews')}
+                    >
                     <Text style={styles.menuItemText}>Відгуки</Text>
                     <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} resizeMode="contain" />
-                </TouchableOpacity>
+                    </TouchableOpacity>
 
 
                 {/* Кнопка "Замовити" */}
@@ -156,7 +170,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     mainImage: {
-        width: '100%',
+        width: '25%',
         height: 180,
         borderRadius: 10,
     },

@@ -168,7 +168,10 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={toggleNotificationsModal} style={styles.menuItem}>
+                    <TouchableOpacity 
+                        onPress={() => navigation.navigate('OrderLists')} // Переход на OrderLists.js
+                        style={styles.menuItem}
+                        >
                         <Text style={styles.menuText}>Замовлення</Text>
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>

@@ -37,9 +37,9 @@ const ItemAddScreen = () => {
                     <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Додавання</Text>
-                <TouchableOpacity onPress={handleSave}>
-                    <Image source={require('../assets/images/check.png')} style={styles.saveIcon} />
-                </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('PecketiDetailsScreen')}>
+        <Image source={require('../assets/images/check.png')} style={styles.saveIcon} />
+        </TouchableOpacity>
             </View>
 
             {/* Content */}
@@ -132,12 +132,12 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     saveIcon: {
-        width: 20, // Ширина галочки
-        height: 20, // Высота галочки
+        width: 40, // Ширина галочки
+        height: 35, // Высота галочки
         tintColor: '#ffffff', // Белый цвет, чтобы соответствовать дизайну
         position: 'absolute', // Абсолютная позиция для корректного слоя
         opacity: 1, // Убедитесь, что галочка видима
-        top: 15, // Расстояние от верхнего края
+        top: -10, // Расстояние от верхнего края
         right: 10, // Расстояние от правого края
     
     },

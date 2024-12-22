@@ -291,6 +291,24 @@ export default function WelcomeScreen({ navigation }) {
                                             </View>
                                         </TouchableOpacity>
 
+
+{/* Новая кнопка "Пропустить логин УДАЛИТЬ КАК И СТИЛЬ simpleButton" */}
+<TouchableOpacity
+style={[styles.simpleButton, { marginTop: 20 }]} // Новый стиль
+onPress={() => navigation.navigate('ProviderProfile')} // Переход на Welcome
+>
+<Text style={styles.buttonText}>Пропустить Provider</Text>
+</TouchableOpacity>
+
+{/* Новая кнопка "Пропустить логин УДАЛИТЬ КАК И СТИЛЬ simpleButton" */}
+<TouchableOpacity
+style={[styles.simpleButton, { marginTop: 20 }]} // Новый стиль
+onPress={() => navigation.navigate('UserProfile')} // Переход на Welcome
+>
+<Text style={styles.buttonText}>Пропустить User</Text>
+</TouchableOpacity>
+
+
                                         {/* Кнопки Google и Facebook */}
                                         <Text style={styles.orText}>or</Text>
                                         <View style={styles.socialContainer}>

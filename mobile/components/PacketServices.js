@@ -28,9 +28,12 @@ const PacketServices = ({ navigation }) => {
                         <Text style={styles.serviceText}>{service}</Text>
                     </TouchableOpacity>
                 ))}
-                <TouchableOpacity style={styles.addButton}>
-                    <Text style={styles.addText}>+</Text>
-                </TouchableOpacity>
+                <TouchableOpacity 
+                style={styles.addButton} 
+                onPress={() => navigation.navigate('ItemAddScreen')} // Добавлен переход на ItemAddScreen.js
+            >
+                <Text style={styles.addText}>+</Text>
+            </TouchableOpacity>
             </View>
 
             {/* Нижнее меню */}
