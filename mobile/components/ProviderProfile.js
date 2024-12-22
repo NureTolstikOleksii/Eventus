@@ -79,6 +79,33 @@ const ProviderProfile = ({ navigation }) => {
         }
     };
 
+    //Зміна назви організації
+    const handleOrganizationNameChange = async (newOrganizationName) => {
+        try {
+            const response = await fetch(`${API_KEY}/change_data/update_organization_name`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ newOrganizationName }),
+            });
+    
+            const result = await response.json();
+    
+            if (response.ok) {
+                Alert.alert('Успіх', 'Назва організації успішно змінена.');
+                setOrganizationName(newOrganizationName); // Оновлення назви в інтерфейсі
+            } else {
+                Alert.alert('Помилка', result.message || 'Не вдалося змінити назву організації.');
+            }
+        } catch (error) {
+            console.error('Error updating organization name:', error.message);
+            Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+        }
+    };
+    
+
     // Функция выхода из аккаунта
     const handleLogout = async () => {
         try {
@@ -124,15 +151,43 @@ const ProviderProfile = ({ navigation }) => {
     };
 
     const handleSave = () => {
-        console.log(
-            `${selectedField} updated to: ${selectedField === 'Категорія послуг' ? selectedCategory : inputValue
-            }`
-        );
+        if (selectedField === 'Пароль') {
+            // Перевіряємо, чи всі поля для зміни пароля заповнені
+            if (!oldPassword || !newPassword || !confirmPassword) {
+                Alert.alert('Помилка', 'Будь ласка, заповніть усі поля для зміни пароля.');
+                return;
+            }
+    
+            // Перевіряємо, чи новий пароль збігається з підтвердженням
+            if (newPassword !== confirmPassword) {
+                Alert.alert('Помилка', 'Новий пароль і підтвердження пароля не збігаються.');
+                return;
+            }
+    
+            // Викликаємо функцію зміни пароля
+            handlePasswordChange();
+        }else if (selectedField === 'Назва підприємства') {
+            if (!inputValue) {
+                Alert.alert('Помилка', 'Будь ласка, введіть нову назву організації.');
+                return;
+            }
+    
+            handleOrganizationNameChange(inputValue); // Виклик функції для зміни назви організації
+        } else {
+            console.log(
+                `${selectedField} updated to: ${selectedField === 'Категорія послуг' ? selectedCategory : inputValue}`
+            );
+        }
+    
+        // Закриваємо модальне вікно і очищаємо поля
         setModalVisible(false);
         setInputValue('');
         setOldPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
         setSelectedCategory('');
     };
+    
 
     const toggleNotificationsModal = () => {
         setNotificationsModalVisible(!isNotificationsModalVisible);
@@ -218,6 +273,7 @@ const ProviderProfile = ({ navigation }) => {
                                     <TouchableOpacity onPress={() => setSelectedField(selectedField === field.label ? '' : field.label)}>
                                         <Text style={styles.fieldText}>{field.label}</Text>
                                     </TouchableOpacity>
+                                    
                                     {selectedField === field.label && (
                                         <View style={styles.inputContainer}>
                                             {/* Если выбрано редактирование пароля */}
