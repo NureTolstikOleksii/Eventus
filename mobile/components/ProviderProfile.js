@@ -105,6 +105,58 @@ const ProviderProfile = ({ navigation }) => {
         }
     };
     
+    //Зміна електр.пошти
+    const handleEmailChange = async (newEmail) => {
+        try {
+            const response = await fetch(`${API_KEY}/change_data/update_provider_email`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ newEmail }),
+            });
+    
+            const result = await response.json();
+    
+            if (response.ok) {
+                Alert.alert('Успіх', 'Адресу електронної пошти успішно змінено.');
+                setInputValue(''); // Очистка поля вводу
+            } else {
+                Alert.alert('Помилка', result.message || 'Не вдалося змінити адресу електронної пошти.');
+            }
+        } catch (error) {
+            console.error('Error updating email:', error.message);
+            Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+        }
+    };
+    
+// Зміна імені постачальника
+const handleNameChange = async (newName) => {
+    try {
+        const response = await fetch(`${API_KEY}/change_data/update_provider_name`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({ newName }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            Alert.alert('Успіх', "Ім'я успішно змінено.");
+            setUserName(newName); // Оновлюємо ім'я в стані
+            setInputValue(''); // Очищуємо поле вводу
+        } else {
+            Alert.alert('Помилка', result.message || "Не вдалося змінити ім'я.");
+        }
+    } catch (error) {
+        console.error('Error updating name:', error.message);
+        Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+    }
+};
 
     // Функция выхода из аккаунта
     const handleLogout = async () => {
@@ -173,7 +225,19 @@ const ProviderProfile = ({ navigation }) => {
             }
     
             handleOrganizationNameChange(inputValue); // Виклик функції для зміни назви організації
-        } else {
+        } else if (selectedField === 'Адреса електронної пошти') {
+            if (!inputValue) {
+                Alert.alert('Помилка', 'Будь ласка, введіть нову адресу електронної пошти.');
+                return;
+            }
+            handleEmailChange(inputValue);
+        }else if (selectedField === "Повне ім'я") {
+            if (!inputValue) {
+                Alert.alert('Помилка', "Будь ласка, введіть нове ім'я.");
+                return;
+            }
+            handleNameChange(inputValue); // Виклик функції для зміни імені 
+        }else {
             console.log(
                 `${selectedField} updated to: ${selectedField === 'Категорія послуг' ? selectedCategory : inputValue}`
             );
@@ -273,7 +337,6 @@ const ProviderProfile = ({ navigation }) => {
                                     <TouchableOpacity onPress={() => setSelectedField(selectedField === field.label ? '' : field.label)}>
                                         <Text style={styles.fieldText}>{field.label}</Text>
                                     </TouchableOpacity>
-                                    
                                     {selectedField === field.label && (
                                         <View style={styles.inputContainer}>
                                             {/* Если выбрано редактирование пароля */}
@@ -309,6 +372,7 @@ const ProviderProfile = ({ navigation }) => {
                                                     onChangeText={setInputValue}
                                                 />
                                             )}
+                                            
                                         </View>
                                     )}
                                 </View>
