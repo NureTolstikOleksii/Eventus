@@ -53,7 +53,6 @@ export default function WelcomeScreen({ navigation }) {
                     setLoginErrors(result.errors);
                 }
             } else {
-                alert('Login successful!');
                 closeLoginModal();
                 navigation.reset({
                     index: 0,

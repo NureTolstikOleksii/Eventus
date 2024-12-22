@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, TextInput, Modal, StyleSheet, ScrollView, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Picker } from '@react-native-picker/picker';
@@ -7,7 +7,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 const API_KEY = Constants.expoConfig?.extra?.API_KEY;
 
-const ProviderProfile = ({ navigation }) => { // Добавлено { navigation }
+const ProviderProfile = ({ navigation }) => { 
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedField, setSelectedField] = useState('');
     const [inputValue, setInputValue] = useState('');
@@ -21,8 +21,33 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
     const [organizationName, setOrganizationName] = useState('Назва організації');
     const [isNotificationsModalVisible, setNotificationsModalVisible] = useState(false); // Для уведомлений
 
-     // Функція для зміни пароля
-     const handlePasswordChange = async () => {
+    useEffect(() => {
+        fetchSessionData();
+    }, []);
+
+    const fetchSessionData = async () => {
+        try {
+            const sessionResponse = await fetch(`${API_KEY}/session`, {
+                method: 'GET',
+                credentials: 'include', // Отправка cookies для доступа к сессии
+            });
+    
+            if (sessionResponse.ok) {
+                const sessionData = await sessionResponse.json();
+                setUserName(sessionData.name);
+                setOrganizationName(sessionData.companyName);
+                console.log(sessionData.userId);
+                console.log(sessionData.companyName);
+            } else {
+                console.error('Error fetching session data:', sessionResponse.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching session data:', error.message);
+        }
+    };
+
+    // Функція для зміни пароля
+    const handlePasswordChange = async () => {
         try {
             const response = await fetch(`${API_KEY}/change_data/update_provider_password`, {
                 method: 'PUT',
@@ -120,7 +145,7 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
                 <View style={styles.header}>
                     <TouchableOpacity
                         onPress={() => navigation.navigate('Home')} // Переход на HomeScreen(добавленая функция, может быть не оч)
-                         >
+                    >
                         <Image source={require('../assets/images/arrow.png')}
                             style={styles.backIcon}
                         />
@@ -194,41 +219,41 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
                                         <Text style={styles.fieldText}>{field.label}</Text>
                                     </TouchableOpacity>
                                     {selectedField === field.label && (
-                                  <View style={styles.inputContainer}>
-                                  {/* Если выбрано редактирование пароля */}
-                                  {field.label === 'Пароль' ? (
-                                      <>
-                                          <TextInput
-                                              style={styles.inputPassword}
-                                              placeholder="Старий пароль"
-                                              secureTextEntry
-                                              value={oldPassword}
-                                              onChangeText={setOldPassword}
-                                          />
-                                          <TextInput
-                                              style={styles.inputPassword}
-                                              placeholder="Новий пароль"
-                                              secureTextEntry
-                                              value={newPassword}
-                                              onChangeText={setNewPassword}
-                                          />
-                                          <TextInput
-                                              style={styles.inputPassword}
-                                              placeholder="Підтвердження нового паролю"
-                                              secureTextEntry
-                                              value={confirmPassword}
-                                              onChangeText={setConfirmPassword}
-                                          />
-                                      </>
-                                  ) : (
-                                      <TextInput
-                                          style={styles.inputPassword}
-                                          placeholder={field.placeholder}
-                                          value={inputValue}
-                                          onChangeText={setInputValue}
-                                      />
-                                  )}
-                              </View>
+                                        <View style={styles.inputContainer}>
+                                            {/* Если выбрано редактирование пароля */}
+                                            {field.label === 'Пароль' ? (
+                                                <>
+                                                    <TextInput
+                                                        style={styles.inputPassword}
+                                                        placeholder="Старий пароль"
+                                                        secureTextEntry
+                                                        value={oldPassword}
+                                                        onChangeText={setOldPassword}
+                                                    />
+                                                    <TextInput
+                                                        style={styles.inputPassword}
+                                                        placeholder="Новий пароль"
+                                                        secureTextEntry
+                                                        value={newPassword}
+                                                        onChangeText={setNewPassword}
+                                                    />
+                                                    <TextInput
+                                                        style={styles.inputPassword}
+                                                        placeholder="Підтвердження нового паролю"
+                                                        secureTextEntry
+                                                        value={confirmPassword}
+                                                        onChangeText={setConfirmPassword}
+                                                    />
+                                                </>
+                                            ) : (
+                                                <TextInput
+                                                    style={styles.inputPassword}
+                                                    placeholder={field.placeholder}
+                                                    value={inputValue}
+                                                    onChangeText={setInputValue}
+                                                />
+                                            )}
+                                        </View>
                                     )}
                                 </View>
                             ))}
@@ -284,7 +309,7 @@ const ProviderProfile = ({ navigation }) => { // Добавлено { navigation
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
-    content: { paddingBottom: 80 },
+    content: { paddingBottom: 80, paddingTop: 30},
     header: { flexDirection: 'row', justifyContent: 'space-between', padding: 20, alignItems: 'center', paddingTop: 20 },
     title: { fontSize: 20, color: '#ffffff' },
     backIcon: { width: 15, height: 15 },
