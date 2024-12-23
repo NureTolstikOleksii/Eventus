@@ -5,6 +5,9 @@ import reviewUser from "../assets/dimon.jpg";
 import like from "../assets/like.png";
 import addLike from "../assets/add-like.png";
 import { Link } from "react-router-dom";
+import review1 from "../assets/img/review1.jpg";
+import review2 from "../assets/img/review2.jpg";
+import review3 from "../assets/img/review3.jpg";
 
 const service = {
   id: 1,
@@ -24,7 +27,7 @@ const reviews = [
     serviceName: "Букет з червоних роз",
     content: "Чудовий букет, виглядав натурально і свіжо! Рекомендую!",
     rating: 5,
-    image: serviceImage1,
+    image: review1,
     userImage: reviewUser,
   },
   {
@@ -34,7 +37,7 @@ const reviews = [
     content:
       "Букет просто супер! Квіти свіжі, підібрані з любов'ю. Дуже задоволений!",
     rating: 2,
-    image: serviceImage1,
+    image: review2,
     userImage: reviewUser,
   },
   {
@@ -44,7 +47,7 @@ const reviews = [
     content:
       "Букет неймовірний! Квіти свіжі і красиві, дуже задоволена покупкою!.",
     rating: 5,
-    image: serviceImage1,
+    image: review3,
     userImage: reviewUser,
   },
 ];

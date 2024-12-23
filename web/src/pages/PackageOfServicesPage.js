@@ -8,6 +8,10 @@ import reviewUser3 from "../assets/rewiew-image.jpg";
 import like from "../assets/like.png";
 import addLike from "../assets/add-like.png";
 import { Link } from "react-router-dom";
+import review4 from "../assets/img/review4.jpg";
+import review5 from "../assets/img/review5.jpg";
+import review6 from "../assets/img/review6.jpg";
+
 
 const packageData = {
   name: 'Букет з червоних роз',
@@ -65,7 +69,7 @@ const reviews = [
     content:
       "Чудовий букет, виглядав натурально і свіжо! Рекомендую!",
     rating: 5,
-    image: serviceImage2,
+    image: review4,
     userImage: reviewUser,
   },
   {
@@ -75,7 +79,7 @@ const reviews = [
     content:
       "Букет неймовірний! Квіти свіжі і красиві, дуже задоволена покупкою!",
     rating: 3,
-    image: serviceImage1,
+    image: review5,
     userImage: reviewUser3,
   },
   {
@@ -85,7 +89,7 @@ const reviews = [
     content:
       "Букет неймовірний! Квіти свіжі і красиві, дуже задоволена покупкою!.",
     rating: 5,
-    image: serviceImage2,
+    image: review6,
     userImage: reviewUser2,
   },
 ];
