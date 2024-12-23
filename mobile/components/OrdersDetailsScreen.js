@@ -186,14 +186,19 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                         <FontAwesome name="angle-right" size={24} color="#83B620" />
                     </TouchableOpacity >
                     <View style={styles.separator} /> {/* Линия-разделитель */}
-                    <TouchableOpacity style={styles.linkItem}>
+                    <TouchableOpacity style={styles.linkItem} onPress={() => navigation.navigate('Reviews')}>
                         <Text style={styles.linkText}>Відгуки</Text>
                         <FontAwesome name="angle-right" size={24} color="#83B620" />
                     </TouchableOpacity>
                 </View>
 
                 {/* Кнопка заказать */}
-                <TouchableOpacity style={styles.orderButton}>
+                <TouchableOpacity
+                    style={styles.orderButton}
+                    onPress={() => navigation.navigate('DisplayOrder', {
+                        orderId: serviceId, // Передаем ID услуги как orderId
+                    })}
+                >
                     <Text style={styles.orderButtonText}>Замовити</Text>
                 </TouchableOpacity>
             </ScrollView>
