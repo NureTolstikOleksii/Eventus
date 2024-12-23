@@ -64,13 +64,14 @@ const BottomMenu = () => {
 
     const handleRoleSpecificPress = () => {
         if (userRole === 'customer') {
-            navigation.navigate('CheckList');
+            navigation.navigate('CheckList'); // Переход на Чек-лист для клиента
         } else if (userRole === 'provider') {
-            navigation.navigate('AddService'); //добавить страничку добавления услуги
+            navigation.navigate('ItemAddScreen'); // Переход на ItemAddScreen для поставщика
         } else {
             alert('Неизвестная роль пользователя. Обратитесь в поддержку.');
         }
     };
+    
 
     const menuItems = [
         { route: 'Home', icon: require('../assets/images/home.png'), label: 'Головна' },

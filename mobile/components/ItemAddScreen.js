@@ -7,8 +7,10 @@ import {
     Image,
     StyleSheet,
     Alert,
-    Picker,
 } from 'react-native';
+
+import { Picker } from '@react-native-picker/picker';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomMenu from './BottomMenu';
 import { useNavigation } from '@react-navigation/native';
@@ -37,17 +39,17 @@ const ItemAddScreen = () => {
                     <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Додавання</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('PecketiDetailsScreen')}>
-        <Image source={require('../assets/images/check.png')} style={styles.saveIcon} />
-        </TouchableOpacity>
+                <TouchableOpacity onPress={handleSave}>
+                    <Image source={require('../assets/images/check.png')} style={styles.saveIcon} />
+                </TouchableOpacity>
             </View>
 
             {/* Content */}
             <View style={styles.content}>
-                                <TouchableOpacity style={styles.addPhotoButton}>
-                                <Text style={styles.addPhotoText}>Додати фото</Text>
-                                <Text style={styles.addServiceIcon}>+</Text>
-                                </TouchableOpacity>
+                <TouchableOpacity style={styles.addPhotoButton}>
+                    <Text style={styles.addPhotoText}>Додати фото</Text>
+                    <Text style={styles.addServiceIcon}>+</Text>
+                </TouchableOpacity>
                 {/* Photo Preview */}
                 <Image source={require('../assets/images/flowers.png')} style={styles.flowerImage} />
 
@@ -75,35 +77,34 @@ const ItemAddScreen = () => {
                         keyboardType="numeric"
                         value={price}
                         onChangeText={setPrice}
-                        
                     />
-                    
-                    </View>
-                    
-                    {/* Выпадающее меню Послуги + */}
-               
-                    <View style={styles.dropdownContainer}>
-                    <Picker
-                    selectedValue={service}
-                    onValueChange={(itemValue) => setService(itemValue)}
-                    style={styles.dropdown}
-                    dropdownIconColor="#A4C644" // Цвет стрелки в iOS/Android
-                            >
-                              <Picker.Item label="Оберіть послугу" value="" />
-                                    <Picker.Item label="Кейтеринг" value="Кейтеринг" />
-                                 <Picker.Item label="Квіти" value="Квіти" />
-                              <Picker.Item label="Декор" value="Декор" />
-                            <Picker.Item label="Музика" value="Музика" />
-                        </Picker>
-                    <Image source={require('../assets/images/plus.png')} style={styles.dropdownIcon} />
                 </View>
+
+                {/* Выпадающее меню услуг */}
+                <View style={styles.dropdownContainer}>
+                    <Picker
+                        selectedValue={service}
+                        onValueChange={(itemValue) => setService(itemValue)}
+                        style={styles.dropdown}
+                    >
+                        <Picker.Item label="Оберіть послугу" value="" />
+                        <Picker.Item label="Кейтеринг" value="Кейтеринг" />
+                        <Picker.Item label="Квіти" value="Квіти" />
+                        <Picker.Item label="Декор" value="Декор" />
+                        <Picker.Item label="Музика" value="Музика" />
+                    </Picker>
+                    <TouchableOpacity onPress={() => Alert.alert('Додайте послугу!')}>
+                        <Image source={require('../assets/images/plus.png')} style={styles.dropdownIcon} />
+                    </TouchableOpacity>
+                </View>
+            </View>
 
             {/* Bottom Menu */}
             <BottomMenu />
-            </View>
         </LinearGradient>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {
