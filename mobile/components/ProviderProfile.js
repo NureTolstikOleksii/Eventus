@@ -7,7 +7,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 const API_KEY = Constants.expoConfig?.extra?.API_KEY;
 
-const ProviderProfile = ({ navigation }) => { 
+const ProviderProfile = ({ navigation }) => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedField, setSelectedField] = useState('');
     const [inputValue, setInputValue] = useState('');
@@ -31,7 +31,7 @@ const ProviderProfile = ({ navigation }) => {
                 method: 'GET',
                 credentials: 'include', // Отправка cookies для доступа к сессии
             });
-    
+
             if (sessionResponse.ok) {
                 const sessionData = await sessionResponse.json();
                 setUserName(sessionData.name);
@@ -90,9 +90,9 @@ const ProviderProfile = ({ navigation }) => {
                 credentials: 'include',
                 body: JSON.stringify({ newOrganizationName }),
             });
-    
+
             const result = await response.json();
-    
+
             if (response.ok) {
                 Alert.alert('Успіх', 'Назва організації успішно змінена.');
                 setOrganizationName(newOrganizationName); // Оновлення назви в інтерфейсі
@@ -104,7 +104,7 @@ const ProviderProfile = ({ navigation }) => {
             Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
         }
     };
-    
+
     //Зміна електр.пошти
     const handleEmailChange = async (newEmail) => {
         try {
@@ -116,9 +116,9 @@ const ProviderProfile = ({ navigation }) => {
                 credentials: 'include',
                 body: JSON.stringify({ newEmail }),
             });
-    
+
             const result = await response.json();
-    
+
             if (response.ok) {
                 Alert.alert('Успіх', 'Адресу електронної пошти успішно змінено.');
                 setInputValue(''); // Очистка поля вводу
@@ -130,33 +130,33 @@ const ProviderProfile = ({ navigation }) => {
             Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
         }
     };
-    
-// Зміна імені постачальника
-const handleNameChange = async (newName) => {
-    try {
-        const response = await fetch(`${API_KEY}/change_data/update_provider_name`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({ newName }),
-        });
 
-        const result = await response.json();
+    // Зміна імені постачальника
+    const handleNameChange = async (newName) => {
+        try {
+            const response = await fetch(`${API_KEY}/change_data/update_provider_name`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ newName }),
+            });
 
-        if (response.ok) {
-            Alert.alert('Успіх', "Ім'я успішно змінено.");
-            setUserName(newName); // Оновлюємо ім'я в стані
-            setInputValue(''); // Очищуємо поле вводу
-        } else {
-            Alert.alert('Помилка', result.message || "Не вдалося змінити ім'я.");
+            const result = await response.json();
+
+            if (response.ok) {
+                Alert.alert('Успіх', "Ім'я успішно змінено.");
+                setUserName(newName); // Оновлюємо ім'я в стані
+                setInputValue(''); // Очищуємо поле вводу
+            } else {
+                Alert.alert('Помилка', result.message || "Не вдалося змінити ім'я.");
+            }
+        } catch (error) {
+            console.error('Error updating name:', error.message);
+            Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
         }
-    } catch (error) {
-        console.error('Error updating name:', error.message);
-        Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
-    }
-};
+    };
 
     // Функция выхода из аккаунта
     const handleLogout = async () => {
@@ -209,21 +209,21 @@ const handleNameChange = async (newName) => {
                 Alert.alert('Помилка', 'Будь ласка, заповніть усі поля для зміни пароля.');
                 return;
             }
-    
+
             // Перевіряємо, чи новий пароль збігається з підтвердженням
             if (newPassword !== confirmPassword) {
                 Alert.alert('Помилка', 'Новий пароль і підтвердження пароля не збігаються.');
                 return;
             }
-    
+
             // Викликаємо функцію зміни пароля
             handlePasswordChange();
-        }else if (selectedField === 'Назва підприємства') {
+        } else if (selectedField === 'Назва підприємства') {
             if (!inputValue) {
                 Alert.alert('Помилка', 'Будь ласка, введіть нову назву організації.');
                 return;
             }
-    
+
             handleOrganizationNameChange(inputValue); // Виклик функції для зміни назви організації
         } else if (selectedField === 'Адреса електронної пошти') {
             if (!inputValue) {
@@ -231,18 +231,18 @@ const handleNameChange = async (newName) => {
                 return;
             }
             handleEmailChange(inputValue);
-        }else if (selectedField === "Повне ім'я") {
+        } else if (selectedField === "Повне ім'я") {
             if (!inputValue) {
                 Alert.alert('Помилка', "Будь ласка, введіть нове ім'я.");
                 return;
             }
             handleNameChange(inputValue); // Виклик функції для зміни імені 
-        }else {
+        } else {
             console.log(
                 `${selectedField} updated to: ${selectedField === 'Категорія послуг' ? selectedCategory : inputValue}`
             );
         }
-    
+
         // Закриваємо модальне вікно і очищаємо поля
         setModalVisible(false);
         setInputValue('');
@@ -251,7 +251,7 @@ const handleNameChange = async (newName) => {
         setConfirmPassword('');
         setSelectedCategory('');
     };
-    
+
 
     const toggleNotificationsModal = () => {
         setNotificationsModalVisible(!isNotificationsModalVisible);
@@ -262,13 +262,7 @@ const handleNameChange = async (newName) => {
             <ScrollView contentContainerStyle={styles.content}>
                 {/* Заголовок */}
                 <View style={styles.header}>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('Home')} // Переход на HomeScreen(добавленая функция, может быть не оч)
-                    >
-                        <Image source={require('../assets/images/arrow.png')}
-                            style={styles.backIcon}
-                        />
-                    </TouchableOpacity>
+
                     <Text style={styles.title}>Профіль</Text>
                     <TouchableOpacity onPress={toggleModal}>
                         <Image source={require('../assets/images/pencil.png')} style={styles.editIcon} />
@@ -312,10 +306,10 @@ const handleNameChange = async (newName) => {
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         onPress={() => navigation.navigate('OrderLists')} // Переход на OrderLists.js
                         style={styles.menuItem}
-                        >
+                    >
                         <Text style={styles.menuText}>Замовлення</Text>
                         <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} />
                     </TouchableOpacity>
@@ -372,7 +366,7 @@ const handleNameChange = async (newName) => {
                                                     onChangeText={setInputValue}
                                                 />
                                             )}
-                                            
+
                                         </View>
                                     )}
                                 </View>
@@ -429,16 +423,19 @@ const handleNameChange = async (newName) => {
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
-    content: { paddingBottom: 80, paddingTop: 30},
+    content: { paddingBottom: 80, paddingTop: 30 },
     header: { flexDirection: 'row', justifyContent: 'space-between', padding: 20, alignItems: 'center', paddingTop: 20 },
-    title: { fontSize: 20, color: '#ffffff' },
+    title: {
+        textAlign: 'center', marginLeft: 25,
+        flex: 1, fontSize: 20, color: "#ffffff"
+    },
     backIcon: { width: 15, height: 15 },
     editIcon: { width: 28, height: 28 },
     profileContainer: { alignItems: 'center', marginTop: 20 },
     profileImage: { width: 119, height: 116, borderRadius: 40 },
-    userName: { color: 'white' },
-    organizationName: { color: 'white' },
-    starsContainer: { flexDirection: 'row', marginTop: 5 },
+    userName: { color: 'white', margin: 10, fontSize: 25 },
+    organizationName: { color: 'white',fontSize: 15 },
+    starsContainer: { flexDirection: 'row', marginTop: 15 },
     starIcon: { width: 25, height: 25, marginHorizontal: 8 },
     menuContainer: { marginTop: 20 },
     menuItem: {
