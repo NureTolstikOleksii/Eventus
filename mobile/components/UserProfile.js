@@ -27,6 +27,7 @@ const UserProfile = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [selectedField, setSelectedField] = useState('');
 
   // Функція для отримання даних профілю
   const fetchProfileData = async () => {
@@ -52,6 +53,32 @@ const UserProfile = () => {
       console.error("Fetch profile error:", error.message);
       Alert.alert("Помилка", "Щось пішло не так. Спробуйте ще раз.");
     }
+  };
+
+    //Функція для зміни імені
+    const updateUserName = async (newName) => {
+      try {
+          const response = await fetch(`${API_KEY}/change_data/update_user_name`, {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              credentials: 'include', // для передачі сесії
+              body: JSON.stringify({ newName }),
+          });
+  
+          const result = await response.json();
+  
+          if (response.ok) {
+              Alert.alert('Успіх', result.message || 'Ім\'я користувача оновлено успішно.');
+              setUserName(newName); // Оновлення імені в стані
+          } else {
+              Alert.alert('Помилка', result.message || 'Не вдалося оновити ім\'я.');
+          }
+      } catch (error) {
+          console.error('Error updating user name:', error.message);
+          Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+      }
   };
 
   // Викликаємо fetchProfileData при завантаженні компоненту
@@ -88,83 +115,84 @@ const UserProfile = () => {
   };
 
   const handleSave = () => {
-    console.log("Имя:", userName);
-    console.log("Email:", userEmail);
-    console.log("Пароль:", newPassword);
-    setModalVisible(false); // Закрыть модальное окно после сохранения
-  };
+    if (selectedField === "Ім'я") {
+        if (!userName || userName.trim() === '') {
+            Alert.alert('Помилка', 'Будь ласка, введіть нове ім\'я.');
+            return;
+        }
+        updateUserName(userName); // Виклик API для оновлення імені
+    }
+    // Інші логіки збереження для інших полів
+    setModalVisible(false); // Закриття модального вікна після збереження
+};
+
 
   return (
     <LinearGradient
       colors={["#a6cf4a", "#f2e28b", "#ffffff"]}
       style={styles.container}
     >
-    <Modal visible={isModalVisible} transparent={true} animationType="fade">
-      <View style={styles.modalContainerChange}>
+    <Modal visible={isModalVisible} transparent={true} animationType="fade" onRequestClose={() => setModalVisible(false)}>
+    <View style={styles.modalContainerChange}>
         <View style={styles.modalContentChange}>
-          <Text style={styles.modalTitleChange}>Редагування профілю</Text>
+            <Text style={styles.modalTitleChange}>Редагування профілю</Text>
 
-          {/* Поле для редактирования имени */}
-          <View style={styles.fieldWrapper}>
-            <Text style={styles.fieldText}>Ім'я</Text>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.inputField}
-                placeholder="Введіть нове ім'я"
-                value={userName}
-                onChangeText={setUserName}
-              />
-            </View>
-          </View>
+            {/* Динамическое отображение полей */}
+            {[
+                { label: "Ім'я", placeholder: "Введіть нове ім'я", value: userName, onChange: setUserName },
+                { label: "Електронна пошта", placeholder: "Введіть нову пошту", value: userEmail, onChange: setUserEmail },
+                { label: "Пароль", isPassword: true },
+            ].map((field, index) => (
+                <View key={index} style={styles.fieldWrapper}>
+                    <TouchableOpacity onPress={() => setSelectedField(selectedField === field.label ? '' : field.label)}>
+                        <Text style={styles.fieldText}>{field.label}</Text>
+                    </TouchableOpacity>
+                    {selectedField === field.label && (
+                        <View style={styles.inputContainer}>
+                            {field.isPassword ? (
+                                <>
+                                    <TextInput
+                                        style={styles.inputPassword}
+                                        placeholder="Старий пароль"
+                                        secureTextEntry
+                                        value={oldPassword}
+                                        onChangeText={setOldPassword}
+                                    />
+                                    <TextInput
+                                        style={styles.inputPassword}
+                                        placeholder="Новий пароль"
+                                        secureTextEntry
+                                        value={newPassword}
+                                        onChangeText={setNewPassword}
+                                    />
+                                    <TextInput
+                                        style={styles.inputPassword}
+                                        placeholder="Підтвердження нового паролю"
+                                        secureTextEntry
+                                        value={confirmPassword}
+                                        onChangeText={setConfirmPassword}
+                                    />
+                                </>
+                            ) : (
+                                <TextInput
+                                    style={styles.inputPassword}
+                                    placeholder={field.placeholder}
+                                    value={field.value}
+                                    onChangeText={field.onChange}
+                                />
+                            )}
+                        </View>
+                    )}
+                </View>
+            ))}
 
-          {/* Поле для редактирования электронной почты */}
-          <View style={styles.fieldWrapper}>
-            <Text style={styles.fieldText}>Електронна пошта</Text>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.inputField}
-                placeholder="Введіть нову пошту"
-                value={userEmail}
-                onChangeText={setUserEmail}
-              />
-            </View>
-          </View>
-
-          {/* Поля для редактирования пароля */}
-          <View style={styles.fieldWrapper}>
-            <Text style={styles.fieldText}>Пароль</Text>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.inputField}
-                placeholder="Старий пароль"
-                secureTextEntry
-                value={oldPassword}
-                onChangeText={setOldPassword}
-              />
-              <TextInput
-                style={styles.inputField}
-                placeholder="Новий пароль"
-                secureTextEntry
-                value={newPassword}
-                onChangeText={setNewPassword}
-              />
-              <TextInput
-                style={styles.inputField}
-                placeholder="Підтвердження нового паролю"
-                secureTextEntry
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-              />
-            </View>
-          </View>
-
-          {/* Кнопка сохранения */}
-          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-            <Text style={styles.saveButtonText}>Зберегти</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                <Text style={styles.saveButtonText}>Підтвердити</Text>
+            </TouchableOpacity>
         </View>
-      </View>
-    </Modal>
+    </View>
+</Modal>
+
 
       <View style={styles.header}>
         <Text style={styles.title}>Профіль</Text>
@@ -264,24 +292,34 @@ const UserProfile = () => {
 const styles = StyleSheet.create({
   modalContainerChange: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-  },
-  modalContentChange: {
-    width: "90%",
-    backgroundColor: "#ffffff",
-    borderRadius: 20,
-    padding: 20,
-    alignItems: "center",
-  },
-  modalTitleChange: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#6fa32b",
-    marginBottom: 20,
-    textAlign: "center",
-  },
+    justifyContent: 'flex-end', // Розташовує модальне вікно внизу екрана
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Напівпрозорий фон для фону
+},
+modalContentChange: {
+    width: '100%', // Ширина модального вікна
+    backgroundColor: '#ffffff', // Білий фон для самого модального вікна
+    borderTopLeftRadius: 20, // Закруглення верхнього лівого кута
+    borderTopRightRadius: 20, // Закруглення верхнього правого кута
+    padding: 20, // Відступи всередині модального вікна
+    elevation: 5, // Тінь для Android
+    shadowColor: '#000', // Колір тіні
+    shadowOffset: { width: 0, height: 2 }, // Зміщення тіні
+    shadowOpacity: 0.25, // Прозорість тіні
+    shadowRadius: 4, // Радіус тіні
+    height: '70%',
+},
+modalTitleChange: {
+  fontSize: 24,
+  fontWeight: 'bold',
+  color: '#6fa32b',
+  textAlign: 'center',
+  marginBottom: 20,
+},
+modalContainer: {
+  flex: 1,
+  justifyContent: 'flex-end',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+},
   fieldWrapper: {
     width: "100%",
     marginBottom: 15,
@@ -307,19 +345,34 @@ const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 10,
   },
-  saveButton: {
-    backgroundColor: "#6fa32b",
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 10,
-    alignItems: "center",
+  inputContainer: {
     marginTop: 10,
-  },
+},
+inputPassword: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    backgroundColor: '#d8e6be',
+    fontSize: 16,
+},
+saveButton: {
+  position: 'absolute', // Фіксоване положення
+  bottom: 20, // Відступ від нижнього краю модального вікна
+  left: '30%', // Вирівнювання по центру через 10% від краю
+  width: '50%', // Ширина кнопки 80% від ширини модального вікна
+  backgroundColor: '#6fa32b', // Зелений фон
+  paddingVertical: 12, // Вертикальні відступи всередині кнопки
+  borderRadius: 25, // Округлені кути кнопки
+  alignItems: 'center', // Вирівнювання тексту по центру
+},
   saveButtonText: {
-    fontSize: 18,
-    color: "#ffffff",
-    fontWeight: "bold",
-  },
+    color: '#ffffff', // Білий колір тексту
+    fontSize: 18, // Розмір шрифту
+    fontWeight: 'bold', // Жирний текст
+},
   closeButton: {
     marginTop: 10,
     alignItems: "center",
