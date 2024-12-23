@@ -169,9 +169,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     mainImage: {
-        width: '25%',
-        height: 180,
-        borderRadius: 10,
+        width: '90%', // На всю ширину экрана
+        height: 200, // Фиксированная высота
+        borderRadius: 10, // Убираем закругления для полноэкранного вида
+        marginHorizontal: 20, // Отступы от боков
+        marginTop: 20, // Отступы от боков
     },
     priceText: {
         fontSize: 20,
