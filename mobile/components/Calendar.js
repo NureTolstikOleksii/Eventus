@@ -93,12 +93,14 @@ const styles = StyleSheet.create({
         width: 18,
         height: 18,
         tintColor: '#FFFFFF',
+        marginTop: 30,
     },
     title: {
         fontSize: 24,
         color: '#FFFFFF',
         textAlign: 'center',
         flex: 1,
+        marginTop: 30,
     },
     eventsContainer: {
         paddingHorizontal: 20,
