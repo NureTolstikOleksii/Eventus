@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -7,214 +8,116 @@ import {
     Image,
     StyleSheet,
     Alert,
-    ActivityIndicator
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import BottomMenu from '../components/BottomMenu';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import Constants from 'expo-constants';
-import { Picker } from '@react-native-picker/picker';
-
-const API_URL = Constants.expoConfig?.extra?.API_KEY;
+import BottomMenu from './BottomMenu';
+import { useNavigation } from '@react-navigation/native';
 
 const ItemAddScreen = () => {
     const navigation = useNavigation();
-    const route = useRoute();
 
-    // providerId передаётся при навигации:
-    // navigation.navigate('ItemAddScreen', { providerId: 123 });
-    const { providerId } = route.params || { providerId: 1 };
-
-    // Поля для услуги
-    const [name, setName] = useState('');              // Название услуги
+    const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
+    const [service, setService] = useState(''); // Для выпадающего списка услуг
 
-    // Поля для локации
-    const [locationName, setLocationName] = useState('');      // Город (Location.name)
-    const [locationAddress, setLocationAddress] = useState(''); // Адрес (Location.address)
-
-    // Для категории (выпадающий список)
-    const [categories, setCategories] = useState([]);   // Список всех категорий
-    const [selectedCategory, setSelectedCategory] = useState(''); // Выбранная category_id
-
-    // Индикатор загрузки
-    const [loading, setLoading] = useState(false);
-
-    // Загружаем список категорий при маунте
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
-    const fetchCategories = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(`${API_URL}/services/categories`);
-            if (response.ok) {
-                const data = await response.json();
-                // data должен быть массивом вида [{category_id: 1, name: 'Квіти'}, ...]
-                setCategories(data);
-            } else {
-                Alert.alert('Помилка', 'Не вдалося завантажити категорії.');
-            }
-        } catch (error) {
-            Alert.alert('Помилка', `Не вдалося завантажити категорії: ${error.message}`);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Обработчик сохранения (пример)
-    const handleSaveService = async () => {
-        if (!name.trim()) {
-            Alert.alert('Помилка', 'Назва послуги обов’язкова!');
+    const handleSave = () => {
+        if (!name || !description || !price || !service) {
+            Alert.alert('Помилка', 'Будь ласка, заповніть усі поля.');
             return;
         }
-        try {
-            const bodyData = {
-                name,
-                description,
-                price: price ? Number(price) : 0,
-                // Если нужно, можно добавить provider_id: providerId,
-                location_name: locationName.trim(),
-                location_address: locationAddress.trim(),
-                category_id: selectedCategory ? Number(selectedCategory) : null,
-            };
-
-            const response = await fetch(`${API_URL}/services/`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(bodyData),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                Alert.alert('Успіх', `Послуга додана! ID: ${data.serviceId}`);
-                navigation.goBack();
-            } else {
-                const errData = await response.json();
-                Alert.alert('Помилка', errData.error || 'Не вдалося додати послугу');
-            }
-        } catch (error) {
-            Alert.alert('Помилка', `Сталася помилка: ${error.message}`);
-        }
+        Alert.alert('Успіх', `Назва: ${name}, Опис: ${description}, Ціна: ${price} €, Послуга: ${service}`);
     };
 
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
-            {/* Шапка */}
+            {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Image
-                        source={require('../assets/images/arrow.png')}
-                        style={styles.backIcon}
-                    />
+                    <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
-                <Text style={styles.title}>Додавання послуги</Text>
-                {/* Иконка «галочка» для сохранения */}
-                <TouchableOpacity onPress={handleSaveService}>
-                    <Image
-                        source={require('../assets/images/check.png')}
-                        style={styles.saveIcon}
-                    />
+                <Text style={styles.title}>Додавання</Text>
+                <TouchableOpacity onPress={handleSave}>
+                    <Image source={require('../assets/images/check.png')} style={styles.saveIcon} />
                 </TouchableOpacity>
             </View>
 
-            {/* Контент */}
+            {/* Content */}
             <View style={styles.content}>
-                {loading ? (
-                    <ActivityIndicator size="large" color="#A4C644" style={{ marginTop: 50 }} />
-                ) : (
-                    <>
-                        {/* Название услуги */}
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Назва послуги"
-                            placeholderTextColor="#333"
-                            value={name}
-                            onChangeText={setName}
-                        />
+                <TouchableOpacity style={styles.addPhotoButton}>
+                    <Text style={styles.addPhotoText}>Додати фото</Text>
+                    <Text style={styles.addServiceIcon}>+</Text>
+                </TouchableOpacity>
+                {/* Photo Preview */}
+                <Image source={require('../assets/images/flowers.png')} style={styles.flowerImage} />
 
-                        {/* Описание */}
-                        <TextInput
-                            style={[styles.input, styles.textArea]}
-                            placeholder="Опис послуги"
-                            placeholderTextColor="#333"
-                            multiline
-                            value={description}
-                            onChangeText={setDescription}
-                        />
+                {/* Input Fields */}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Назва"
+                    placeholderTextColor="#ffffff"
+                    value={name}
+                    onChangeText={setName}
+                />
+                <TextInput
+                    style={[styles.input, styles.textArea]}
+                    placeholder="Опис"
+                    placeholderTextColor="#ffffff"
+                    value={description}
+                    onChangeText={setDescription}
+                    multiline
+                />
+                <View style={styles.priceContainer}>
+                    <TextInput
+                        style={[styles.input, styles.priceInput]}
+                        placeholder="Ціна €"
+                        placeholderTextColor="#ffffff"
+                        keyboardType="numeric"
+                        value={price}
+                        onChangeText={setPrice}
+                    />
+                </View>
 
-                        {/* Цена */}
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Ціна"
-                            placeholderTextColor="#333"
-                            keyboardType="numeric"
-                            value={price}
-                            onChangeText={setPrice}
-                        />
-
-                        {/* Локация: город и адрес */}
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Місто (Location.name)"
-                            placeholderTextColor="#333"
-                            value={locationName}
-                            onChangeText={setLocationName}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Адреса (Location.address)"
-                            placeholderTextColor="#333"
-                            value={locationAddress}
-                            onChangeText={setLocationAddress}
-                        />
-
-                        {/* Выпадающий список категорий */}
-                        <View style={styles.pickerContainer}>
-                            <Picker
-                                selectedValue={selectedCategory}
-                                onValueChange={(val) => setSelectedCategory(val)}
-                                style={styles.picker}
-                            >
-                                <Picker.Item label="Оберіть категорію" value="" />
-                                {categories.map((cat) => (
-                                    <Picker.Item
-                                        key={cat.category_id}
-                                        label={cat.name}
-                                        value={cat.category_id.toString()}
-                                    />
-                                ))}
-                            </Picker>
-                        </View>
-
-                        {/* Кнопка сохранить */}
-                        <TouchableOpacity style={styles.saveButton} onPress={handleSaveService}>
-                            <Text style={styles.saveButtonText}>Зберегти</Text>
-                        </TouchableOpacity>
-                    </>
-                )}
+                {/* Выпадающее меню услуг */}
+                {/* <View style={styles.dropdownContainer}>
+                    <Picker
+                        selectedValue={service}
+                        onValueChange={(itemValue) => setService(itemValue)}
+                        style={styles.dropdown}
+                    >
+                        <Picker.Item label="Оберіть послугу" value="" />
+                        <Picker.Item label="Кейтеринг" value="Кейтеринг" />
+                        <Picker.Item label="Квіти" value="Квіти" />
+                        <Picker.Item label="Декор" value="Декор" />
+                        <Picker.Item label="Музика" value="Музика" />
+                    </Picker>
+                    <TouchableOpacity onPress={() => Alert.alert('Додайте послугу!')}>
+                        <Image source={require('../assets/images/plus.png')} style={styles.dropdownIcon} />
+                    </TouchableOpacity>
+                </View> */}
             </View>
 
+            {/* Bottom Menu */}
             <BottomMenu />
         </LinearGradient>
     );
 };
 
-export default ItemAddScreen;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#f2f2f2',
     },
     header: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         paddingHorizontal: 20,
         paddingTop: 50,
         paddingBottom: 15,
-        backgroundColor: '#a6cf4a',
-        alignItems: 'center',
+        marginBottom: 15,
+
     },
     backIcon: {
         width: 20,
@@ -229,54 +132,138 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     saveIcon: {
-        width: 40,
-        height: 35,
-        tintColor: '#ffffff',
-        position: 'absolute',
-        top: -10,
-        right: 10,
+        width: 40, // Ширина галочки
+        height: 35, // Высота галочки
+        tintColor: '#ffffff', // Белый цвет, чтобы соответствовать дизайну
+        position: 'absolute', // Абсолютная позиция для корректного слоя
+        opacity: 1, // Убедитесь, что галочка видима
+        top: -16, // Расстояние от верхнего края
+        right: 10, // Расстояние от правого края
+    
     },
     content: {
         flex: 1,
         alignItems: 'center',
         paddingHorizontal: 20,
-        paddingTop: 20,
+    },
+    addPhotoButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#A4C644',
+        borderRadius: 29,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        marginBottom: 10,
+        width: 310, // Ширина згідно з дизайном
+        height: 47, // Висота згідно з дизайном
+    },
+    addPhotoText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#ffffff',
+    },
+    flowerImage: {
+        width: 250,
+        height: 180,
+        borderRadius: 15,
+        marginBottom: 20,
     },
     input: {
-        width: '100%',
+        backgroundColor: '#A4C644',
+        borderRadius: 29,
+        paddingVertical: 12,
+        paddingHorizontal: 15,
+        width: '90%',
+        fontSize: 16,
+        marginBottom: 15,
+        color: '#ffffff',
+    },
+    textArea: {
+        height: 200,
+        textAlignVertical: 'top',
+        
+    },
+    priceContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '90%',
+        marginBottom: 15,
+    },
+    priceInput: {
+        flex: 1,
         backgroundColor: '#A4C644',
         borderRadius: 29,
         paddingVertical: 12,
         paddingHorizontal: 15,
         fontSize: 16,
-        color: '#fff',
-        marginBottom: 15,
+        color: '#ffffff',
     },
-    textArea: {
-        height: 80,
-        textAlignVertical: 'top',
-    },
-    pickerContainer: {
-        width: '100%',
-        backgroundColor: '#A4C644',
-        borderRadius: 29,
-        marginBottom: 15,
-    },
-    picker: {
-        width: '100%',
-        color: '#000',
+    currency: {
+        fontSize: 16,
+        color: '#ffffff',
         marginLeft: 10,
     },
-    saveButton: {
-        backgroundColor: '#6fa32b',
+    addServiceButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#A4C644',
         borderRadius: 29,
         paddingVertical: 12,
-        paddingHorizontal: 25,
-        marginTop: 20,
+        paddingHorizontal: 15,
+        width: '90%',
+        marginTop: 15,
     },
-    saveButtonText: {
-        color: '#fff',
+    addServiceText: {
         fontSize: 16,
-        fontWeight: 'bold',
+        color: '#ffffff',
     },
+    addServiceIcon: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#ffffff',
+    },
+
+    dropdownContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#A4C644',
+        borderRadius: 29,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        marginTop: 15,
+        width: '90%',
+        height: 50,
+        borderWidth: 0, // Убираем границы
+        alignSelf: 'center',
+    },
+    dropdown: {
+        flex: 1,
+        color: '#000000', // Цвет текста в списке
+        fontSize: 16,
+        borderWidth: 0, // Убираем границы
+        backgroundColor: '#A4C644', // Фон списка
+    },
+    dropdownItem: {
+        backgroundColor: '#A4C644', // Фон для каждого элемента списка
+        color: '#000000', // Белый текст
+        fontSize: 16,
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        borderWidth: 0, // Убираем границы
+        paddingVertical: 5,
+    },
+    dropdownIcon: {
+        width: 20,
+        height: 20,
+        marginLeft: 10,
+        borderWidth: 0, // Убираем границы
+        tintColor: '#A4C644',
+    },
+
 });
+
+export default ItemAddScreen;
