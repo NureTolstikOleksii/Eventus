@@ -81,6 +81,31 @@ const UserProfile = () => {
       }
   };
 
+  //Зміна імені 
+  const updateUserPassword = async (oldPassword, newPassword, confirmPassword) => {
+    try {
+        const response = await fetch(`${API_KEY}/change_data/update_user_password`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include', // Включення cookies для сесії
+            body: JSON.stringify({ oldPassword, newPassword, confirmPassword }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            Alert.alert('Успіх', result.message || 'Пароль успішно змінено.');
+        } else {
+            Alert.alert('Помилка', result.message || 'Не вдалося змінити пароль.');
+        }
+    } catch (error) {
+        console.error('Error updating password:', error.message);
+        Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+    }
+};
+
   // Викликаємо fetchProfileData при завантаженні компоненту
   useEffect(() => {
     fetchProfileData();
@@ -121,7 +146,20 @@ const UserProfile = () => {
             return;
         }
         updateUserName(userName); // Виклик API для оновлення імені
+    } else if (selectedField === "Пароль") {
+      if (!oldPassword || !newPassword || !confirmPassword) {
+        Alert.alert('Помилка', 'Будь ласка, заповніть усі поля.');
+        return;
     }
+
+    if (newPassword !== confirmPassword) {
+        Alert.alert('Помилка', 'Новий пароль і підтвердження пароля не збігаються.');
+        return;
+    }
+
+    // Виклик функції для оновлення паролю
+    updateUserPassword(oldPassword, newPassword, confirmPassword);
+  }
     // Інші логіки збереження для інших полів
     setModalVisible(false); // Закриття модального вікна після збереження
 };
