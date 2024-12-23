@@ -196,7 +196,7 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                 {/* Кнопка заказать */}
                 <TouchableOpacity
                     style={styles.orderButton}
-                    onPress={() => navigation.navigate('DisplayOrder', {
+                    onPress={() => navigation.navigate('Calendar', {
                         orderId: serviceId || '', // Передаем ID услуги как orderId
                     })}
                 >
