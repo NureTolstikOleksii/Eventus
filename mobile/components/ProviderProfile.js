@@ -449,7 +449,6 @@ const fetchNotifications = async () => {
     </View>
 </Modal>
 
-
             {/* Фиксированное меню */}
             <BottomMenu />
         </LinearGradient>

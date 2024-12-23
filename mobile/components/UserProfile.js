@@ -33,7 +33,7 @@ const UserProfile = () => {
     try {
       const response = await fetch(`${API_KEY}/profile/customer/profile`, {
         method: "GET",
-        credentials: "include", // Передача сесії
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -63,7 +63,6 @@ const UserProfile = () => {
   const handleLogout = async () => {
     try {
       const response = await fetch(`${API_KEY}/profile/logout`, {
-        // Добавлен `/` перед profile
         method: "POST",
         credentials: "include",
       });

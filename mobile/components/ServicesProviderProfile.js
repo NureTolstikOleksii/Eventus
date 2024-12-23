@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import BottomMenu from "../components/BottomMenu"; // Подключаем компонент нижнего меню
+import BottomMenu from "../components/BottomMenu";
 
 const ServicesScreen = ({ navigation }) => {
   const services = [
