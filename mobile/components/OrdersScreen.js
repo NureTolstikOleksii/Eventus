@@ -13,22 +13,27 @@ const OrdersScreen = () => {
 
     const fetchUserOrders = async () => {
         try {
+            console.log("Fetching user orders..."); // Для відлагодження
             const response = await fetch(`${API_KEY}/profile/user_orders`, {
                 method: 'GET',
                 credentials: 'include', // Передача cookies для сесії
             });
-
+    
             if (response.ok) {
                 const orders = await response.json();
+                console.log("Orders fetched successfully:", orders); // Перевіряємо, що отримано
                 setOrders(orders); // Оновлення стану замовлень
             } else {
-                Alert.alert('Помилка', 'Не вдалося завантажити замовлення.');
+                const errorResponse = await response.json();
+                console.error("Failed to fetch orders:", errorResponse);
+                Alert.alert('Помилка', errorResponse.message || 'Не вдалося завантажити замовлення.');
             }
         } catch (error) {
             console.error('Error fetching orders:', error.message);
             Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
         }
     };
+    
 
     // Завантаження замовлень при завантаженні компонента
     useEffect(() => {
@@ -49,7 +54,7 @@ const OrdersScreen = () => {
             <ScrollView contentContainerStyle={[styles.ordersContainer, { paddingBottom: 100 }]}>
     {orders.length > 0 ? (
         orders.map((order, index) => (
-            <View key={index} style={[styles.orderItem, { backgroundColor: '#f2e28b' }]}>
+            <View key={index} style={styles.orderItem}>
                 <View style={styles.textContainer}>
                     <View style={styles.textLeft}>
                         <Text style={styles.orderTitle}>{order.order_name}</Text>
@@ -63,9 +68,6 @@ const OrdersScreen = () => {
         <Text style={styles.noOrdersText}>Замовлень немає</Text>
     )}
 </ScrollView>
-
-
-
 
         {/* Кнопка с переходом */}
         {/* <TouchableOpacity 
@@ -93,12 +95,11 @@ const styles = StyleSheet.create({
         paddingTop: 60,
     },
     noOrdersText: {
-        fontSize: 16,
+        fontSize: 16, // Збільшуємо шрифт
         color: '#999',
         textAlign: 'center',
         marginTop: 20,
     },
-    
     backButton: {
         position: 'absolute',
         left: 20,
@@ -108,7 +109,6 @@ const styles = StyleSheet.create({
         width: 20,
         height: 25,
         tintColor: '#ffffff',
-
     },
     title: {
         fontSize: 24,
@@ -122,25 +122,15 @@ const styles = StyleSheet.create({
         paddingBottom: 100,
     },
     orderItem: {
-        backgroundColor: '#f2e28b', // Колір фону елемента
-        borderRadius: 10,
+        backgroundColor: '#a6cf4a', // Яскравий зелений фон
+        borderRadius: 15, // Збільшуємо закруглення
         marginVertical: 10,
-        padding: 15, // Додаємо внутрішній відступ
-        elevation: 3, // Тінь для Android
-        shadowColor: '#000', // Колір тіні для iOS
+        padding: 20, // Збільшуємо внутрішній відступ
+        elevation: 5, // Тінь для Android
+        shadowColor: '#000', // Тінь для iOS
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-    },
-    overlay: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        top: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.35)',
-        justifyContent: 'center',
-        paddingHorizontal: 15,
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
     },
     textContainer: {
         flexDirection: 'row',
@@ -151,17 +141,18 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     orderTitle: {
-        fontSize: 16,
-        color: '#333', // Темний текст
+        fontSize: 18, // Більший текст
+        color: '#ffffff', // Білий текст
         fontWeight: 'bold',
+        marginBottom: 5, // Відступ між текстами
     },
     orderDate: {
-        color: '#555', // Сірий текст
-        fontSize: 14,
+        color: '#ffffff', // Білий текст
+        fontSize: 16, // Більший розмір шрифту
     },
     orderPrice: {
-        color: '#333', // Темний текст
-        fontSize: 14,
+        color: '#ffffff', // Білий текст
+        fontSize: 16, // Більший текст
         fontWeight: 'bold',
     },
     addButton: {
@@ -197,5 +188,6 @@ const styles = StyleSheet.create({
     menuText: { fontSize: 20, color: '#6fa32b' },
     arrowIcon: { width: 15, height: 15, tintColor: '#6fa32b' },
 });
+
 
 export default OrdersScreen;
