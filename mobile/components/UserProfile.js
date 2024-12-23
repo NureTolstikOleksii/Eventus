@@ -106,6 +106,32 @@ const UserProfile = () => {
     }
 };
 
+// Функція для зміни електронної пошти
+const updateUserEmail = async (newEmail) => {
+  try {
+      const response = await fetch(`${API_KEY}/change_data/update_user_email`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          credentials: 'include', // Включення cookies для сесії
+          body: JSON.stringify({ newEmail }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+          Alert.alert('Успіх', result.message || 'Електронна пошта успішно змінена.');
+          setUserEmail(newEmail); // Оновлення електронної пошти в стані
+      } else {
+          Alert.alert('Помилка', result.message || 'Не вдалося змінити електронну пошту.');
+      }
+  } catch (error) {
+      console.error('Error updating email:', error.message);
+      Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+  }
+};
+
   // Викликаємо fetchProfileData при завантаженні компоненту
   useEffect(() => {
     fetchProfileData();
@@ -159,7 +185,19 @@ const UserProfile = () => {
 
     // Виклик функції для оновлення паролю
     updateUserPassword(oldPassword, newPassword, confirmPassword);
-  }
+  }else  if (selectedField === "Електронна пошта") {
+    if (!userEmail || userEmail.trim() === '') {
+        Alert.alert('Помилка', 'Будь ласка, введіть нову електронну пошту.');
+        return;
+    }
+    updateUserEmail(userEmail); // Виклик API для оновлення електронної пошти
+} else if (selectedField === "Ім'я") {
+    if (!userName || userName.trim() === '') {
+        Alert.alert('Помилка', 'Будь ласка, введіть нове ім\'я.');
+        return;
+    }
+    updateUserName(userName); // Виклик API для оновлення імені
+}
     // Інші логіки збереження для інших полів
     setModalVisible(false); // Закриття модального вікна після збереження
 };
