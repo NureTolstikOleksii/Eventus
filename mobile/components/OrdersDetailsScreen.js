@@ -198,9 +198,12 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                 {/* Кнопка заказать */}
                 <TouchableOpacity
                     style={styles.orderButton}
-                    onPress={() => navigation.navigate('Calendar', {
+                    onPress={() => navigation.navigate('BeforePayScreen', {
                         orderId: serviceId || '', // Передаем ID услуги как orderId
+                        title: title || 'Назва відсутня',
+                        price: price || 'Ціна відсутня',
                     })}
+
                 >
                     <Text style={styles.orderButtonText}>Замовити</Text>
                 </TouchableOpacity>
