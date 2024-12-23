@@ -53,15 +53,17 @@ const styles = StyleSheet.create({
         paddingTop: 20,
     },
     backIcon: {
-        width: 18,
-        height: 18,
+        width: 20,
+        height: 25,
         tintColor: '#ffffff',
+        marginTop: 25,
     },
     title: {
         fontSize: 24,
         color: '#ffffff',
         textAlign: 'center',
         flex: 1,
+        marginTop: 30,
     },
     servicesContainer: {
         paddingHorizontal: 20,

@@ -20,7 +20,8 @@ import PecketiDetailsScreen from './components/PecketiDetailsScreen';
 import Calendar from './components/Calendar';
 import OrderLists from './components/OrderLists';
 import DisplayOrder from './components/DisplayOrder';
-
+import BeforePayScreen from './components/BeforePayScreen';
+import PaymentScreen from './components/PaymentScreen';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -46,6 +47,8 @@ export default function App() {
                 <Stack.Screen name="Calendar" component={Calendar} options={{ headerShown: false }} />
                 <Stack.Screen name="OrderLists" component={OrderLists} options={{ headerShown: false }} />
                 <Stack.Screen name="DisplayOrder" component={DisplayOrder} options={{ headerShown: false }} />
+                <Stack.Screen name="BeforePayScreen" component={BeforePayScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );

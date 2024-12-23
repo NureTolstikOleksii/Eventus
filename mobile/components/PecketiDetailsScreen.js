@@ -14,13 +14,14 @@ const PecketiDetailsScreen = () => {
         
     };
     const {
-        image,
-        title = 'Пакет “Ніжність”',
-        florist = 'Василій',
-        numberOfServices = 5,
-        price = 10000,
-        rating = 4,
-        description = 'Пакет “Ніжність” від флориста Василія — це витончений набір композицій із білих та червоних букетів троянд, півоній та зелені, ідеально підійде для весілля або романтичної події.',
+        packageId = '',
+        title = 'Без назви',
+        description = 'Опис відсутній',
+        photoUrl,
+        price = 0,
+        services = [],
+        florist = 'Невідомо',
+        rating = 0,
     } = route.params || {};
 
     return (
@@ -32,68 +33,53 @@ const PecketiDetailsScreen = () => {
                         <Image source={require('../assets/images/backarrow.png')} style={styles.iconImage} resizeMode="contain" />
                     </TouchableOpacity>
                     <Text style={styles.pageTitle}>{title}</Text>
-                    <TouchableOpacity style={styles.favoriteButton}>
+{/*                    <TouchableOpacity style={styles.favoriteButton}>
                         <Image source={require('../assets/images/Vector.png')} style={styles.iconImage} resizeMode="contain" />
-                    </TouchableOpacity>
-                </View>
-
-                {/* Изображение */}
-                <View style={styles.imageContainer}>
-                <Image 
-                source={require('../assets/images/flowerspackages.png')} 
-                style={styles.mainImage} 
-                resizeMode="cover" 
-                />
+                    </TouchableOpacity> */}
                 </View>
 
                 {/* Подзаголовки */}
                 <View style={styles.subheaderContainer}>
                     <TouchableOpacity onPress={() => navigation.navigate('ProfileOrder', { florist })}>
-                        <Text style={styles.florist}>Флорист: {florist}</Text>
+                        <Text style={styles.florist}>Постачальник: {florist}</Text>
                     </TouchableOpacity>
-                    <Text style={styles.servicesText}>{numberOfServices} послуг</Text>
                 </View>
 
-                {/* Рейтинг */}
-                <View style={styles.ratingContainer}>
-                    {[...Array(5)].map((_, i) => (
-                        <FontAwesome
-                            key={i}
-                            name="star"
-                            size={24}
-                            color={i < rating ? '#FFD700' : '#BDBDBD'} // Желтый для рейтинга
-                            style={styles.starIcon}
-                        />
-                    ))}
-                </View>
+                {/* Изображение */}
+                <Image
+                    source={photoUrl ? { uri: photoUrl } : require('../assets/images/flowerspackages.png')}
+                    style={styles.mainImage}
+                    resizeMode="cover"
+                />
 
                 {/* Цена и описание */}
-                <Text style={styles.priceText}>{price} грн</Text>
+                <Text style={styles.priceText}>Ціна: {price} грн</Text>
                 <Text style={styles.descriptionText}>{description}</Text>
 
-                {/* Меню пунктов
-                <TouchableOpacity style={styles.menuItem}>
+                {/* Меню пунктов */}
+                <TouchableOpacity style={styles.menuItem} 
+                    onPress={() => { alert('Чат знаходиться у розробці. Слідкуйте за оновленнями!'); }}>
                     <Text style={styles.menuItemText}>Переглянути послуги</Text>
                     <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} resizeMode="contain" />
                 </TouchableOpacity>
-                <View style={styles.separator} /> */}
+                <View style={styles.separator} />
 
-                    <TouchableOpacity 
-                    style={styles.menuItem} 
-                    onPress={() => navigation.navigate('Calendar')} // Добавлен переход на Calendar.js
-                    >
-                    <Text style={styles.menuItemText}>Календар</Text>
-                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} resizeMode="contain" />
-                    </TouchableOpacity>
-                    <View style={styles.separator} />
+                <TouchableOpacity 
+                style={styles.menuItem} 
+                onPress={() => navigation.navigate('Calendar')} // Добавлен переход на Calendar.js
+                >
+                <Text style={styles.menuItemText}>Календар</Text>
+                <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} resizeMode="contain" />
+                </TouchableOpacity>
+                <View style={styles.separator} />
 
-                    <TouchableOpacity 
-                    style={styles.menuItem} 
-                    onPress={() => navigation.navigate('Reviews')}
-                    >
-                    <Text style={styles.menuItemText}>Відгуки</Text>
-                    <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} resizeMode="contain" />
-                    </TouchableOpacity>
+                <TouchableOpacity 
+                style={styles.menuItem} 
+                onPress={() => navigation.navigate('Reviews')}
+                >
+                <Text style={styles.menuItemText}>Відгуки</Text>
+                <Image source={require('../assets/images/arrow_right.png')} style={styles.arrowIcon} resizeMode="contain" />
+                </TouchableOpacity>
 
 
                 {/* Кнопка "Замовити" */}
@@ -138,6 +124,7 @@ const styles = StyleSheet.create({
         fontSize: 26,
         color: '#fff',
         fontFamily: 'Kurale',
+        marginRight: 15,
     },
     favoriteButton: {
         padding: 10,
@@ -170,11 +157,14 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     mainImage: {
-        width: '25%',
-        height: 180,
+        width: '90%',
+        height: 200,
         borderRadius: 10,
+        marginHorizontal: 20,
+        marginTop: 20,
     },
     priceText: {
+        marginTop: 20,
         fontSize: 20,
         textAlign: 'center',
         color: '#83B620',

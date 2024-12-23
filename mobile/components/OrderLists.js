@@ -59,12 +59,14 @@ const styles = StyleSheet.create({
         width: 18,
         height: 18,
         tintColor: '#ffffff',
+        marginTop:30,
     },
     title: {
         fontSize: 24,
         color: '#ffffff',
         textAlign: 'center',
         flex: 1,
+        marginTop:30,
     },
     ordersContainer: {
         paddingHorizontal: 20,
