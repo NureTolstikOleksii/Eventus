@@ -16,6 +16,10 @@ const ProviderProfile = ({ navigation }) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    const [notifications, setNotifications] = useState([]);
+    const [loadingNotifications, setLoadingNotifications] = useState(false);
+
+
     const [selectedCategory, setSelectedCategory] = useState('');
     const [userName, setUserName] = useState('Lee Know');
     const [organizationName, setOrganizationName] = useState('Назва організації');
@@ -158,6 +162,31 @@ const handleNameChange = async (newName) => {
     }
 };
 
+//Сповіщення
+const fetchNotifications = async () => {
+    setLoadingNotifications(true); // Початок завантаження
+    try {
+        const response = await fetch(`${API_KEY}/profile/notifications`, {
+            method: 'GET',
+            credentials: 'include', // Включення cookies для сесії
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setNotifications(data); // Збереження сповіщень у стані
+        } else {
+            console.error('Error fetching notifications:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error fetching notifications:', error.message);
+    } finally {
+        setLoadingNotifications(false); // Завершення завантаження
+    }
+};
+
     // Функция выхода из аккаунта
     const handleLogout = async () => {
         try {
@@ -190,7 +219,6 @@ const handleNameChange = async (newName) => {
         { label: 'Адреса електронної пошти', placeholder: 'Нова адреса ел. пошти' },
         { label: 'Пароль', placeholder: 'Новий пароль' },
         { label: 'Назва підприємства', placeholder: 'Нова назва підприємства' },
-        { label: 'Категорія послуг', placeholder: '' },
     ];
 
     const categories = [
@@ -254,8 +282,10 @@ const handleNameChange = async (newName) => {
     
 
     const toggleNotificationsModal = () => {
-        setNotificationsModalVisible(!isNotificationsModalVisible);
-    };
+        if (!isNotificationsModalVisible) {
+            fetchNotifications(); // Завантаження сповіщень
+        }
+        setNotificationsModalVisible(!isNotificationsModalVisible);    };
 
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
@@ -388,37 +418,42 @@ const handleNameChange = async (newName) => {
             </ScrollView>
             {/* Модальное окно "Сповіщення" */}
             <Modal
-                visible={isNotificationsModalVisible}
-                transparent={true}
-                animationType="slide"
-                onRequestClose={toggleNotificationsModal}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.fullWidthModal}>
-                        <Text style={styles.modalTitle}>Сповіщення</Text>
-                        <ScrollView>
-                            {[
-                                { text: 'Відгук від Валєра', number: '№34528745', date: '30.11.2024' },
-                                { text: 'Відгук від Валєра', number: '№34528745', date: '29.11.2024' },
-                                { text: 'Відгук від Валєра', number: '№34528745', date: '28.11.2024' },
-                            ].map((notification, index) => (
-                                <View key={index} style={styles.notificationItem}>
-                                    <View style={styles.notificationContent}>
-                                        <View style={styles.textContainer}>
-                                            <Text style={styles.notificationText}>{notification.text}</Text>
-                                            <Text style={styles.notificationNumber}>{notification.number}</Text>
-                                        </View>
-                                        <Text style={styles.notificationDate}>{notification.date}</Text>
-                                    </View>
+    visible={isNotificationsModalVisible}
+    transparent={true}
+    animationType="slide"
+    onRequestClose={toggleNotificationsModal}
+>
+    <View style={styles.modalContainer}>
+        <View style={styles.fullWidthModal}>
+            <Text style={styles.modalTitle}>Сповіщення</Text>
+            {loadingNotifications ? (
+                <Text>Завантаження...</Text>
+            ) : notifications.length > 0 ? (
+                <ScrollView>
+                    {notifications.map((notification, index) => (
+                        <View key={index} style={styles.notificationItem}>
+                            <View style={styles.notificationContent}>
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.notificationText}>
+                                        {notification.notification_text}
+                                    </Text>
+                                    <Text style={styles.notificationDate}>
+                                        {new Date(notification.notification_time).toLocaleString()}
+                                    </Text>
                                 </View>
-                            ))}
-                        </ScrollView>
-                        <TouchableOpacity style={styles.closeButton} onPress={toggleNotificationsModal}>
-                            <Text style={styles.closeButtonText}>Закрити</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
+                            </View>
+                        </View>
+                    ))}
+                </ScrollView>
+            ) : (
+                <Text>Сповіщень немає</Text>
+            )}
+            <TouchableOpacity style={styles.closeButton} onPress={toggleNotificationsModal}>
+                <Text style={styles.closeButtonText}>Закрити</Text>
+            </TouchableOpacity>
+        </View>
+    </View>
+</Modal>
 
 
             {/* Фиксированное меню */}
