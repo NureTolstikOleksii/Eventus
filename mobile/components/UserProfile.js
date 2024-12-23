@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  Modal,
+  TextInput,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Constants from "expo-constants";
@@ -17,9 +19,14 @@ const API_KEY = Constants.expoConfig?.extra?.API_KEY;
 const UserProfile = () => {
   const navigation = useNavigation();
 
-  // Стан для імені та фото користувача
-  const [userName, setUserName] = useState(""); // Назва функції має бути `setUserName`
+  // Стан для імені та фото користувача// Назва функції має бути `setUserName`
   const [userPhoto, setUserPhoto] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [userName, setUserName] = useState("Ім'я користувача");
+  const [userEmail, setUserEmail] = useState("email@example.com");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // Функція для отримання даних профілю
   const fetchProfileData = async () => {
@@ -81,18 +88,89 @@ const UserProfile = () => {
     }
   };
 
+  const handleSave = () => {
+    console.log("Имя:", userName);
+    console.log("Email:", userEmail);
+    console.log("Пароль:", newPassword);
+    setModalVisible(false); // Закрыть модальное окно после сохранения
+  };
+
   return (
     <LinearGradient
       colors={["#a6cf4a", "#f2e28b", "#ffffff"]}
       style={styles.container}
     >
+    <Modal visible={isModalVisible} transparent={true} animationType="fade">
+      <View style={styles.modalContainerChange}>
+        <View style={styles.modalContentChange}>
+          <Text style={styles.modalTitleChange}>Редагування профілю</Text>
+
+          {/* Поле для редактирования имени */}
+          <View style={styles.fieldWrapper}>
+            <Text style={styles.fieldText}>Ім'я</Text>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.inputField}
+                placeholder="Введіть нове ім'я"
+                value={userName}
+                onChangeText={setUserName}
+              />
+            </View>
+          </View>
+
+          {/* Поле для редактирования электронной почты */}
+          <View style={styles.fieldWrapper}>
+            <Text style={styles.fieldText}>Електронна пошта</Text>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.inputField}
+                placeholder="Введіть нову пошту"
+                value={userEmail}
+                onChangeText={setUserEmail}
+              />
+            </View>
+          </View>
+
+          {/* Поля для редактирования пароля */}
+          <View style={styles.fieldWrapper}>
+            <Text style={styles.fieldText}>Пароль</Text>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.inputField}
+                placeholder="Старий пароль"
+                secureTextEntry
+                value={oldPassword}
+                onChangeText={setOldPassword}
+              />
+              <TextInput
+                style={styles.inputField}
+                placeholder="Новий пароль"
+                secureTextEntry
+                value={newPassword}
+                onChangeText={setNewPassword}
+              />
+              <TextInput
+                style={styles.inputField}
+                placeholder="Підтвердження нового паролю"
+                secureTextEntry
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+              />
+            </View>
+          </View>
+
+          {/* Кнопка сохранения */}
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Text style={styles.saveButtonText}>Зберегти</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+
       <View style={styles.header}>
         <Text style={styles.title}>Профіль</Text>
-        <TouchableOpacity>
-          <Image
-            source={require("../assets/images/pencil.png")}
-            style={styles.editIcon}
-          />
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <Image source={require("../assets/images/pencil.png")} style={styles.editIcon} />
         </TouchableOpacity>
       </View>
       <View style={styles.profileContainer}>
@@ -185,6 +263,77 @@ const UserProfile = () => {
 };
 
 const styles = StyleSheet.create({
+  modalContainerChange: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+  },
+  modalContentChange: {
+    width: "90%",
+    backgroundColor: "#ffffff",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalTitleChange: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#6fa32b",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  fieldWrapper: {
+    width: "100%",
+    marginBottom: 15,
+  },
+  fieldText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#6fa32b",
+    marginBottom: 10,
+  },
+  inputContainer: {
+    width: "100%",
+  },
+  inputField: {
+    width: "100%",
+    height: 50,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    backgroundColor: "#f9f9f9",
+    color: "#333",
+    marginBottom: 10,
+  },
+  saveButton: {
+    backgroundColor: "#6fa32b",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  saveButtonText: {
+    fontSize: 18,
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
+  closeButton: {
+    marginTop: 10,
+    alignItems: "center",
+    backgroundColor: "#d9534f",
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+  },
+  closeButtonText: {
+    fontSize: 18,
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
   container: { flex: 1 },
   header: {
     flexDirection: "row",

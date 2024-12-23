@@ -92,8 +92,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionContainer: {
-    marginVertical: 10,
+    marginVertical: 20,
     marginHorizontal: 20,
+
   },
   sectionTitle: {
     fontSize: 18,
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     padding: 10,
     borderRadius: 10,
-    height: 80,
+    height: 150,
     textAlignVertical: "top",
     borderColor: "#83B620",
     borderWidth: 1,
