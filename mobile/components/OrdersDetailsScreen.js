@@ -120,7 +120,7 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                 {/* Кнопка назад */}
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                     <Image
-                        source={require('../assets/images/backarrow.png')} // Вкажи шлях до свого зображення
+                        source={require('../assets/images/backarrow.png')}
                         style={styles.backImage}
                     />
                 </TouchableOpacity>
@@ -136,26 +136,26 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                     />
                 </TouchableOpacity>
                 {/* Заголовок */}
-                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.title}>{title || 'Назва відсутня'}</Text>
                 {/* Флорист */}
                 <TouchableOpacity onPress={() => navigation.navigate('ProfileOrder', { florist })}>
-                    <Text style={styles.florist}>Флорист: {florist}</Text>
+                    <Text style={styles.florist}>Флорист: {florist || 'Невідомо'}</Text>
                 </TouchableOpacity>
-
+    
                 {/* Картинка */}
                 <Image
                     source={photoUrl ? { uri: photoUrl } : require('../assets/images/placeholder.jpg')}
                     style={styles.image}
                     resizeMode="cover"
                 />
-
+    
                 {/* Цена и рейтинг */}
-                <Text style={styles.price}>Ціна: {price} грн</Text>
+                <Text style={styles.price}>Ціна: {price || 0} грн</Text>
                 <View style={styles.ratingContainer}>
                     {[...Array(5)].map((_, i) => {
                         const fullStar = Math.floor(rating); // Ціла частина рейтингу
                         const hasHalfStar = rating - fullStar >= 0.5; // Чи є половина зірки
-
+    
                         // Визначаємо тип зірки (заповнена, половина, порожня)
                         const starType =
                             i < fullStar
@@ -163,7 +163,7 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                                 : i === fullStar && hasHalfStar
                                 ? 'star-half-full' // Наполовину заповнена
                                 : 'star-o'; // Порожня
-
+    
                         return (
                             <FontAwesome
                                 key={i}
@@ -175,40 +175,41 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                         );
                     })}
                 </View>
-
+    
                 {/* Описание */}
-                <Text style={styles.description}>{description}</Text>
-
+                <Text style={styles.description}>{description || 'Опис відсутній'}</Text>
+    
                 {/* Ссылки: Календарь и Отзывы */}
                 <View style={styles.linkContainer}>
                     <TouchableOpacity style={styles.linkItem} onPress={() => navigation.navigate('Calendar')}>
                         <Text style={styles.linkText}>Календар</Text>
                         <FontAwesome name="angle-right" size={24} color="#83B620" />
-                    </TouchableOpacity >
-                    <View style={styles.separator} /> {/* Линия-разделитель */}
+                    </TouchableOpacity>
+                    <View style={styles.separator} />
+                    
                     <TouchableOpacity style={styles.linkItem} onPress={() => navigation.navigate('Reviews')}>
                         <Text style={styles.linkText}>Відгуки</Text>
                         <FontAwesome name="angle-right" size={24} color="#83B620" />
                     </TouchableOpacity>
                 </View>
-
+    
                 {/* Кнопка заказать */}
                 <TouchableOpacity
                     style={styles.orderButton}
                     onPress={() => navigation.navigate('DisplayOrder', {
-                        orderId: serviceId, // Передаем ID услуги как orderId
+                        orderId: serviceId || '', // Передаем ID услуги как orderId
                     })}
                 >
                     <Text style={styles.orderButtonText}>Замовити</Text>
                 </TouchableOpacity>
             </ScrollView>
-
+    
             {/* Нижнее меню */}
             <BottomMenu />
-        </LinearGradient >
+        </LinearGradient>
     );
-};
-
+}
+    
 export default OrdersDetailsScreen;
 
 const styles = StyleSheet.create({

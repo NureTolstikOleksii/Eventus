@@ -81,7 +81,7 @@ const Calendar = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, paddingTop: 30 },
+    container: { flex: 1, paddingTop: 10 },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
