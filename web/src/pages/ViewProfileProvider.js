@@ -8,6 +8,15 @@ import serviceImage1 from "../assets/red-roses.jpg";
 import serviceImage2 from "../assets/flowers-image.jpg";
 import reviewUser2 from '../assets/yellow-flower.jpg';
 import reviewUser3 from "../assets/rewiew-image.jpg";
+import prov1 from "../assets/img/prov1.jpg";
+import marina from "../assets/img/marina.jpg";
+import review1 from "../assets/img/review1.jpg";
+import review2 from "../assets/img/review2.jpg";
+import review3 from "../assets/img/review3.jpg";
+
+
+
+
 function ViewProfileProvider() {
     const [expandedBlocks, setExpandedBlocks] = useState({
         services: false,
@@ -156,9 +165,9 @@ function ViewProfileProvider() {
 
     // Пример данных профиля
     const profileData = {
-        name: "Валєра Х",
-        organization: "РОМАШКА",
-        image: user,
+        name: "Валерій",
+        organization: "Квіти від Валєри",
+        image: prov1,
         rating: 4, // рейтинг в виде числа (от 0 до 5)
     };
 

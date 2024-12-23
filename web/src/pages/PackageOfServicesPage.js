@@ -11,14 +11,14 @@ import { Link } from "react-router-dom";
 import review4 from "../assets/img/review4.jpg";
 import review5 from "../assets/img/review5.jpg";
 import review6 from "../assets/img/review6.jpg";
-
+import marina from "../assets/img/marina.jpg";
 
 const packageData = {
-  name: 'Букет з червоних роз',
+  name: 'Набір польвих квітів',
   florist: "Флорист Василій",
   price: "100 000",
   description:
-    "“Букет з червоних роз” — це натуральність, тепло і чарівність природи в кожній деталі. У цьому пакеті зібрано лише сезонні квіти, вирощені з любов’ю на місцевих грядках. Ідеальний вибір для тих, хто цінує автентичність і простоту.",
+    "Цей набір польових квітів — це втілення природи у найкращих її формах. В ньому зібрано різноманіття квітів, що ростуть на полях і лугах, кожна квітка є символом краси дикої природи. Ідеальний вибір для тих, хто хоче привнести у свій день атмосферу свіжості, простоти та природної елегантності.",
   image: serviceImage2,
   rating: 5,
 
@@ -70,7 +70,7 @@ const reviews = [
       "Чудовий букет, виглядав натурально і свіжо! Рекомендую!",
     rating: 5,
     image: review4,
-    userImage: reviewUser,
+    userImage: marina,
   },
   {
     author: "Анатолій",
