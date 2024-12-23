@@ -183,7 +183,9 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
     
                 {/* Ссылки: Календарь и Отзывы */}
                 <View style={styles.linkContainer}>
-                    <TouchableOpacity style={styles.linkItem} onPress={() => navigation.navigate('Calendar')}>
+                    <TouchableOpacity style={styles.linkItem} onPress={() => navigation.navigate('Calendar', {
+                        role: sessionData?.role || 'null'
+                    })}>
                         <Text style={styles.linkText}>Календар</Text>
                         <FontAwesome name="angle-right" size={24} color="#83B620" />
                     </TouchableOpacity>
