@@ -407,16 +407,17 @@ const HomeScreen = () => {
                                                 key={index}
                                                 style={styles.topPackageCard}
                                                 onPress={() => {
-                                                    navigation.navigate('PackageDetailsScreen', {
-                                                        packageId: pkg.package_id,
-                                                        title: pkg.name,
-                                                        description: pkg.description,
-                                                        photoUrl: pkg.photo_url,
-                                                        price: pkg.price,
-                                                        duration: pkg.duration,
-                                                        services: pkg.services,
+                                                    navigation.navigate('PecketiDetailsScreen', {
+                                                        serviceId: pkg.service_id,
+                                                        title: pkg.name || 'Без назви',
+                                                        description: pkg.description || 'Опис відсутній',
+                                                        photoUrl: pkg.photo_url || '../assets/images/placeholder.jpg',
+                                                        price: pkg.price || 0,
+                                                        rating: pkg.rating || 0,
+                                                        florist: pkg.provider_name || 'Невідомо',
+                                                        services: pkg.services || [],
                                                     });
-                                                }}
+                                                 }}
                                             >
                                                 <Image
                                                     source={

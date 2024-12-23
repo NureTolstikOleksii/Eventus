@@ -14,13 +14,14 @@ const PecketiDetailsScreen = () => {
         
     };
     const {
-        image,
-        title = 'Пакет “Ніжність”',
-        florist = 'Василій',
-        numberOfServices = 5,
-        price = 10000,
-        rating = 4,
-        description = 'Пакет “Ніжність” від флориста Василія — це витончений набір композицій із білих та червоних букетів троянд, півоній та зелені, ідеально підійде для весілля або романтичної події.',
+        packageId = '',
+        title = 'Без назви',
+        description = 'Опис відсутній',
+        photoUrl,
+        price = 0,
+        services = [],
+        florist = 'Невідомо',
+        rating = 0,
     } = route.params || {};
 
     return (
@@ -38,20 +39,18 @@ const PecketiDetailsScreen = () => {
                 </View>
 
                 {/* Изображение */}
-                <View style={styles.imageContainer}>
-                <Image 
-                source={require('../assets/images/flowerspackages.png')} 
-                style={styles.mainImage} 
-                resizeMode="cover" 
+                <Image
+                    source={photoUrl ? { uri: photoUrl } : require('../assets/images/flowerspackages.png')}
+                    style={styles.mainImage}
+                    resizeMode="cover"
                 />
-                </View>
 
                 {/* Подзаголовки */}
                 <View style={styles.subheaderContainer}>
                     <TouchableOpacity onPress={() => navigation.navigate('ProfileOrder', { florist })}>
                         <Text style={styles.florist}>Флорист: {florist}</Text>
                     </TouchableOpacity>
-                    <Text style={styles.servicesText}>{numberOfServices} послуг</Text>
+                    <Text style={styles.servicesText}>{services.length || 0} послуг</Text>
                 </View>
 
                 {/* Рейтинг */}
@@ -61,7 +60,7 @@ const PecketiDetailsScreen = () => {
                             key={i}
                             name="star"
                             size={24}
-                            color={i < rating ? '#FFD700' : '#BDBDBD'} // Желтый для рейтинга
+                            color={i < rating ? '#FFD700' : '#BDBDBD'}
                             style={styles.starIcon}
                         />
                     ))}
