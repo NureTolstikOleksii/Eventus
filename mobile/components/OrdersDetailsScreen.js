@@ -130,7 +130,7 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                     onPress={handleToggleWishlist}
                 >
                     <FontAwesome
-                        name={isInWishlist ? 'heart' : 'heart-o'} // Встановлюється на основі isInWishlist
+                        name={isInWishlist ? 'heart' : 'heart-o'}  
                         size={24}
                         color={isInWishlist ? 'red' : '#fff'}
                     />
@@ -181,10 +181,10 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
 
                 {/* Ссылки: Календарь и Отзывы */}
                 <View style={styles.linkContainer}>
-                    <TouchableOpacity style={styles.linkItem}>
+                    <TouchableOpacity style={styles.linkItem} onPress={() => navigation.navigate('Calendar')}>
                         <Text style={styles.linkText}>Календар</Text>
                         <FontAwesome name="angle-right" size={24} color="#83B620" />
-                    </TouchableOpacity>
+                    </TouchableOpacity >
                     <View style={styles.separator} /> {/* Линия-разделитель */}
                     <TouchableOpacity style={styles.linkItem}>
                         <Text style={styles.linkText}>Відгуки</Text>

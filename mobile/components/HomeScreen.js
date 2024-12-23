@@ -280,12 +280,14 @@ const HomeScreen = () => {
                                             key={index}
                                             style={styles.cardContainer}
                                             onPress={() => {
-                                                navigation.navigate('ServiceDetailsScreen', {
+                                                navigation.navigate('OrdersDetailsScreen', {
                                                     serviceId: result.service_id,
                                                     title: result.name,
                                                     description: result.description,
+                                                    photoUrl: result.photo_url || '../assets/images/placeholder.jpg',
                                                     price: result.price,
                                                     rating: result.rating,
+                                                    florist: result.provider_name
                                                 });
                                             }}
                                         >
@@ -317,13 +319,14 @@ const HomeScreen = () => {
                                             key={index}
                                             style={styles.cardContainer}
                                             onPress={() => {
-                                                navigation.navigate('ServiceDetailsScreen', {
+                                                navigation.navigate('OrdersDetailsScreen', {
                                                     serviceId: result.service_id,
                                                     title: result.name,
                                                     description: result.description,
+                                                    photoUrl: result.photo_url || '../assets/images/placeholder.jpg',
                                                     price: result.price,
                                                     rating: result.rating,
-                                                    florist: result.provider_name,
+                                                    florist: result.provider_name
                                                 });
                                             }}
                                         >
