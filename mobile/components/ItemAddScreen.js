@@ -57,14 +57,14 @@ const ItemAddScreen = () => {
                 <TextInput
                     style={styles.input}
                     placeholder="Назва"
-                    placeholderTextColor="#333"
+                    placeholderTextColor="#ffffff"
                     value={name}
                     onChangeText={setName}
                 />
                 <TextInput
                     style={[styles.input, styles.textArea]}
                     placeholder="Опис"
-                    placeholderTextColor="#333"
+                    placeholderTextColor="#ffffff"
                     value={description}
                     onChangeText={setDescription}
                     multiline
@@ -73,7 +73,7 @@ const ItemAddScreen = () => {
                     <TextInput
                         style={[styles.input, styles.priceInput]}
                         placeholder="Ціна €"
-                        placeholderTextColor="#333"
+                        placeholderTextColor="#ffffff"
                         keyboardType="numeric"
                         value={price}
                         onChangeText={setPrice}
@@ -81,7 +81,7 @@ const ItemAddScreen = () => {
                 </View>
 
                 {/* Выпадающее меню услуг */}
-                <View style={styles.dropdownContainer}>
+                {/* <View style={styles.dropdownContainer}>
                     <Picker
                         selectedValue={service}
                         onValueChange={(itemValue) => setService(itemValue)}
@@ -96,7 +96,7 @@ const ItemAddScreen = () => {
                     <TouchableOpacity onPress={() => Alert.alert('Додайте послугу!')}>
                         <Image source={require('../assets/images/plus.png')} style={styles.dropdownIcon} />
                     </TouchableOpacity>
-                </View>
+                </View> */}
             </View>
 
             {/* Bottom Menu */}
@@ -118,12 +118,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 50,
         paddingBottom: 15,
-        backgroundColor: '#a6cf4a',
+        marginBottom: 15,
+
     },
     backIcon: {
         width: 20,
         height: 20,
         tintColor: '#ffffff',
+        marginTop: 5,
     },
     title: {
         fontSize: 22,
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
         tintColor: '#ffffff', // Белый цвет, чтобы соответствовать дизайну
         position: 'absolute', // Абсолютная позиция для корректного слоя
         opacity: 1, // Убедитесь, что галочка видима
-        top: -10, // Расстояние от верхнего края
+        top: -16, // Расстояние от верхнего края
         right: 10, // Расстояние от правого края
     
     },
@@ -181,8 +183,9 @@ const styles = StyleSheet.create({
         color: '#ffffff',
     },
     textArea: {
-        height: 100,
+        height: 200,
         textAlignVertical: 'top',
+        
     },
     priceContainer: {
         flexDirection: 'row',

@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
     paddingTop: 60, // Увеличен отступ сверху
   },
   backIcon: {
-    width: 18,
-    height: 18,
+    width: 20,
+    height: 25,
     tintColor: "#ffffff",
   },
   title: {

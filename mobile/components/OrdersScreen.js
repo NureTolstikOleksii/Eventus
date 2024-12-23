@@ -11,7 +11,7 @@ const OrdersScreen = () => {
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             {/* Шапка с заголовком и стрелкой */}
             <View style={styles.header}>
-                <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Мої замовлення</Text>
@@ -40,12 +40,12 @@ const OrdersScreen = () => {
             </ScrollView>
 
         {/* Кнопка с переходом */}
-        <TouchableOpacity 
+        {/* <TouchableOpacity 
                 style={styles.addButton} 
                 onPress={() => navigation.navigate('ItemAddScreen')} // Переход на ItemAddScreen
             >
                 <Image source={require('../assets/images/plus.png')} style={styles.addIcon} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
 
 
@@ -70,9 +70,10 @@ const styles = StyleSheet.create({
         top: 40,
     },
     backIcon: {
-        width: 15,
-        height: 15,
+        width: 20,
+        height: 25,
         tintColor: '#ffffff',
+
     },
     title: {
         fontSize: 24,

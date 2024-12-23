@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Kurale',
         color: '#fff',
         textAlign: 'center',
+        marginBottom:5,
         flex: 1, // Занимает оставшееся пространство между кнопками
     },
     chatButton: {
