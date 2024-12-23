@@ -35,7 +35,7 @@ const ItemAddScreen = () => {
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.navigate('Wishlist')}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Додавання</Text>
