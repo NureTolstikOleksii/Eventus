@@ -5,6 +5,13 @@ import reviewUser from "../assets/dimon.jpg";
 import like from "../assets/like.png";
 import addLike from "../assets/add-like.png";
 import { Link } from "react-router-dom";
+import review1 from "../assets/img/review1.jpg";
+import review2 from "../assets/img/review2.jpg";
+import review3 from "../assets/img/review3.jpg";
+import marina from "../assets/img/marina.jpg";
+import reviewUser3 from "../assets/rewiew-image.jpg";
+
+
 
 const service = {
   id: 1,
@@ -19,33 +26,33 @@ const service = {
 
 const reviews = [
   {
-    author: "ДИМОН",
+    author: "Анатолій",
     date: "14.11.2024",
     serviceName: "Букет з червоних роз",
-    content: "ИМБА",
+    content: "Чудовий букет, виглядав натурально і свіжо! Рекомендую!",
     rating: 5,
-    image: serviceImage1,
-    userImage: reviewUser,
+    image: review1,
+    userImage: reviewUser3,
   },
   {
     author: "Дмитро",
     date: "14.11.2024",
     serviceName: "Букет з червоних роз",
     content:
-      "Отримав букет для особливого свята. Загальний вигляд був симпатичним, але квіти не простояли навіть декілька днів. Здається, що використовувались вже не найсвіжіші квіти.",
+      "Букет просто супер! Квіти свіжі, підібрані з любов'ю. Дуже задоволений!",
     rating: 2,
-    image: serviceImage1,
+    image: review2,
     userImage: reviewUser,
   },
   {
-    author: "димончик лимончик",
+    author: "Марина",
     date: "14.11.2024",
     serviceName: "Букет з червоних роз",
     content:
-      "Спочатку я був растроєн сервісом. Квіти доставили в жахливому стані – зів’ялі й зламані...",
+      "Букет неймовірний! Квіти свіжі і красиві, дуже задоволена покупкою!.",
     rating: 5,
-    image: serviceImage1,
-    userImage: reviewUser,
+    image: review3,
+    userImage: marina,
   },
 ];
 

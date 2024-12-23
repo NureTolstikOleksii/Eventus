@@ -22,7 +22,7 @@ const reviews = [
     author: "ДИМОН",
     date: "14.11.2024",
     serviceName: "Букет з червоних роз",
-    content: "ИМБА",
+    content: "Чудовий букет, виглядав натурально і свіжо! Рекомендую!",
     rating: 5,
     image: serviceImage1,
     userImage: reviewUser,

@@ -9,6 +9,14 @@ import checkMark from "../assets/green-checkMark.png";
 import arrow from "../assets/green-arrow.png";
 import minus from "../assets/minus.png";
 import serviceImage1 from "../assets/red-roses.jpg";
+import prov1 from "../assets/img/prov1.jpg";
+import marina from "../assets/img/marina.jpg";
+import review1 from "../assets/img/review1.jpg";
+import review2 from "../assets/img/review2.jpg";
+import review3 from "../assets/img/review3.jpg";
+
+
+
 import { Link } from "react-router-dom";
 
 function ProfileProvider() {
@@ -19,9 +27,9 @@ function ProfileProvider() {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
   const [profileInfo, setProfileInfo] = useState({
-    name: "Валєра Х",
-    company: "Назва організації",
-    photo: user,
+    name: "Валерій",
+    company: "Квіти від Валєри",
+    photo: prov1,
   });
   const handleRemoveService = (index) => {
     setServices((prev) => prev.filter((_, i) => i !== index));
@@ -93,9 +101,9 @@ function ProfileProvider() {
 
   const reviews = [
     {
-      name: "Дмитро",
+      name: "Марина",
       text: "Отримав букет для особливого свята. Загальний вигляд був симпатичним, але квіти не простояли навіть декілька днів. Здається, що використовувались вже не найсвіжіші квіти. Сервіс непоганий, але є простір для покращення саме у якості квітів.",
-      serviceImage: "../assets/serviceImage1.png",
+      serviceImage: "../assets/img/review3.jpg",
     },
     {
       name: "Дмитро",
@@ -103,8 +111,8 @@ function ProfileProvider() {
       serviceImage: "../assets/serviceImage1.png",
     },
     {
-      name: "Дмитро",
-      text: "Прекрасний букет! Квіти свіжі, ароматні, оформлення стильне. Дуже задоволена, обов’язково замовлятиму ще!",
+      name: "Анатолій",
+      text: "Чудовий букет, виглядав натурально і свіжо! Рекомендую!",
       serviceImage: "../assets/serviceImage1.png",
     },
   ];

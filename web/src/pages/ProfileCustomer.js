@@ -10,6 +10,7 @@ import flower from "../assets/flower.png";
 import minus from "../assets/minus.png";
 import greenMinus from "../assets/green-minus.png";
 import { Link } from "react-router-dom";
+import cust1 from "../assets/img/cust1.jpg";
 
 function ProfileCustomer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,8 +21,8 @@ function ProfileCustomer() {
   const [items, setItems] = useState([{ text: "", checked: false }]);
   const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState({
-    name: "Валєра Х",
-    photo: user,
+    name: "Степан",
+    photo: cust1,
   });
 
   const handleOpenModal = () => {
