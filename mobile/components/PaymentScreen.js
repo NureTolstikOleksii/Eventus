@@ -1,26 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
-const PaymentScreen = () => {
-    return (
-        <View style={styles.container}>
-            <Text style={styles.header}>Оплата</Text>
 
-            <Image source={require('../assets/images/hamsterkombatone.png')} style={styles.hamsterImage} />
+const PaymentScreen = ({ route, navigation }) => {
+        const { title, price } = route.params; // Получаем переданный orderId
+        
+        return (
+            <View style={styles.container}>
+                <Text style={styles.header}>Оплата</Text>
 
-            <Text style={styles.itemName}>Букет "Лохина"</Text>
-            <Text style={styles.price}>10 000 грн</Text>
+                <Image source={require('../assets/images/hamsterkombatone.png')} style={styles.hamsterImage} />
 
-            <Text style={styles.paymentInfo}>Ви можете сплатити за допомогою:</Text>
+                <Text style={styles.itemName}>{title || "Назва відсутня"}</Text>
+                <Text style={styles.price}>{price || "Не вдалося отримати ціну"} грн</Text>
 
-            <View style={styles.logoContainer}>
-                <Image source={require('../assets/images/privat.png')} style={styles.logo} />
-                <Image source={require('../assets/images/mono.png')} style={styles.logo} />
-                <Image source={require('../assets/images/osad.png')} style={styles.logo} />
+                <Text style={styles.paymentInfo}>Ви можете сплатити за допомогою:</Text>
+
+                <View style={styles.logoContainer}>
+                    <Image source={require('../assets/images/privat.png')} style={styles.logo} />
+                    <Image source={require('../assets/images/mono.png')} style={styles.logo} />
+                    <Image source={require('../assets/images/osad.png')} style={styles.logo} />
+                </View>
             </View>
-        </View>
-    );
+        );
 };
 
 const styles = StyleSheet.create({

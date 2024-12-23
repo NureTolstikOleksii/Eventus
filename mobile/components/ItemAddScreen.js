@@ -8,9 +8,6 @@ import {
     StyleSheet,
     Alert,
 } from 'react-native';
-
-import { Picker } from '@react-native-picker/picker';
-
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomMenu from './BottomMenu';
 import { useNavigation } from '@react-navigation/native';
@@ -125,7 +122,6 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
         tintColor: '#ffffff',
-        marginTop: 5,
     },
     title: {
         fontSize: 22,
