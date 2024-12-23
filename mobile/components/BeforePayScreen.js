@@ -2,6 +2,7 @@ import React from "react";
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   TouchableOpacity,
   TextInput,
@@ -16,9 +17,12 @@ const BeforePayScreen = ({ navigation }) => {
       style={styles.container}
     >
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backIcon}>{"<"}</Text>
-        </TouchableOpacity>
+       <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Image
+                  source={require("../assets/images/arrow.png")}
+                  style={styles.backIcon}
+                />
+              </TouchableOpacity>
         <Text style={styles.title}>Замовлення</Text>
       </View>
 
@@ -75,6 +79,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#FFFFFF",
     marginRight: 10,
+    width:15,
+    height:20
   },
   title: {
     fontSize: 24,
