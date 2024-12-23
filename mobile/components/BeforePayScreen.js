@@ -17,12 +17,12 @@ const BeforePayScreen = ({ navigation }) => {
       style={styles.container}
     >
       <View style={styles.header}>
-       <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Image
-                  source={require("../assets/images/arrow.png")}
-                  style={styles.backIcon}
-                />
-              </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            source={require("../assets/images/arrow.png")}
+            style={styles.backIcon}
+          />
+        </TouchableOpacity>
         <Text style={styles.title}>Замовлення</Text>
       </View>
 
@@ -54,7 +54,10 @@ const BeforePayScreen = ({ navigation }) => {
 
       <View style={styles.footerContainer}>
         <Text style={styles.totalText}>Сума: 10 000 грн</Text>
-        <TouchableOpacity style={styles.payButton}>
+        <TouchableOpacity
+          style={styles.payButton}
+          onPress={() => navigation.navigate("PaymentScreen")}
+        >
           <Text style={styles.payButtonText}>Оплатити</Text>
         </TouchableOpacity>
       </View>
@@ -79,8 +82,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#FFFFFF",
     marginRight: 10,
-    width:15,
-    height:20
+    width: 15,
+    height: 20,
   },
   title: {
     fontSize: 24,
