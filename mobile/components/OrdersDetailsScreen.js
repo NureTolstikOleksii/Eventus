@@ -19,7 +19,7 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
     }, []);
     
     useEffect(() => {
-        if (sessionData?.userId) {
+        if (sessionData?.userId && sessionData?.role === 0) {
             console.log('Calling checkWishlist with userId:', sessionData.userId);
             checkWishlist(sessionData.userId);
         }
@@ -125,16 +125,18 @@ const OrdersDetailsScreen = ({ route, navigation }) => {
                     />
                 </TouchableOpacity>
                 {/* Сердце в правом верхнем углу */}
-                <TouchableOpacity
-                    style={styles.heartContainer}
-                    onPress={handleToggleWishlist}
-                >
-                    <FontAwesome
-                        name={isInWishlist ? 'heart' : 'heart-o'}  
-                        size={24}
-                        color={isInWishlist ? 'red' : '#fff'}
-                    />
-                </TouchableOpacity>
+                {sessionData?.role === 'customer' && (
+                    <TouchableOpacity
+                        style={styles.heartContainer}
+                        onPress={handleToggleWishlist}
+                    >
+                        <FontAwesome
+                            name={isInWishlist ? 'heart' : 'heart-o'}  
+                            size={24}
+                            color={isInWishlist ? 'red' : '#fff'}
+                        />
+                    </TouchableOpacity>
+                )}
                 {/* Заголовок */}
                 <Text style={styles.title}>{title || 'Назва відсутня'}</Text>
                 {/* Флорист */}
