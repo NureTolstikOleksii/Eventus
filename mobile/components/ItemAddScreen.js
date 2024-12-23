@@ -57,14 +57,14 @@ const ItemAddScreen = () => {
                 <TextInput
                     style={styles.input}
                     placeholder="Назва"
-                    placeholderTextColor="#333"
+                    placeholderTextColor="#ffffff"
                     value={name}
                     onChangeText={setName}
                 />
                 <TextInput
                     style={[styles.input, styles.textArea]}
                     placeholder="Опис"
-                    placeholderTextColor="#333"
+                    placeholderTextColor="#ffffff"
                     value={description}
                     onChangeText={setDescription}
                     multiline
@@ -73,7 +73,7 @@ const ItemAddScreen = () => {
                     <TextInput
                         style={[styles.input, styles.priceInput]}
                         placeholder="Ціна €"
-                        placeholderTextColor="#333"
+                        placeholderTextColor="#ffffff"
                         keyboardType="numeric"
                         value={price}
                         onChangeText={setPrice}
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         paddingTop: 50,
         paddingBottom: 15,
         marginBottom: 15,
-        backgroundColor: '#a6cf4a',
+
     },
     backIcon: {
         width: 20,
@@ -183,8 +183,9 @@ const styles = StyleSheet.create({
         color: '#ffffff',
     },
     textArea: {
-        height: 100,
+        height: 200,
         textAlignVertical: 'top',
+        
     },
     priceContainer: {
         flexDirection: 'row',
