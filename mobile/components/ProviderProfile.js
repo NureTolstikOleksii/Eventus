@@ -428,6 +428,9 @@ const fetchNotifications = async () => {
                         <View key={index} style={styles.notificationItem}>
                             <View style={styles.notificationContent}>
                                 <View style={styles.textContainer}>
+                                <Text style={styles.notificationInfo}>
+                        Замовник: {notification.customer_name}
+                    </Text>
                                     <Text style={styles.notificationText}>
                                         {notification.notification_text}
                                     </Text>
@@ -543,6 +546,24 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    notificationBox: {
+        backgroundColor: '#a6cf4a',
+        borderRadius: 20,
+        padding: 15,
+        width: '100%', // Занимает всю ширину экрана
+        marginHorizontal: 10, // Добавляем отступы снаружи
+        alignItems: 'flex-start',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    notificationInfo: {
+        fontSize: 14,
+        color: '#ffffff',
+        marginVertical: 5,
     },
     textContainer: {
         flex: 3,
