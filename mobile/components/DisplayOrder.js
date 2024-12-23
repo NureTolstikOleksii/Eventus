@@ -21,37 +21,37 @@ const DisplayOrder = ({ navigation, route }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
                 </TouchableOpacity>
-                <Text style={styles.title}>{orderId}</Text> {/* Динамически отображаем ID */}
+                <Text style={styles.title}>{orderId || 'Номер замовлення відсутній'}</Text>
             </View>
-
+    
             {/* Order Details */}
             <View style={styles.detailsContainer}>
                 <View style={styles.detailItem}>
                     <Text style={styles.detailLabel}>Замовник</Text>
-                    <Text style={styles.detailValue}>{order.customer}</Text>
+                    <Text style={styles.detailValue}>{order.customer || 'Невідомий замовник'}</Text>
                 </View>
                 <View style={styles.detailItem}>
                     <Text style={styles.detailLabel}>Дата</Text>
-                    <Text style={styles.detailValue}>{order.date}</Text>
+                    <Text style={styles.detailValue}>{order.date || 'Дата відсутня'}</Text>
                 </View>
                 <View style={styles.detailItem}>
                     <Text style={styles.detailLabel}>Час</Text>
-                    <Text style={styles.detailValue}>{order.time}</Text>
+                    <Text style={styles.detailValue}>{order.time || 'Час відсутній'}</Text>
                 </View>
                 <View style={styles.detailItem}>
                     <Text style={styles.detailLabel}>Послуга</Text>
-                    <Text style={styles.detailValue}>{order.service}</Text>
+                    <Text style={styles.detailValue}>{order.service || 'Послуга не вказана'}</Text>
                 </View>
                 <View style={styles.notesContainer}>
-                    <Text style={styles.notesText}>{order.notes}</Text>
+                    <Text style={styles.notesText}>{order.notes || 'Примітки відсутні'}</Text>
                 </View>
             </View>
-
+    
             {/* Bottom Menu */}
             <BottomMenu />
         </LinearGradient>
     );
-};
+}    
 
 const styles = StyleSheet.create({
     container: { flex: 1, paddingTop: 30,},
