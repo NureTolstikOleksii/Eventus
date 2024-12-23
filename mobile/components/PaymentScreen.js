@@ -28,8 +28,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
-        paddingTop: 50,
-    },
+        justifyContent: 'center',
+      },
+      
     header: {
         fontSize: 24,
         fontFamily: 'Kurale',

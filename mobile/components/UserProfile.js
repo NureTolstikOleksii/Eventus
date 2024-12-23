@@ -243,44 +243,8 @@ const UserProfile = () => {
             source={require("../assets/images/arrow_right.png")}
             style={styles.arrowIcon}
           />
-        </TouchableOpacity>{" "}
-        */
-        {/* Модальное окно "Сповіщення"
-            <Modal
-                visible={isNotificationsModalVisible}
-                transparent={true}
-                animationType="slide"
-                onRequestClose={toggleNotificationsModal}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.fullWidthModal}>
-                        <Text style={styles.modalTitle}>Сповіщення</Text>
-                        <ScrollView>
-                            {[
-                                { text: 'Відгук від Валєра', number: '№34528745', date: '30.11.2024' },
-                                { text: 'Відгук від Валєра', number: '№34528745', date: '29.11.2024' },
-                                { text: 'Відгук від Валєра', number: '№34528745', date: '28.11.2024' },
-                            ].map((notification, index) => (
-                                <View key={index} style={styles.notificationItem}>
-                                    <View style={styles.notificationContent}>
-                                        <View style={styles.textContainer}>
-                                            <Text style={styles.notificationText}>{notification.text}</Text>
-                                            <Text style={styles.notificationNumber}>{notification.number}</Text>
-                                        </View>
-                                        <Text style={styles.notificationDate}>{notification.date}</Text>
-                                    </View>
-                                </View>
-                            ))}
-                        </ScrollView>
-                        <TouchableOpacity style={styles.closeButton} onPress={toggleNotificationsModal}>
-                            <Text style={styles.closeButtonText}>Закрити</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
-
-
-            {/* Вихід із аккаунту */}
+        </TouchableOpacity>
+        
         <TouchableOpacity
           style={[styles.menuItem, styles.lastMenuItem]}
           onPress={handleLogout}
