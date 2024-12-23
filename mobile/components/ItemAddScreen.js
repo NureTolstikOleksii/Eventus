@@ -7,19 +7,13 @@ import {
     Image,
     StyleSheet,
     Alert,
-<<<<<<< Updated upstream
-=======
     ActivityIndicator
->>>>>>> Stashed changes
 } from 'react-native';
-
-import { Picker } from '@react-native-picker/picker';
-
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomMenu from '../components/BottomMenu';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Constants from 'expo-constants';
-import { Picker } from '@react-native-picker/picker'; 
+import { Picker } from '@react-native-picker/picker';
 
 const API_URL = Constants.expoConfig?.extra?.API_KEY;
 
@@ -27,7 +21,7 @@ const ItemAddScreen = () => {
     const navigation = useNavigation();
     const route = useRoute();
 
-    // providerId передаётся при навигации
+    // providerId передаётся при навигации:
     // navigation.navigate('ItemAddScreen', { providerId: 123 });
     const { providerId } = route.params || { providerId: 1 };
 
@@ -37,14 +31,14 @@ const ItemAddScreen = () => {
     const [price, setPrice] = useState('');
 
     // Поля для локации
-    const [locationName, setLocationName] = useState('');     // Город (Location.name)
+    const [locationName, setLocationName] = useState('');      // Город (Location.name)
     const [locationAddress, setLocationAddress] = useState(''); // Адрес (Location.address)
 
     // Для категории (выпадающий список)
     const [categories, setCategories] = useState([]);   // Список всех категорий
-    const [selectedCategory, setSelectedCategory] = useState(''); // Выбранная категория_id
+    const [selectedCategory, setSelectedCategory] = useState(''); // Выбранная category_id
 
-    // Для индикатора загрузки
+    // Индикатор загрузки
     const [loading, setLoading] = useState(false);
 
     // Загружаем список категорий при маунте
@@ -70,118 +64,47 @@ const ItemAddScreen = () => {
         }
     };
 
-    // Обработчик сохранения
-    // Пример handleSaveService
-const handleSaveService = async () => {
-    if (!name.trim()) {
-        Alert.alert('Помилка', 'Назва послуги обов’язкова!');
-        return;
-    }
-    try {
-        const bodyData = {
-            name,
-            description,
-            price: price ? Number(price) : 0,
-            provider_id: providerId,
-            location_name: locationName.trim(),
-            location_address: locationAddress.trim(),
-            category_id: selectedCategory ? Number(selectedCategory) : null,
-        };
-
-        const response = await fetch(`${API_URL}/services/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(bodyData),
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            Alert.alert('Успіх', `Послуга додана! ID: ${data.serviceId}`);
-            navigation.goBack();
-        } else {
-            const errData = await response.json();
-            Alert.alert('Помилка', errData.error || 'Не вдалося додати послугу');
+    // Обработчик сохранения (пример)
+    const handleSaveService = async () => {
+        if (!name.trim()) {
+            Alert.alert('Помилка', 'Назва послуги обов’язкова!');
+            return;
         }
-    } catch (error) {
-        Alert.alert('Помилка', `Сталася помилка: ${error.message}`);
-    }
-};
+        try {
+            const bodyData = {
+                name,
+                description,
+                price: price ? Number(price) : 0,
+                // Если нужно, можно добавить provider_id: providerId,
+                location_name: locationName.trim(),
+                location_address: locationAddress.trim(),
+                category_id: selectedCategory ? Number(selectedCategory) : null,
+            };
 
+            const response = await fetch(`${API_URL}/services/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bodyData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                Alert.alert('Успіх', `Послуга додана! ID: ${data.serviceId}`);
+                navigation.goBack();
+            } else {
+                const errData = await response.json();
+                Alert.alert('Помилка', errData.error || 'Не вдалося додати послугу');
+            }
+        } catch (error) {
+            Alert.alert('Помилка', `Сталася помилка: ${error.message}`);
+        }
+    };
 
     return (
-        <LinearGradient
-            colors={['#a6cf4a', '#f2e28b', '#ffffff']}
-            style={styles.container}
-        >
+        <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             {/* Шапка */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-<<<<<<< Updated upstream
-                    <Image source={require('../assets/images/arrow.png')} style={styles.backIcon} />
-                </TouchableOpacity>
-                <Text style={styles.title}>Додавання</Text>
-                <TouchableOpacity onPress={handleSave}>
-                    <Image source={require('../assets/images/check.png')} style={styles.saveIcon} />
-                </TouchableOpacity>
-            </View>
-
-            {/* Content */}
-            <View style={styles.content}>
-                <TouchableOpacity style={styles.addPhotoButton}>
-                    <Text style={styles.addPhotoText}>Додати фото</Text>
-                    <Text style={styles.addServiceIcon}>+</Text>
-                </TouchableOpacity>
-                {/* Photo Preview */}
-                <Image source={require('../assets/images/flowers.png')} style={styles.flowerImage} />
-
-                {/* Input Fields */}
-                <TextInput
-                    style={styles.input}
-                    placeholder="Назва"
-                    placeholderTextColor="#ffffff"
-                    value={name}
-                    onChangeText={setName}
-                />
-                <TextInput
-                    style={[styles.input, styles.textArea]}
-                    placeholder="Опис"
-                    placeholderTextColor="#ffffff"
-                    value={description}
-                    onChangeText={setDescription}
-                    multiline
-                />
-                <View style={styles.priceContainer}>
-                    <TextInput
-                        style={[styles.input, styles.priceInput]}
-                        placeholder="Ціна €"
-                        placeholderTextColor="#ffffff"
-                        keyboardType="numeric"
-                        value={price}
-                        onChangeText={setPrice}
-                    />
-                </View>
-
-                {/* Выпадающее меню услуг */}
-                {/* <View style={styles.dropdownContainer}>
-                    <Picker
-                        selectedValue={service}
-                        onValueChange={(itemValue) => setService(itemValue)}
-                        style={styles.dropdown}
-                    >
-                        <Picker.Item label="Оберіть послугу" value="" />
-                        <Picker.Item label="Кейтеринг" value="Кейтеринг" />
-                        <Picker.Item label="Квіти" value="Квіти" />
-                        <Picker.Item label="Декор" value="Декор" />
-                        <Picker.Item label="Музика" value="Музика" />
-                    </Picker>
-                    <TouchableOpacity onPress={() => Alert.alert('Додайте послугу!')}>
-                        <Image source={require('../assets/images/plus.png')} style={styles.dropdownIcon} />
-                    </TouchableOpacity>
-                </View> */}
-            </View>
-
-            {/* Bottom Menu */}
-=======
                     <Image
                         source={require('../assets/images/arrow.png')}
                         style={styles.backIcon}
@@ -266,7 +189,7 @@ const handleSaveService = async () => {
                             </Picker>
                         </View>
 
-                        {/* Кнопка сохранить (дополнительная) */}
+                        {/* Кнопка сохранить */}
                         <TouchableOpacity style={styles.saveButton} onPress={handleSaveService}>
                             <Text style={styles.saveButtonText}>Зберегти</Text>
                         </TouchableOpacity>
@@ -274,16 +197,12 @@ const handleSaveService = async () => {
                 )}
             </View>
 
->>>>>>> Stashed changes
             <BottomMenu />
         </LinearGradient>
     );
 };
 
-<<<<<<< Updated upstream
-=======
 export default ItemAddScreen;
->>>>>>> Stashed changes
 
 const styles = StyleSheet.create({
     container: {
@@ -294,19 +213,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 50,
         paddingBottom: 15,
-<<<<<<< Updated upstream
-        marginBottom: 15,
-
-=======
         backgroundColor: '#a6cf4a',
         alignItems: 'center',
->>>>>>> Stashed changes
     },
     backIcon: {
         width: 20,
         height: 20,
         tintColor: '#ffffff',
-        marginTop: 5,
     },
     title: {
         fontSize: 22,
@@ -316,23 +229,12 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     saveIcon: {
-<<<<<<< Updated upstream
-        width: 40, // Ширина галочки
-        height: 35, // Высота галочки
-        tintColor: '#ffffff', // Белый цвет, чтобы соответствовать дизайну
-        position: 'absolute', // Абсолютная позиция для корректного слоя
-        opacity: 1, // Убедитесь, что галочка видима
-        top: -16, // Расстояние от верхнего края
-        right: 10, // Расстояние от правого края
-    
-=======
         width: 40,
         height: 35,
         tintColor: '#ffffff',
         position: 'absolute',
         top: -10,
         right: 10,
->>>>>>> Stashed changes
     },
     content: {
         flex: 1,
@@ -351,13 +253,8 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     textArea: {
-<<<<<<< Updated upstream
-        height: 200,
-=======
         height: 80,
->>>>>>> Stashed changes
         textAlignVertical: 'top',
-        
     },
     pickerContainer: {
         width: '100%',
