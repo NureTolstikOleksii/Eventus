@@ -1,12 +1,40 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react'; // Додано useEffect для завантаження замовлень
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomMenu from '../components/BottomMenu';
 import { useNavigation } from '@react-navigation/native';
+import Constants from "expo-constants";
+const API_KEY = Constants.expoConfig?.extra?.API_KEY;
+
 
 const OrdersScreen = () => {
     const navigation = useNavigation(); // Подключаем навигацию
-    
+    const [orders, setOrders] = useState([]); // Стан для збереження замовлень
+
+    const fetchUserOrders = async () => {
+        try {
+            const response = await fetch(`${API_KEY}/profile/user_orders`, {
+                method: 'GET',
+                credentials: 'include', // Передача cookies для сесії
+            });
+
+            if (response.ok) {
+                const orders = await response.json();
+                setOrders(orders); // Оновлення стану замовлень
+            } else {
+                Alert.alert('Помилка', 'Не вдалося завантажити замовлення.');
+            }
+        } catch (error) {
+            console.error('Error fetching orders:', error.message);
+            Alert.alert('Помилка', 'Щось пішло не так. Спробуйте ще раз.');
+        }
+    };
+
+    // Завантаження замовлень при завантаженні компонента
+    useEffect(() => {
+        fetchUserOrders();
+    }, []);
+
     return (
         <LinearGradient colors={['#a6cf4a', '#f2e28b', '#ffffff']} style={styles.container}>
             {/* Шапка с заголовком и стрелкой */}
@@ -19,25 +47,25 @@ const OrdersScreen = () => {
 
             {/* Список заказов */}
             <ScrollView contentContainerStyle={[styles.ordersContainer, { paddingBottom: 100 }]}>
-                {[
-                    { title: 'Букет', date: '12/08/2024', price: '1 000 грн', image: require('../assets/images/bouquet.png') },
-                    { title: 'Банкет', date: '15/04/2024', price: '10 000 грн', image: require('../assets/images/banquet.png') },
-                    { title: 'День народження', date: '05/10/2024', price: '5 000 грн', image: require('../assets/images/happy_birthday.png') },
-                ].map((order, index) => (
-                    <View key={index} style={styles.orderItem}>
-                        <Image source={order.image} style={styles.orderImage} />
-                        <View style={styles.overlay}>
-                            <View style={styles.textContainer}>
-                                <View style={styles.textLeft}>
-                                    <Text style={styles.orderTitle}>{order.title}</Text>
-                                    <Text style={styles.orderDate}>{order.date}</Text>
-                                </View>
-                                <Text style={styles.orderPrice}>{order.price}</Text>
-                            </View>
-                        </View>
+    {orders.length > 0 ? (
+        orders.map((order, index) => (
+            <View key={index} style={[styles.orderItem, { backgroundColor: '#f2e28b' }]}>
+                <View style={styles.textContainer}>
+                    <View style={styles.textLeft}>
+                        <Text style={styles.orderTitle}>{order.order_name}</Text>
+                        <Text style={styles.orderDate}>{new Date(order.order_date).toLocaleString()}</Text>
                     </View>
-                ))}
-            </ScrollView>
+                    <Text style={styles.orderPrice}>{order.total_price} грн</Text>
+                </View>
+            </View>
+        ))
+    ) : (
+        <Text style={styles.noOrdersText}>Замовлень немає</Text>
+    )}
+</ScrollView>
+
+
+
 
         {/* Кнопка с переходом */}
         {/* <TouchableOpacity 
@@ -64,6 +92,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 60,
     },
+    noOrdersText: {
+        fontSize: 16,
+        color: '#999',
+        textAlign: 'center',
+        marginTop: 20,
+    },
+    
     backButton: {
         position: 'absolute',
         left: 20,
@@ -87,15 +122,15 @@ const styles = StyleSheet.create({
         paddingBottom: 100,
     },
     orderItem: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#f2e28b', // Колір фону елемента
         borderRadius: 10,
         marginVertical: 10,
-        overflow: 'hidden',
-        height: 70,
-    },
-    orderImage: {
-        width: '100%',
-        height: '100%',
+        padding: 15, // Додаємо внутрішній відступ
+        elevation: 3, // Тінь для Android
+        shadowColor: '#000', // Колір тіні для iOS
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
     },
     overlay: {
         position: 'absolute',
@@ -110,25 +145,24 @@ const styles = StyleSheet.create({
     textContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
+        alignItems: 'center',
     },
     textLeft: {
         flexDirection: 'column',
     },
     orderTitle: {
         fontSize: 16,
-        color: '#ffffff',
+        color: '#333', // Темний текст
         fontWeight: 'bold',
     },
     orderDate: {
-        color: '#ffffff',
+        color: '#555', // Сірий текст
         fontSize: 14,
     },
     orderPrice: {
-        color: '#ffffff',
+        color: '#333', // Темний текст
         fontSize: 14,
         fontWeight: 'bold',
-        marginTop: 20,
     },
     addButton: {
         position: 'absolute',
