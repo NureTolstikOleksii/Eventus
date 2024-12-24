@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "../css/Services.css";
-import serviceImage2 from "../assets/flowers-image.jpg";
+import serviceImage2 from "../assets/img/review2.jpg";
+import serviceImage3 from "../assets/img/review5.jpg";
+import serviceImage4 from "../assets/img/review4.jpg";
+import serviceImage5 from "../assets/flower.png";
 import profileFon from "../assets/profile-fon.png";
 import { Link } from "react-router-dom";
 import Filter from "./Filter";
@@ -29,15 +32,15 @@ function Services() {
 
   const packagesData = [
     {
-      photo: serviceImage2,
-      name: 'Пакет "Цветы с грядки"',
+      photo: serviceImage4,
+      name: 'Букет з червоних роз',
       supplier: "Флорист Василій",
       rating: 2,
       price: 5000,
     },
     {
-      photo: serviceImage2,
-      name: 'Пакет "Цветы с грядки"',
+      photo: serviceImage3,
+      name: 'Букет з червоних роз',
       supplier: "Флорист Василій",
       rating: 1,
       price: 100000,
